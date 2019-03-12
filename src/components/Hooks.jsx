@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import {SUCCESS, FAILURE, INIT} from './Constants';
 
 export const Example = () => {
@@ -105,3 +105,26 @@ function usePrevious (value) {
   });
   return ref.current;
 }
+
+const initialState = 0;
+const reducer = (state, action) => {
+  switch (action) {
+    case 'increment': return state + 1;
+    case 'decrement': return state - 1;
+    case 'reset': return 0;
+    default: throw new Error('Unexpected action');
+  }
+};
+
+export const Counter = () => {
+  const [count, dispatch] = useReducer(reducer, initialState);
+  return (
+    <div>
+      {count}
+      <button onClick={() => dispatch('increment')}>+1</button>
+      <button onClick={() => dispatch('decrement')}>-1</button>
+      <button onClick={() => dispatch('reset')}>reset</button>
+    </div>
+  );
+};
+
