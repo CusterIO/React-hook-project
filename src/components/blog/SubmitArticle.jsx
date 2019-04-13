@@ -5,8 +5,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-export const Article = () => {
+export const SubmitArticle = () => {
   const {state, dispatch } = useContext(StateContext);
+  const article = {
+    title: state.author,
+    description: state.description,
+    author: state.author,
+    id: 1 // createID()
+  };
 
   useEffect(() => {
     const isTitleValid = Validate(state.title);
@@ -111,7 +117,7 @@ export const Article = () => {
             variant='contained'
             disabled={!state.isValid}
             onClick = {() => {
-              console.log('you clicked me');
+              dispatch({type: 'setArticle', article: article})
             }
             }
           >

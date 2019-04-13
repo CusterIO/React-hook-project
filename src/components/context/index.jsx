@@ -20,6 +20,8 @@ const reducer = (state, action) => {
       return { ...state, isDescriptionValid: action.isDescriptionValid };
     case "setAuthorValidation":
       return { ...state, isAuthorValid: action.isAuthorValid };
+    case "setArticle":
+      return { ...state, articles: [...state.articles, action.article] };
     default:
       throw new Error("Unexpected action");
   }
@@ -34,7 +36,8 @@ const initialState = {
   isValid: false,
   isTitleValid: false,
   isDescriptionValid: false,
-  isAuthorValid: false
+  isAuthorValid: false,
+  articles: []
 };
 
 const StateContext = createContext(initialState);
