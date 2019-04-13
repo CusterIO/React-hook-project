@@ -7,12 +7,6 @@ import TextField from '@material-ui/core/TextField';
 
 export const SubmitArticle = () => {
   const {state, dispatch } = useContext(StateContext);
-  const article = {
-    title: state.author,
-    description: state.description,
-    author: state.author,
-    id: 1 // createID()
-  };
 
   useEffect(() => {
     const isTitleValid = Validate(state.title);
@@ -117,6 +111,12 @@ export const SubmitArticle = () => {
             variant='contained'
             disabled={!state.isValid}
             onClick = {() => {
+              const article = {
+                title: state.author,
+                description: state.description,
+                author: state.author,
+                id: idGenerator()
+              };
               dispatch({type: 'setArticle', article: article})
             }
             }
@@ -128,3 +128,10 @@ export const SubmitArticle = () => {
     </div>
   );
 };
+
+const idGenerator = () => {
+  let S4 = () => {
+     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  };
+  return S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4();
+}

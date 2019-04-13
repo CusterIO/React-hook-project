@@ -16,7 +16,7 @@ export const BlogContainer = () => {
           <Typography variant="h5" color="inherit" paragraph>
             {article.description}
           </Typography>
-          <Typography component="h2" variant="h3" color="inherit" gutterBottom>
+          <Typography component="h4" variant="h4" color="inherit" gutterBottom>
             {article.author}
           </Typography>
         </Grid>
