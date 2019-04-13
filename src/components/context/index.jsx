@@ -2,14 +2,16 @@ import React, { useReducer, createContext } from "react";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "setCount":
-      return { ...state, count: action.count };
+    case 'setSlider':
+      return { ...state, slider: action.slider };
     default:
-      throw new Error("Action type do not exist");
+      throw new Error('Unexpected action');
   }
 };
 
-const initialState = { count: 0 };
+const initialState = { 
+  slider: 0
+};
 
 const StateContext = createContext(initialState);
 
