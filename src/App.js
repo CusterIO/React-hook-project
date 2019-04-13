@@ -1,17 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
 import { Collecter } from "./components/HookEm.jsx";
+import { StateProvider } from './components/context/index';
+import {IntroContainer} from './components/intro/IntroContainer';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
+const App = () => {
+  return (
+    <div className="App">
+      <StateProvider>
         <header className="App-header">
+          <IntroContainer />
           <Collecter />
         </header>
-      </div>
-    );
-  }
-}
+      </StateProvider>
+    </div>
+  );
+};
 
 export default App;
