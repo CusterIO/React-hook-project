@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from '../context/index';
 import { Slider } from '../sliders/Slider.jsx';
+import { BlogContainer } from '../blog/BlogContainer.jsx';
 
 export const IntroContainer = () => {
   const {state, dispatch } = useContext(StateContext);
@@ -13,14 +14,20 @@ export const IntroContainer = () => {
   useEffect(() => {
     styles = { 
       transform: `translate(${x}px, ${y}px) rotate(${state.slider}deg)`
-  };
+    };
   },
   [state.slider],
   );
 
   return (
-    <div className='intro-component-wrapper' style={styles}>
+    <div className='intro-component-wrapper'>
+      <div className='intro-component-wrapper-rotation-outer'>
+        <div className='intro-component-wrapper-rotation-inner' style={styles}>
+          Rotate me
+        </div>
+      </div>
       <Slider />
+      <BlogContainer />
     </div>
   );
 };
