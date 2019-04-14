@@ -32,6 +32,8 @@ const reducer = (state, action) => {
       };
     case "setTopic":
       return { ...state, topic: action.topic };
+    case "setSelectedTopic":
+      return { ...state, selectedTopic: action.selectedTopic };
     default:
       throw new Error("Unexpected action");
   }
@@ -49,7 +51,8 @@ const initialState = {
   isAuthorValid: false,
   articles: [],
   topics: ["React Hooks", "Reactjs", "GraphQL", "Material UI"],
-  topic: "React Hooks"
+  topic: "React Hooks",
+  selectedTopic: ""
 };
 
 const StateContext = createContext(initialState);

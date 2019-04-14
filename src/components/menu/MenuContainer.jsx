@@ -15,7 +15,12 @@ import { StateContext } from "../context/index";
 
 export const MenuContainer = () => {
   const { state, dispatch } = useContext(StateContext);
-  const featuredArticles = [...state.articles];
+  let featuredArticles = [...state.articles];
+  
+  if (state.selectedTopic) {
+    featuredArticles = featuredArticles.filter(article => article.topic === state.selectedTopic);
+  }
+
   const styles = {
     layout: {
       width: "80%",
@@ -44,10 +49,12 @@ export const MenuContainer = () => {
       marginTop: "3px"
     },
     card: {
-      display: "flex"
+      display: "flex",
+      width: '100%'
     },
     cardDetails: {
-      flex: 1
+      flex: 1,
+      flexGrow: 1
     },
     sidebarAboutBox: {
       padding: "2px",
@@ -59,6 +66,8 @@ export const MenuContainer = () => {
   };
 
   const sections = [...state.topics];
+
+  // dispatch({type: 'setSelectedTopic', selectedTopic: e.target.value})
 
   const social = ["GitHub", "Twitter", "Facebook"];
 
@@ -88,15 +97,34 @@ export const MenuContainer = () => {
         <Toolbar variant="dense" style={styles.toolbarSecondary}>
           {sections.map(section => (
             <Typography color="inherit" noWrap key={section}>
-              {section}
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  if (section === 'React Hooks') {
+                    dispatch({type: 'setSelectedTopic', selectedTopic: 'React Hooks'})
+                  }
+                  if (section === 'Reactjs') {
+                    dispatch({type: 'setSelectedTopic', selectedTopic: 'Reactjs'})
+                  }
+                  if (section === 'GraphQL') {
+                    dispatch({type: 'setSelectedTopic', selectedTopic: 'GraphQL'})
+                  }
+                  if (section === 'Material UI') {
+                    dispatch({type: 'setSelectedTopic', selectedTopic: 'Material UI'})
+                  }
+                }}
+              >
+                {section}
+              </Button>
             </Typography>
           ))}
         </Toolbar>
         <main>
           {/* Main featured post */}
           <Paper style={styles.mainFeaturedPost}>
-            <Grid container spacing={40}>
-              <Grid item md={6}>
+            <Grid container spacing={16}>
+              <Grid item md={"auto"}>
                 <div style={styles.mainFeaturedPostContent}>
                   <Typography
                     component="h1"
@@ -106,7 +134,7 @@ export const MenuContainer = () => {
                   >
                     Title of a longer featured blog post
                   </Typography>
-                  <Typography variant="h5" color="inherit" paragraph>
+                  <Typography variant="h5" color="inherit" paragraph  gutterBottom>
                     Multiple lines of text that form the lede, informing new
                     readers quickly and efficiently about what&apos;s most
                     interesting in this post&apos;s contents…
@@ -117,23 +145,34 @@ export const MenuContainer = () => {
           </Paper>
           {/* End main featured post */}
           {/* Sub featured posts */}
-          <Grid container spacing={40} style={styles.cardGrid}>
+          <Grid container spacing={16}>
             {featuredArticles.map(post => (
               <Grid item key={post.id} xs={12} md={6}>
                 <Card style={styles.card}>
                   <div style={styles.cardDetails}>
                     <CardContent>
-                      <Typography component="h2" variant="h5">
+                      <Typography component="h2" variant="h5" color="primary" gutterBottom>
                         {post.title}
                       </Typography>
-                      <Typography variant="subtitle1" color="textSecondary">
+                      <Typography variant="subtitle1" color="textSecondary" gutterBottom>
                         {post.author}
                       </Typography>
-                      <Typography variant="subtitle1" paragraph>
+                      <Typography variant="subtitle1" paragraph gutterBottom>
                         {post.description}
                       </Typography>
-                      <Typography variant="subtitle1" color="primary">
-                        Continue reading...
+                      <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+                        {post.topic}
+                      </Typography>
+                      <Typography variant="subtitle1" gutterBottom>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          onClick={() => {
+                            console.log('launch full article on its on page');
+                          }}
+                        >
+                          Continue reading...
+                        </Button>
                       </Typography>
                     </CardContent>
                   </div>
@@ -142,12 +181,12 @@ export const MenuContainer = () => {
             ))}
           </Grid>
           {/* Sidebar */}
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={"auto"}>
             <Paper elevation={0} style={styles.sidebarAboutBox}>
               <Typography variant="h6" gutterBottom>
                 About
               </Typography>
-              <Typography>
+              <Typography gutterBottom>
                 Etiam porta sem malesuada magna mollis euismod. Cras mattis
                 consectetur purus sit amet fermentum. Aenean lacinia bibendum
                 nulla sed consectetur.
@@ -161,7 +200,7 @@ export const MenuContainer = () => {
               Social
             </Typography>
             {social.map(network => (
-              <Typography key={network}>{network}</Typography>
+              <Typography key={network} gutterBottom>{network}</Typography>
             ))}
           </Grid>
         </main>
