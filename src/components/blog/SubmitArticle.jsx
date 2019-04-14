@@ -136,7 +136,8 @@ export const SubmitArticle = () => {
                 description: state.description,
                 author: state.author,
                 topic: state.topic,
-                id: idGenerator()
+                id: idGenerator(),
+                date: dateGenerator()
               };
               dispatch({type: 'setArticle', article: article})
               dispatch({type: 'resetArticleFields'})
@@ -156,4 +157,15 @@ const idGenerator = () => {
      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
   };
   return S4() + S4() + S4() + S4() + S4() + S4() + S4() + S4();
-}
+};
+
+// https://stackoverflow.com/questions/8362952/output-javascript-date-in-yyyy-mm-dd-hhmsec-format
+const dateGenerator = () => {
+  const m = new Date();
+  return m.getUTCFullYear() + "/" +
+      ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+      ("0" + m.getUTCDate()).slice(-2) + " " +
+      ("0" + m.getUTCHours()).slice(-2) + ":" +
+      ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+      ("0" + m.getUTCSeconds()).slice(-2);
+};

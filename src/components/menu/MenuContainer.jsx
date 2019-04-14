@@ -12,64 +12,17 @@ import {
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
+import { styles } from "./MenuContainerStyle";
 
 export const MenuContainer = () => {
   const { state, dispatch } = useContext(StateContext);
-  let featuredArticles = [...state.articles];
-  
+  const sections = [...state.topics];
+  const social = ["GitHub", "Twitter", "Facebook"];
+  let featuredArticles = [...state.articles].reverse(); // Reverse to display latest article on top.
+
   if (state.selectedTopic) {
     featuredArticles = featuredArticles.filter(article => article.topic === state.selectedTopic);
   }
-
-  const styles = {
-    layout: {
-      width: "80%",
-      marginLeft: "auto",
-      marginRight: "auto"
-    },
-    toolbarMain: {
-      borderBottom: "2px solid #000000"
-    },
-    toolbarTitle: {
-      flex: 1
-    },
-    toolbarSecondary: {
-      justifyContent: "space-between",
-      marginBottom: '10px'
-    },
-    mainFeaturedPost: {
-      backgroundColor: "#808080",
-      color: "#FFFFFF",
-      marginBottom: "4px"
-    },
-    mainFeaturedPostContent: {
-      padding: "6px"
-    },
-    mainGrid: {
-      marginTop: "3px"
-    },
-    card: {
-      display: "flex",
-      width: '100%'
-    },
-    cardDetails: {
-      flex: 1,
-      flexGrow: 1
-    },
-    sidebarAboutBox: {
-      padding: "2px",
-      backgroundColor: "#d3d3d3"
-    },
-    sidebarSection: {
-      marginTop: '3px'
-    }
-  };
-
-  const sections = [...state.topics];
-
-  // dispatch({type: 'setSelectedTopic', selectedTopic: e.target.value})
-
-  const social = ["GitHub", "Twitter", "Facebook"];
 
   return (
     <React.Fragment>
@@ -124,46 +77,65 @@ export const MenuContainer = () => {
           {/* Main featured post */}
           <Paper style={styles.mainFeaturedPost}>
             <Grid container spacing={16}>
-              <Grid item md={"auto"}>
-                <div style={styles.mainFeaturedPostContent}>
-                  <Typography
-                    component="h1"
-                    variant="h3"
-                    color="inherit"
-                    gutterBottom
-                  >
-                    Title of a longer featured blog post
+              <Grid item xs={12} md={12}>
+              {
+                (featuredArticles.length > 0) && <div style={styles.mainFeaturedPostContent}>                 
+                  <Typography component="h1" variant="title" color="primary" gutterBottom>
+                    {featuredArticles[0].title}
                   </Typography>
-                  <Typography variant="h5" color="inherit" paragraph  gutterBottom>
-                    Multiple lines of text that form the lede, informing new
-                    readers quickly and efficiently about what&apos;s most
-                    interesting in this post&apos;s contents…
+                  <Typography variant="subtitle1" color="textPrimary" gutterBottom>
+                    {featuredArticles[0].author}
+                  </Typography>
+                  <Typography variant="subtitle2" paragraph gutterBottom>
+                    {featuredArticles[0].description}
+                  </Typography>
+                  <Typography variant="subtitle2" color="textPrimary" gutterBottom>
+                    {featuredArticles[0].topic}
+                  </Typography>
+                  <Typography variant="subtitle2" color="textPrimary" gutterBottom>
+                    {featuredArticles[0].date}
+                  </Typography>
+                  <Typography variant="subtitle2" gutterBottom>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color='primary'
+                      onClick={() => {
+                        console.log('launch full article on its on page');
+                      }}
+                    >
+                      Continue reading...
+                    </Button>
                   </Typography>
                 </div>
+              }
               </Grid>
             </Grid>
           </Paper>
           {/* End main featured post */}
           {/* Sub featured posts */}
           <Grid container spacing={16}>
-            {featuredArticles.map(post => (
+            {featuredArticles.slice(1).map(post => (
               <Grid item key={post.id} xs={12} md={6}>
                 <Card style={styles.card}>
                   <div style={styles.cardDetails}>
                     <CardContent>
-                      <Typography component="h2" variant="h5" color="primary" gutterBottom>
+                      <Typography component="h2" variant="title" color="primary" gutterBottom>
                         {post.title}
                       </Typography>
                       <Typography variant="subtitle1" color="textSecondary" gutterBottom>
                         {post.author}
                       </Typography>
-                      <Typography variant="subtitle1" paragraph gutterBottom>
+                      <Typography variant="subtitle2" paragraph gutterBottom>
                         {post.description}
                       </Typography>
-                      <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+                      <Typography variant="subtitle2" color="textSecondary" gutterBottom>
                         {post.topic}
                       </Typography>
-                      <Typography variant="subtitle1" gutterBottom>
+                      <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+                        {post.date}
+                      </Typography>
+                      <Typography variant="subtitle2" gutterBottom>
                         <Button
                           variant="contained"
                           size="small"
