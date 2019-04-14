@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from '../context/index';
 import { SubmitArticle } from './SubmitArticle.jsx';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import {Grid, Typography} from '@material-ui/core';
 
 export const BlogContainer = () => {
   const {state, dispatch } = useContext(StateContext);

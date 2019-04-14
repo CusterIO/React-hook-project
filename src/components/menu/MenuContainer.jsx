@@ -1,16 +1,18 @@
-import React from "react";
-import {Button, Typography, IconButton, Toolbar} from '@material-ui/core';
+import React, { useContext } from "react";
+import {Button, Typography, IconButton, Toolbar, CssBaseline} from '@material-ui/core';
 import {Search} from '@material-ui/icons';
+import { StateContext } from '../context/index';
 
 export const MenuContainer = () => {
+  const {state, dispatch } = useContext(StateContext);
   const styles = {
     layout: {
-      width: 1100,
+      width: '80%',
       marginLeft: 'auto',
       marginRight: 'auto'
     },
     toolbarMain: {
-      borderBottom: '1px solid #000000'
+      borderBottom: '2px solid #000000'
     },
     toolbarTitle: {
       flex: 1
@@ -27,8 +29,12 @@ export const MenuContainer = () => {
     'C#'
   ];
 
+  const featuredPosts = [...state.articles];
+  const social = ['GitHub', 'Twitter', 'Facebook'];
+
   return (
-    <div id="optimization-container">
+    <React.Fragment>
+      <CssBaseline />
       <div style={styles.layout}>
         <Toolbar style={styles.toolbarMain}>
           <Button size="small">Subscribe</Button>
@@ -57,6 +63,6 @@ export const MenuContainer = () => {
           ))}
         </Toolbar>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
