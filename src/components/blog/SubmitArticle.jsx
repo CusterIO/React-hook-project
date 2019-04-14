@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from '../context/index';
-import {Button, Grid, Typography, TextField} from '@material-ui/core';
+import {Button, Grid, Typography, TextField, Select, MenuItem} from '@material-ui/core';
 
 export const SubmitArticle = () => {
   const {state, dispatch } = useContext(StateContext);
@@ -70,17 +70,19 @@ export const SubmitArticle = () => {
         <Grid item xs={12}>
           <TextField
             required
-            placeholder='Article title'
             value={state.title}
             onChange={(e) => {
               dispatch({type: 'setTitle', title: e.target.value})
             }
             }
+            error={!state.isTitleValid}
+            variant={'outlined'}
+            label='Title'
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
-            placeholder='Article description'
+            required
             multiline={true}
             rows={4}
             rowsMax={40}
@@ -89,18 +91,39 @@ export const SubmitArticle = () => {
               dispatch({type: 'setDescription', description: e.target.value})
             }
             }
+            error={!state.isDescriptionValid}
+            variant={'outlined'}
+            label='Description'
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
             required
-            placeholder='Article author'
             value={state.author}
             onChange={(e) => {
               dispatch({type: 'setAuthor', author: e.target.value})
             }
             }
+            error={!state.isAuthorValid}
+            variant={'outlined'}
+            label='Author'
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Select
+            required
+            autoWidth={true}
+            value={state.topic}
+            onChange={(e) => {
+              dispatch({type: 'setTopic', topic: e.target.value})
+            }
+            }
+          >
+            <MenuItem value={'React Hooks'}>React Hooks</MenuItem>
+            <MenuItem value={'Reactjs'}>Reactjs</MenuItem>
+            <MenuItem value={'GraphQL'}>GraphQL</MenuItem>
+            <MenuItem value={'Material UI'}>Material UI</MenuItem>
+          </Select>
         </Grid>
         <Grid item xs={12}>
           <Button
@@ -109,12 +132,14 @@ export const SubmitArticle = () => {
             disabled={!state.isValid}
             onClick = {() => {
               const article = {
-                title: state.author,
+                title: state.title,
                 description: state.description,
                 author: state.author,
+                topic: state.topic,
                 id: idGenerator()
               };
               dispatch({type: 'setArticle', article: article})
+              dispatch({type: 'resetArticleFields'})
             }
             }
           >
