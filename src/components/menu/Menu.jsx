@@ -13,7 +13,6 @@ import { styles } from "../style/MenuContainerStyle";
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
   const sections = [...state.topics];
-  const options = ["Home", "New Article"];
 
   return (
     <React.Fragment>
@@ -39,27 +38,30 @@ export const Menu = () => {
           </Button>
         </Toolbar>
         <Toolbar variant="dense" style={styles.toolbarMainSecondary}>
-          {options.map(option => (
-            <Typography color="inherit" noWrap key={option}>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  if (option === "Home") {
-                    dispatch({ type: "setSubmitArticle", submitArticle: false });
-                  }
-                  if (option === "New Article") {
-                    dispatch({ type: "setSubmitArticle", submitArticle: true });
-                  }
-                }}
-              >
-                {option}
-              </Button>
-            </Typography>
-          ))}
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch({ type: "setSubmitArticle", submitArticle: false });
+              dispatch({ type: "setChosenArticle", chosenArticle: '' });
+            }}
+          >
+            Home
+          </Button>
+          {
+          (!state.submitArticle && !state.chosenArticle) && <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch({ type: "setSubmitArticle", submitArticle: true });
+            }}
+          >
+            New Article
+          </Button>
+          }
         </Toolbar>
         {
-        (!state.submitArticle) && <Toolbar variant="dense" style={styles.toolbarSecondary}>
+        (!state.submitArticle && !state.chosenArticle) && <Toolbar variant="dense" style={styles.toolbarSecondary}>
           {sections.map(section => (
             <Typography color="inherit" noWrap key={section}>
               <Button

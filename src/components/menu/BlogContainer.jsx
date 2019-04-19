@@ -4,6 +4,7 @@ import {ArticleListView} from "../blog/ArticleListView";
 import {Menu} from "./Menu";
 import {ArticleView} from "../blog/ArticleView";
 import { SubmitArticle } from '../blog/SubmitArticle';
+import { styles } from "../style/MenuContainerStyle";
 
 export const BlogContainer = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -19,8 +20,10 @@ export const BlogContainer = () => {
 
   return (
     <React.Fragment>
-      <Menu />
-      {CurrentArticleContent}
+      <div style={styles.applicationContainer}>
+        <Menu />
+        {CurrentArticleContent}
+      </div>
     </React.Fragment>
   );
 }

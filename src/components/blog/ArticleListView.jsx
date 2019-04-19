@@ -71,7 +71,6 @@ export const ArticleListView = () => {
                         size="small"
                         color="primary"
                         onClick={() => {
-                          console.log("launch full article on its on page");
                           dispatch({
                             type: "setChosenArticle",
                             chosenArticle: featuredArticles[0]
@@ -131,7 +130,6 @@ export const ArticleListView = () => {
                           variant="contained"
                           size="small"
                           onClick={() => {
-                            console.log("launch full article on its on page");
                             dispatch({
                               type: "setChosenArticle",
                               chosenArticle: post

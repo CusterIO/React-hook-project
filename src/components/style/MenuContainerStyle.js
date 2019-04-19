@@ -1,8 +1,13 @@
 export const styles = {
+  applicationContainer: {
+    width: "100vw",
+    height: "100vh"
+  },
   layout: {
     width: "80%",
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    flexGrow: 1
   },
   toolbarMain: {
     borderBottom: "2px solid #000000"
@@ -24,6 +29,17 @@ export const styles = {
     marginBottom: "4px"
   },
   mainFeaturedPostContent: {
+    padding: "6px",
+    flexGrow: 1
+  },
+  chosenArticlePaper: {
+    backgroundColor: "#000000",
+    color: "#FFFFFF",
+    marginBottom: "4px"
+  },
+  choseArticleContent: {
+    color: "#FFFFFF",
+    marginTop: "6px",
     padding: "6px",
     flexGrow: 1
   },
