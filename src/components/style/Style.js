@@ -1,4 +1,7 @@
 export const styles = {
+  articleContentContainer: {
+    display: 'flex'
+  },
   verticalTextLeft: {
     transform: 'translate(0px, 150px) rotate(-90deg)',
     fontSize: '24px',
@@ -38,7 +41,9 @@ export const styles = {
   },
   applicationContainer: {
     width: "80vw",
-    height: "90vh"
+    height: "90vh",
+    overflowY: 'scroll',
+    overflowX: 'hidden'
   },
   layout: {
     width: "100%",

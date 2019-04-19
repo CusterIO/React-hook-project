@@ -29,7 +29,9 @@ export const BlogContainer = () => {
         </div>
         <div style={styles.applicationContainer}>
           <Menu />
-          {CurrentArticleContent}
+          <div style={styles.articleContentContainer}>
+            {CurrentArticleContent}
+          </div>
           <Footer />
         </div>
         <div style={styles.rightSideContainer}>

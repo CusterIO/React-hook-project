@@ -1,9 +1,0 @@
-/* TODO! Fix issues with overflow hidden on height (y) */
-
-#optimization-container {
-  @media (max-height: 300px) {
-    body {
-        overflow-y: auto;
-    }
-  }
-}
