@@ -54,7 +54,7 @@ const initialState = {
   isDescriptionValid: false,
   isAuthorValid: false,
   articles: [],
-  topics: ["Show All Topics", "React Hooks", "Reactjs", "GraphQL", "Material UI"],
+  topics: ["All Topics", "React Hooks", "Reactjs", "GraphQL", "Material UI"],
   topic: "React Hooks",
   selectedTopic: "",
   chosenArticle: '',

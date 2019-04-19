@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Typography, Paper, Card } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 import { StateContext } from "../context/index";
-import { styles } from "../style/MenuContainerStyle";
+import { styles } from "../style/Style";
 
 export const ArticleView = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -16,7 +16,7 @@ export const ArticleView = () => {
               <Typography
                 component="h1"
                 variant="title"
-                color="inherit"
+                color="primary"
                 gutterBottom
               >
                 {article.title}

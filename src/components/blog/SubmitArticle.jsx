@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from '../context/index';
 import {Button, Grid, Typography, TextField, Select, MenuItem} from '@material-ui/core';
+import { styles } from "../style/Style";
 
 export const SubmitArticle = () => {
   const {state, dispatch } = useContext(StateContext);
@@ -62,7 +63,7 @@ export const SubmitArticle = () => {
   };
 
   return (
-    <div className='article-component-wrapper'>
+    <div style={styles.submitArticleContainer}>
       <Typography variant="h6" gutterBottom>
         {state.validationMsg}
       </Typography>
@@ -70,6 +71,7 @@ export const SubmitArticle = () => {
         <Grid item xs={12}>
           <TextField
             required
+            fullWidth={true}
             value={state.title}
             onChange={(e) => {
               dispatch({type: 'setTitle', title: e.target.value})
@@ -83,9 +85,10 @@ export const SubmitArticle = () => {
         <Grid item xs={12}>
           <TextField
             required
+            fullWidth={true}
             multiline={true}
             rows={4}
-            rowsMax={40}
+            rowsMax={200}
             value={state.description}
             onChange={(e) => {
               dispatch({type: 'setDescription', description: e.target.value})
@@ -99,6 +102,7 @@ export const SubmitArticle = () => {
         <Grid item xs={12}>
           <TextField
             required
+            fullWidth={true}
             value={state.author}
             onChange={(e) => {
               dispatch({type: 'setAuthor', author: e.target.value})
@@ -168,5 +172,5 @@ const dateGenerator = () => {
       ("0" + m.getUTCDate()).slice(-2) + " " +
       ("0" + m.getUTCHours()).slice(-2) + ":" +
       ("0" + m.getUTCMinutes()).slice(-2) + ":" +
-      ("0" + m.getUTCSeconds()).slice(-2);
+      ("0" + m.getUTCSeconds()).slice(-2) + " GMT";
 };

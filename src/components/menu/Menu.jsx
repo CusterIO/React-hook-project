@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
-import { styles } from "../style/MenuContainerStyle";
+import { styles } from "../style/Style";
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -43,69 +43,70 @@ export const Menu = () => {
             size="small"
             onClick={() => {
               dispatch({ type: "setSubmitArticle", submitArticle: false });
-              dispatch({ type: "setChosenArticle", chosenArticle: '' });
+              dispatch({ type: "setChosenArticle", chosenArticle: "" });
+              dispatch({ type: "setSelectedTopic", selectedTopic: "All Topics" });
             }}
           >
             Home
           </Button>
-          {
-          (!state.submitArticle && !state.chosenArticle) && <Button
-            variant="outlined"
-            size="small"
-            onClick={() => {
-              dispatch({ type: "setSubmitArticle", submitArticle: true });
-            }}
-          >
-            New Article
-          </Button>
-          }
+          {!state.submitArticle && !state.chosenArticle && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setSubmitArticle", submitArticle: true });
+              }}
+            >
+              New Article
+            </Button>
+          )}
         </Toolbar>
-        {
-        (!state.submitArticle && !state.chosenArticle) && <Toolbar variant="dense" style={styles.toolbarSecondary}>
-          {sections.map(section => (
-            <Typography color="inherit" noWrap key={section}>
-              <Button
-                variant="outlined"
-                size="small"
-                onClick={() => {
-                  if (section === "Show All Topics") {
-                    dispatch({
-                      type: "setSelectedTopic",
-                      selectedTopic: "Show All Topics"
-                    });
-                  }
-                  if (section === "React Hooks") {
-                    dispatch({
-                      type: "setSelectedTopic",
-                      selectedTopic: "React Hooks"
-                    });
-                  }
-                  if (section === "Reactjs") {
-                    dispatch({
-                      type: "setSelectedTopic",
-                      selectedTopic: "Reactjs"
-                    });
-                  }
-                  if (section === "GraphQL") {
-                    dispatch({
-                      type: "setSelectedTopic",
-                      selectedTopic: "GraphQL"
-                    });
-                  }
-                  if (section === "Material UI") {
-                    dispatch({
-                      type: "setSelectedTopic",
-                      selectedTopic: "Material UI"
-                    });
-                  }
-                }}
-              >
-                {section}
-              </Button>
-            </Typography>
-          ))}
-        </Toolbar>               
-        }
+        {!state.submitArticle && !state.chosenArticle && (
+          <Toolbar variant="dense" style={styles.toolbarSecondary}>
+            {sections.map(section => (
+              <Typography color="inherit" Wrap key={section}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    if (section === "All Topics") {
+                      dispatch({
+                        type: "setSelectedTopic",
+                        selectedTopic: "All Topics"
+                      });
+                    }
+                    if (section === "React Hooks") {
+                      dispatch({
+                        type: "setSelectedTopic",
+                        selectedTopic: "React Hooks"
+                      });
+                    }
+                    if (section === "Reactjs") {
+                      dispatch({
+                        type: "setSelectedTopic",
+                        selectedTopic: "Reactjs"
+                      });
+                    }
+                    if (section === "GraphQL") {
+                      dispatch({
+                        type: "setSelectedTopic",
+                        selectedTopic: "GraphQL"
+                      });
+                    }
+                    if (section === "Material UI") {
+                      dispatch({
+                        type: "setSelectedTopic",
+                        selectedTopic: "Material UI"
+                      });
+                    }
+                  }}
+                >
+                  {section}
+                </Button>
+              </Typography>
+            ))}
+          </Toolbar>
+        )}
       </div>
     </React.Fragment>
   );

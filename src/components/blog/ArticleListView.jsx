@@ -9,14 +9,13 @@ import {
   Grid
 } from "@material-ui/core";
 import { StateContext } from "../context/index";
-import { styles } from "../style/MenuContainerStyle";
+import { styles } from "../style/Style";
 
 export const ArticleListView = () => {
   const { state, dispatch } = useContext(StateContext);
-  const social = ["GitHub", "Twitter", "Facebook"];
   let featuredArticles = [...state.articles].reverse(); // Reverse to display latest article on top.
 
-  if (state.selectedTopic && state.selectedTopic !== "Show All Topics") {
+  if (state.selectedTopic && state.selectedTopic !== "All Topics") {
     featuredArticles = featuredArticles.filter(
       article => article.topic === state.selectedTopic
     );
@@ -27,7 +26,6 @@ export const ArticleListView = () => {
       <CssBaseline />
       <div style={styles.layout}>
         <main>
-          {/* Main featured post */}
           <Paper style={styles.mainFeaturedPost}>
             <Grid container spacing={16}>
               <Grid item xs={12} md={12}>
@@ -43,24 +41,24 @@ export const ArticleListView = () => {
                     </Typography>
                     <Typography
                       variant="subtitle1"
-                      color="textPrimary"
+                      color="inherit"
                       gutterBottom
                     >
                       {featuredArticles[0].author}
                     </Typography>
-                    <Typography variant="subtitle2" paragraph gutterBottom>
-                      {featuredArticles[0].description}
+                    <Typography variant="subtitle2" paragraph color="inherit" gutterBottom>
+                      {limitedDescription(featuredArticles[0].description)}
                     </Typography>
                     <Typography
                       variant="subtitle2"
-                      color="textPrimary"
+                      color="inherit"
                       gutterBottom
                     >
                       {featuredArticles[0].topic}
                     </Typography>
                     <Typography
                       variant="subtitle2"
-                      color="textPrimary"
+                      color="inherit"
                       gutterBottom
                     >
                       {featuredArticles[0].date}
@@ -85,8 +83,6 @@ export const ArticleListView = () => {
               </Grid>
             </Grid>
           </Paper>
-          {/* End main featured post */}
-          {/* Sub featured posts */}
           <Grid container spacing={16}>
             {featuredArticles.slice(1).map(post => (
               <Grid item key={post.id} xs={12} md={6}>
@@ -103,24 +99,24 @@ export const ArticleListView = () => {
                       </Typography>
                       <Typography
                         variant="subtitle1"
-                        color="textSecondary"
+                        color="inherit"
                         gutterBottom
                       >
                         {post.author}
                       </Typography>
-                      <Typography variant="subtitle2" paragraph gutterBottom>
-                        {post.description}
+                      <Typography variant="subtitle2" paragraph color="inherit" gutterBottom>
+                        {limitedDescription(post.description)}
                       </Typography>
                       <Typography
                         variant="subtitle2"
-                        color="textSecondary"
+                        color="inherit"
                         gutterBottom
                       >
                         {post.topic}
                       </Typography>
                       <Typography
                         variant="subtitle2"
-                        color="textSecondary"
+                        color="inherit"
                         gutterBottom
                       >
                         {post.date}
@@ -145,29 +141,15 @@ export const ArticleListView = () => {
               </Grid>
             ))}
           </Grid>
-          {/* Sidebar */}
-          <Grid item xs={12} md={"auto"}>
-            <Paper elevation={0} style={styles.sidebarAboutBox}>
-              <Typography variant="h6" gutterBottom>
-                About
-              </Typography>
-              <Typography gutterBottom>
-                Etiam porta sem malesuada magna mollis euismod. Cras mattis
-                consectetur purus sit amet fermentum. Aenean lacinia bibendum
-                nulla sed consectetur.
-              </Typography>
-            </Paper>
-            <Typography variant="h6" gutterBottom style={styles.sidebarSection}>
-              Social
-            </Typography>
-            {social.map(network => (
-              <Typography key={network} gutterBottom>
-                {network}
-              </Typography>
-            ))}
-          </Grid>
         </main>
       </div>
     </React.Fragment>
   );
+};
+
+const limitedDescription = (description) => {
+  if (description.length > 50) {
+    return description.substring(0, 50);
+  }
+  return description;
 };

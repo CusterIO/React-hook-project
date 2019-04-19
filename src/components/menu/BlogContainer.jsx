@@ -2,9 +2,10 @@ import React, { useContext } from "react";
 import { StateContext } from "../context/index";
 import {ArticleListView} from "../blog/ArticleListView";
 import {Menu} from "./Menu";
+import {Footer} from "./Footer";
 import {ArticleView} from "../blog/ArticleView";
 import { SubmitArticle } from '../blog/SubmitArticle';
-import { styles } from "../style/MenuContainerStyle";
+import { styles } from "../style/Style";
 
 export const BlogContainer = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -20,9 +21,22 @@ export const BlogContainer = () => {
 
   return (
     <React.Fragment>
-      <div style={styles.applicationContainer}>
-        <Menu />
-        {CurrentArticleContent}
+      <div style={styles.appWrapper}>
+        <div style={styles.leftSideContainer}>
+          <div style={styles.verticalTextLeft}>
+            Roger Hurtig
+          </div>
+        </div>
+        <div style={styles.applicationContainer}>
+          <Menu />
+          {CurrentArticleContent}
+          <Footer />
+        </div>
+        <div style={styles.rightSideContainer}>
+          <div style={styles.verticalTextRight}>
+            Custer IO
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );
