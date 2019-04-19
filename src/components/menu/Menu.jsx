@@ -43,6 +43,7 @@ export const Menu = () => {
             size="small"
             onClick={() => {
               dispatch({ type: "setSubmitArticle", submitArticle: false });
+              dispatch({type: 'setEditArticle', editArticle: false})
               dispatch({ type: "setChosenArticle", chosenArticle: "" });
               dispatch({ type: "setSelectedTopic", selectedTopic: "All Topics" });
             }}

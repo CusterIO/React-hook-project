@@ -7,6 +7,16 @@ export const SubmitArticle = () => {
   const {state, dispatch } = useContext(StateContext);
 
   useEffect(() => {
+    if (state.editArticle && state.chosenArticle) {
+      dispatch({type: 'setTitle', title: state.chosenArticle.title})
+      dispatch({type: 'setDescription', description: state.chosenArticle.description})
+      dispatch({type: 'setAuthor', author: state.chosenArticle.author})
+      dispatch({type: 'setTopic', topic: state.chosenArticle.topic})
+    }
+  }, [],
+  );
+
+  useEffect(() => {
     const isTitleValid = Validate(state.title);
     if (isTitleValid) {
       dispatch({type: 'setTitleValidation', isTitleValid: true})
@@ -143,9 +153,12 @@ export const SubmitArticle = () => {
                 id: idGenerator(),
                 date: dateGenerator()
               };
+              removeArticle(state, dispatch);
               dispatch({type: 'setArticle', article: article})
               dispatch({type: 'resetArticleFields'})
+              dispatch({ type: "setChosenArticle", chosenArticle: "" });
               dispatch({type: 'setSubmitArticle', submitArticle: false})
+              dispatch({type: 'setEditArticle', editArticle: false})
             }
             }
           >
@@ -173,4 +186,17 @@ const dateGenerator = () => {
       ("0" + m.getUTCHours()).slice(-2) + ":" +
       ("0" + m.getUTCMinutes()).slice(-2) + ":" +
       ("0" + m.getUTCSeconds()).slice(-2) + " GMT";
+};
+
+const removeArticle = (state, dispatch) => { // To be handled by database.
+  let articles = [...state.articles];
+  let index = articles.findIndex(function(article) {
+    return article.id === state.chosenArticle.id;
+  })
+  
+  if (index !== -1) {
+    articles.splice(index, 1);
+  }
+
+  dispatch({type: 'updateArticles', articles: articles}) // Force update all articles.
 };

@@ -15,7 +15,7 @@ export const BlogContainer = () => {
     CurrentArticleContent = <ArticleView />;
   }
 
-  if (state.submitArticle) {
+  if (state.submitArticle || state.editArticle) {
     CurrentArticleContent = <SubmitArticle />;
   }
 

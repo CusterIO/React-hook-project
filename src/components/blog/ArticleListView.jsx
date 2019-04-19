@@ -84,7 +84,7 @@ export const ArticleListView = () => {
             </Grid>
           </Paper>
           <Grid container spacing={16}>
-            {featuredArticles.slice(1).map(post => (
+            {featuredArticles.slice(1).map((post, index) => (
               <Grid item key={post.id} xs={12} md={6}>
                 <Card style={styles.card}>
                   <div style={styles.cardDetails}>
@@ -130,6 +130,7 @@ export const ArticleListView = () => {
                               type: "setChosenArticle",
                               chosenArticle: post
                             });
+
                           }}
                         >
                           Continue reading...

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Typography, Paper } from "@material-ui/core";
+import { Typography, Paper, Button } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
 
@@ -35,6 +35,15 @@ export const ArticleView = () => {
               </Typography>
             </div>
           </Paper>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch({type: 'setEditArticle', editArticle: true});
+            }}
+          >
+            Edit Article
+          </Button>
         </main>
       </div>
     </React.Fragment>

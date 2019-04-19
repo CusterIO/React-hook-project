@@ -22,6 +22,8 @@ const reducer = (state, action) => {
       return { ...state, isAuthorValid: action.isAuthorValid };
     case "setArticle":
       return { ...state, articles: [...state.articles, action.article] };
+    case "updateArticles":
+      return { ...state, articles: [...action.articles] };
     case "resetArticleFields":
       return {
         ...state,
@@ -38,6 +40,8 @@ const reducer = (state, action) => {
       return { ...state, chosenArticle: action.chosenArticle };
     case "setSubmitArticle":
       return { ...state, submitArticle: action.submitArticle };
+    case "setEditArticle":
+      return { ...state, editArticle: action.editArticle };
     default:
       throw new Error("Unexpected action");
   }
@@ -57,8 +61,9 @@ const initialState = {
   topics: ["All Topics", "React Hooks", "Reactjs", "GraphQL", "Material UI"],
   topic: "React Hooks",
   selectedTopic: "",
-  chosenArticle: '',
-  submitArticle: false
+  chosenArticle: "",
+  submitArticle: false,
+  editArticle: false
 };
 
 const StateContext = createContext(initialState);
