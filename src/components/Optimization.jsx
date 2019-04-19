@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 import { IntroContainer } from "./intro/IntroContainer.jsx";
-import { MenuContainer } from "./menu/MenuContainer.jsx";
+import { BlogContainer } from "./menu/BlogContainer.jsx";
 
 export const Optimization = () => {
   const Intro = useMemo(() => <IntroContainer />, [IntroContainer]);
-  const Menu = useMemo(() => <MenuContainer />, [MenuContainer]);
+  const Blog = useMemo(() => <BlogContainer />, [BlogContainer]);
 
   return (
     <div id="optimization-container">
-      {Menu}
+      {Blog}
       {Intro}
     </div>
   );

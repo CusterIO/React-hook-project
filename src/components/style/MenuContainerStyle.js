@@ -10,6 +10,10 @@ export const styles = {
   toolbarTitle: {
     flex: 1
   },
+  toolbarMainSecondary: {
+    justifyContent: "space-between",
+    borderBottom: "1px solid #000000"
+  },
   toolbarSecondary: {
     justifyContent: "space-between",
     marginBottom: '10px'

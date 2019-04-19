@@ -141,6 +141,7 @@ export const SubmitArticle = () => {
               };
               dispatch({type: 'setArticle', article: article})
               dispatch({type: 'resetArticleFields'})
+              dispatch({type: 'setSubmitArticle', submitArticle: false})
             }
             }
           >

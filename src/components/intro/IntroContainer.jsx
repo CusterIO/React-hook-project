@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from '../context/index';
 import { Slider } from '../sliders/Slider.jsx';
-import { BlogContainer } from '../blog/BlogContainer.jsx';
 
 export const IntroContainer = () => {
   const {state, dispatch } = useContext(StateContext);
@@ -27,7 +26,6 @@ export const IntroContainer = () => {
         </div>
       </div>
       <Slider />
-      <BlogContainer />
     </div>
   );
 };
