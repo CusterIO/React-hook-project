@@ -65,7 +65,7 @@ export const Menu = () => {
         {!state.submitArticle && !state.chosenArticle && (
           <Toolbar variant="dense" style={styles.toolbarSecondary}>
             {sections.map(section => (
-              <Typography color="inherit" Wrap key={section}>
+              <Typography color="inherit" key={section}>
                 <Button
                   variant="outlined"
                   size="small"
