@@ -42,6 +42,14 @@ const reducer = (state, action) => {
       return { ...state, submitArticle: action.submitArticle };
     case "setEditArticle":
       return { ...state, editArticle: action.editArticle };
+    case "setURL":
+      return { ...state, URL: action.URL };
+    case "setURLDescription":
+      return { ...state, URLDescription: action.URLDescription };
+    case "setURLValidation":
+      return { ...state, isURLValid: action.isURLValid };
+    case "setURLDescriptionValidation":
+      return { ...state, isURLDescriptionValid: action.isURLDescriptionValid };
     default:
       throw new Error("Unexpected action");
   }
@@ -63,7 +71,11 @@ const initialState = {
   selectedTopic: "",
   chosenArticle: "",
   submitArticle: false,
-  editArticle: false
+  editArticle: false,
+  URL: '',
+  URLDescription: '',
+  isURLValid: false,
+  isURLDescriptionValid: false
 };
 
 const StateContext = createContext(initialState);
