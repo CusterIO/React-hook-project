@@ -33,9 +33,30 @@ export const Menu = () => {
           <IconButton>
             <Search />
           </IconButton>
-          <Button variant="outlined" size="small">
-            Sign up
-          </Button>
+          {!state.signup && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setSignup", signup: true });
+                dispatch({ type: "setLogin", login: false });
+              }}
+            >
+              Sign up
+            </Button>
+          )}
+          {!state.login && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setLogin", login: true });
+                dispatch({ type: "setSignup", signup: false });
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
         <Toolbar variant="dense" style={styles.toolbarMainSecondary}>
           <Button
@@ -46,6 +67,8 @@ export const Menu = () => {
               dispatch({type: 'setEditArticle', editArticle: false})
               dispatch({ type: "setChosenArticle", chosenArticle: "" });
               dispatch({ type: "setSelectedTopic", selectedTopic: "All Topics" });
+              dispatch({ type: "setSignup", signup: false });
+              dispatch({ type: "setLogin", login: false });
             }}
           >
             Home

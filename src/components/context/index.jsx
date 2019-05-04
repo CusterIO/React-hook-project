@@ -58,7 +58,7 @@ const reducer = (state, action) => {
         URLDescription: ""
       };
     case "setLogin":
-      return { ...state, login: !state.login };
+      return { ...state, login: action.login };
     case "setEmail":
       return { ...state, email: action.email };
     case "setPassword":
@@ -71,13 +71,17 @@ const reducer = (state, action) => {
       return { ...state, isEmailValid: action.isEmailValid };
     case "setPasswordValidation":
       return { ...state, isPasswordValid: action.isPasswordValid };
+    case "setSignup":
+      return { ...state, signup: action.signup };
     case "resetLoginFields":
       return {
         ...state,
         isValid: false,
         name: "",
         email: "",
-        password: ""
+        password: "",
+        login: false,
+        signup: false
       };
     default:
       throw new Error("Unexpected action");
@@ -106,6 +110,7 @@ const initialState = {
   isURLValid: false,
   isURLDescriptionValid: false,
   login: false,
+  signup: false,
   email: '',
   password: '',
   name: '',

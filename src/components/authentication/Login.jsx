@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
-import {
-  Typography,
-  Paper,
-  Grid
-} from "@material-ui/core";
+import React, { useContext, useEffect } from "react";
+import { Typography, Grid, Button, TextField } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import gql from "graphql-tag";
 import { styles } from "../style/Style";
 import { AUTH_TOKEN } from "../constants";
+import { Mutation } from "react-apollo";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -65,7 +62,7 @@ export const Login = () => {
   }, [password]);
 
   useEffect(() => {
-    const isValid = ValidateAll();
+    const isValid = login ? ValidateLogin() : ValidateSignup();
     if (isValid) {
       dispatch({ type: "setValidation", isValid: true });
     } else {
@@ -87,54 +84,27 @@ export const Login = () => {
     return true;
   };
 
-  const ValidateAll = () => {
+  const ValidateSignup = () => {
     return !!(state.isNameValid && state.isEmailValid && state.isPasswordValid);
   };
 
-  const saveUserData = (token) => { // TODO! Remove from localstorage.
+  const ValidateLogin = () => {
+    return !!(state.isEmailValid && state.isPasswordValid);
+  };
+
+  const saveUserData = token => {
+    // TODO! Remove from localstorage.
     localStorage.setItem(AUTH_TOKEN, token);
   };
-  
-  const confirm = async (data) => {
-    const { token } = login ? data.login : data.signup
-    saveUserData(token)
+
+  const confirm = async data => {
+    const { token } = login ? data.login : data.signup;
+    saveUserData(token);
     dispatch({ type: "resetLoginFields" });
   };
 
   return (
     <div style={styles.submitArticleContainer}>
-      <Paper style={styles.mainFeaturedPost}>
-        <Grid container spacing={16}>
-          <Grid item xs={12} md={12}>
-            <div style={styles.mainFeaturedPostContent}>
-              <Typography variant="subtitle2" gutterBottom>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={() => {
-                    dispatch({ type: "setLogin" });
-                  }}
-                >
-                  {login ? "login" : "create account"}
-                </Button>
-              </Typography>
-              <Typography
-                component="h1"
-                variant="title"
-                color="primary"
-                gutterBottom
-                onClick={() => {
-                  dispatch({ type: "setLogin" });
-                }}
-              >
-                {login
-                  ? "need to create an account?"
-                  : "already have an account?"}
-              </Typography>
-            </div>
-          </Grid>
-        </Grid>
-      </Paper>
       <Typography variant="h6" gutterBottom>
         {state.validationMsg}
       </Typography>
@@ -184,7 +154,7 @@ export const Login = () => {
           <Mutation
             mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
             variables={{ name, email, password }}
-            onCompleted={(data) => confirm(data)}
+            onCompleted={data => confirm(data)}
           >
             {mutation => (
               <Button
@@ -193,10 +163,27 @@ export const Login = () => {
                 disabled={!state.isValid}
                 onClick={mutation}
               >
-                {login ? 'login' : 'create account'}
+                {login ? "login" : "create account"}
               </Button>
             )}
           </Mutation>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              if (login) {
+                dispatch({ type: "setSignup", signup: true });
+                dispatch({ type: "setLogin", login: false });
+              } else {
+                dispatch({ type: "setLogin", login: true });
+                dispatch({ type: "setSignup", signup: false });
+              }
+            }}
+          >
+            {login ? "Create an account?" : "Login to account?"}
+          </Button>
         </Grid>
       </Grid>
     </div>

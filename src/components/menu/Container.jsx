@@ -6,17 +6,22 @@ import {Footer} from "./Footer";
 import {ArticleView} from "../blog/ArticleView";
 import { SubmitArticle } from '../blog/SubmitArticle';
 import { styles } from "../style/Style";
+import { Login } from "../authentication/Login";
 
-export const BlogContainer = () => {
+export const Container = () => {
   const { state, dispatch } = useContext(StateContext);
-  let CurrentArticleContent = <ArticleListView />;
+  let CurrentContent = <ArticleListView />;
 
   if (state.chosenArticle) {
-    CurrentArticleContent = <ArticleView />;
+    CurrentContent = <ArticleView />;
   }
 
   if (state.submitArticle || state.editArticle) {
-    CurrentArticleContent = <SubmitArticle />;
+    CurrentContent = <SubmitArticle />;
+  }
+
+  if (state.login || state.signup) {
+    CurrentContent = <Login />;
   }
 
   return (
@@ -30,7 +35,7 @@ export const BlogContainer = () => {
         <div style={styles.applicationContainer}>
           <Menu />
           <div style={styles.articleContentContainer}>
-            {CurrentArticleContent}
+            {CurrentContent}
           </div>
           <Footer />
         </div>
