@@ -8,7 +8,7 @@ import { Mutation } from "react-apollo";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
-  const { login, email, password, name } = state;
+  const { login, email, password, name, repeatEmail } = state;
 
   const LOGIN_MUTATION = gql`
     mutation LoginMutation($email: String!, $password: String!) {
@@ -137,6 +137,21 @@ export const Login = () => {
             label="Email"
           />
         </Grid>
+        {!login && (
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth={true}
+              value={repeatEmail}
+              onChange={e => {
+                dispatch({ type: "setRepeatEmail", repeatEmail: e.target.value });
+              }}
+              error={!state.isEmailValid}
+              variant={"outlined"}
+              label="Repeat email"
+            />
+          </Grid>
+        )}
         <Grid item xs={12}>
           <TextField
             required

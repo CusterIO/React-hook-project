@@ -28,7 +28,7 @@ export const Menu = () => {
             noWrap
             style={styles.toolbarTitle}
           >
-            Blog
+            {state.viewLinks ? "Links" : "Blog"}
           </Typography>
           <IconButton>
             <Search />
@@ -64,16 +64,39 @@ export const Menu = () => {
             size="small"
             onClick={() => {
               dispatch({ type: "setSubmitArticle", submitArticle: false });
-              dispatch({type: 'setEditArticle', editArticle: false})
+              dispatch({ type: "setEditArticle", editArticle: false });
               dispatch({ type: "setChosenArticle", chosenArticle: "" });
-              dispatch({ type: "setSelectedTopic", selectedTopic: "All Topics" });
+              dispatch({
+                type: "setSelectedTopic",
+                selectedTopic: "All Topics"
+              });
               dispatch({ type: "setSignup", signup: false });
               dispatch({ type: "setLogin", login: false });
+              dispatch({ type: "setCreateLink", createLink: false });
+              dispatch({ type: "setViewLinks", viewLinks: false });
             }}
           >
             Home
           </Button>
-          {!state.submitArticle && !state.chosenArticle && (
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch({ type: "setViewLinks", viewLinks: false });
+            }}
+          >
+            Blog
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => {
+              dispatch({ type: "setViewLinks", viewLinks: true });
+            }}
+          >
+            Links
+          </Button>
+          {!state.submitArticle && !state.chosenArticle && !state.viewLinks && (
             <Button
               variant="outlined"
               size="small"
@@ -82,6 +105,17 @@ export const Menu = () => {
               }}
             >
               New Article
+            </Button>
+          )}
+          {state.viewLinks && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setCreateLink", createLink: true });
+              }}
+            >
+              New Link
             </Button>
           )}
         </Toolbar>

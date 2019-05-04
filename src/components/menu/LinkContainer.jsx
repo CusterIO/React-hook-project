@@ -1,23 +1,18 @@
 import React, { useContext } from "react";
 import { StateContext } from "../context/index";
-import {ArticleListView} from "../blog/ArticleListView";
 import {Menu} from "./Menu";
 import {Footer} from "./Footer";
-import {ArticleView} from "../blog/ArticleView";
-import { SubmitArticle } from '../blog/SubmitArticle';
 import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
+import { LinkList } from "./link/LinkList.jsx";
+import { CreateLink } from "./link/CreateLink.jsx";
 
-export const Container = () => {
+export const LinkContainer = () => {
   const { state, dispatch } = useContext(StateContext);
-  let CurrentContent = <ArticleListView />;
+  let CurrentContent = <LinkList />;
 
-  if (state.chosenArticle) {
-    CurrentContent = <ArticleView />;
-  }
-
-  if (state.submitArticle || state.editArticle) {
-    CurrentContent = <SubmitArticle />;
+  if (state.createLink) {
+    CurrentContent = <CreateLink />;
   }
 
   if (state.login || state.signup) {

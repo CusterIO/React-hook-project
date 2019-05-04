@@ -50,17 +50,24 @@ const reducer = (state, action) => {
       return { ...state, isURLValid: action.isURLValid };
     case "setURLDescriptionValidation":
       return { ...state, isURLDescriptionValid: action.isURLDescriptionValid };
+    case "setCreateLink":
+      return { ...state, createLink: action.createLink };
+    case "setViewLinks":
+      return { ...state, viewLinks: action.viewLinks };
     case "resetLinkFields":
       return {
         ...state,
         isValid: false,
         URL: "",
-        URLDescription: ""
+        URLDescription: "",
+        createLink: false
       };
     case "setLogin":
       return { ...state, login: action.login };
     case "setEmail":
       return { ...state, email: action.email };
+    case "setRepeatEmail":
+      return { ...state, repeatEmail: action.repeatEmail };
     case "setPassword":
       return { ...state, password: action.password };
     case "setName":
@@ -112,11 +119,14 @@ const initialState = {
   login: false,
   signup: false,
   email: '',
+  repeatEmail: '',
   password: '',
   name: '',
   isNameValid: false,
   isEmailValid: false,
-  isPasswordValid: false
+  isPasswordValid: false,
+  createLink: false,
+  viewLinks: false
 };
 
 const StateContext = createContext(initialState);
