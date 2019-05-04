@@ -65,7 +65,7 @@ export const CreateLink = () => {
   const ValidateAll = () => {
     return !!(state.isURLValid && state.isURLDescriptionValid);
   };
-  /*eslint-disable */
+
   return (
     <div style={styles.submitArticleContainer}>
       <Typography variant="h6" gutterBottom>
@@ -104,7 +104,13 @@ export const CreateLink = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Mutation mutation={POST_MUTATION} variables={{ description, url }}>
+          <Mutation 
+            mutation={POST_MUTATION}
+            variables={{ description, url }}
+            onCompleted={() =>
+              dispatch({type: 'resetLinkFields'})
+            }
+          >
             {(postMutation) => (
               <Button
                 color='primary'
@@ -120,5 +126,4 @@ export const CreateLink = () => {
       </Grid>
     </div>
   );
-  /*eslint-enable */
 };

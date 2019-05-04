@@ -50,6 +50,35 @@ const reducer = (state, action) => {
       return { ...state, isURLValid: action.isURLValid };
     case "setURLDescriptionValidation":
       return { ...state, isURLDescriptionValid: action.isURLDescriptionValid };
+    case "resetLinkFields":
+      return {
+        ...state,
+        isValid: false,
+        URL: "",
+        URLDescription: ""
+      };
+    case "setLogin":
+      return { ...state, login: !state.login };
+    case "setEmail":
+      return { ...state, email: action.email };
+    case "setPassword":
+      return { ...state, password: action.password };
+    case "setName":
+      return { ...state, name: action.name };
+    case "setNameValidation":
+      return { ...state, isNameValid: action.isNameValid };
+    case "setEmailValidation":
+      return { ...state, isEmailValid: action.isEmailValid };
+    case "setPasswordValidation":
+      return { ...state, isPasswordValid: action.isPasswordValid };
+    case "resetLoginFields":
+      return {
+        ...state,
+        isValid: false,
+        name: "",
+        email: "",
+        password: ""
+      };
     default:
       throw new Error("Unexpected action");
   }
@@ -72,10 +101,17 @@ const initialState = {
   chosenArticle: "",
   submitArticle: false,
   editArticle: false,
-  URL: '',
-  URLDescription: '',
+  URL: "",
+  URLDescription: "",
   isURLValid: false,
-  isURLDescriptionValid: false
+  isURLDescriptionValid: false,
+  login: false,
+  email: '',
+  password: '',
+  name: '',
+  isNameValid: false,
+  isEmailValid: false,
+  isPasswordValid: false
 };
 
 const StateContext = createContext(initialState);
