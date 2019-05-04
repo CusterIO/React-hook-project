@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StateContext } from "../context/index";
+import { StateContext } from "./context/index";
 import { BlogContainer } from "./menu/BlogContainer.jsx";
 import { LinkContainer } from "./menu/LinkContainer.jsx";
 

@@ -28,14 +28,17 @@ export const Menu = () => {
             noWrap
             style={styles.toolbarTitle}
           >
-            {state.viewLinks ? "Links" : "Blog"}
+            {!state.login && !state.signup && (state.viewLinks ? "Links" : "Blog")}
+            {state.login && ("Login")}
+            {state.signup && ("Sign up")}
           </Typography>
           <IconButton>
             <Search />
           </IconButton>
           {!state.signup && (
             <Button
-              variant="outlined"
+              variant="contained"
+              color='primary'
               size="small"
               onClick={() => {
                 dispatch({ type: "setSignup", signup: true });
@@ -47,7 +50,8 @@ export const Menu = () => {
           )}
           {!state.login && (
             <Button
-              variant="outlined"
+              variant="contained"
+              color='primary'
               size="small"
               onClick={() => {
                 dispatch({ type: "setLogin", login: true });
@@ -60,8 +64,9 @@ export const Menu = () => {
         </Toolbar>
         <Toolbar variant="dense" style={styles.toolbarMainSecondary}>
           <Button
-            variant="outlined"
+            variant="contained"
             size="small"
+            color='primary'
             onClick={() => {
               dispatch({ type: "setSubmitArticle", submitArticle: false });
               dispatch({ type: "setEditArticle", editArticle: false });
@@ -80,6 +85,7 @@ export const Menu = () => {
           </Button>
           <Button
             variant="outlined"
+            color='primary'
             size="small"
             onClick={() => {
               dispatch({ type: "setViewLinks", viewLinks: false });
@@ -89,6 +95,7 @@ export const Menu = () => {
           </Button>
           <Button
             variant="outlined"
+            color='primary'
             size="small"
             onClick={() => {
               dispatch({ type: "setViewLinks", viewLinks: true });
@@ -107,7 +114,7 @@ export const Menu = () => {
               New Article
             </Button>
           )}
-          {state.viewLinks && (
+          {state.viewLinks && !state.createLink && (
             <Button
               variant="outlined"
               size="small"

@@ -4,8 +4,8 @@ import {Menu} from "./Menu";
 import {Footer} from "./Footer";
 import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
-import { LinkList } from "./link/LinkList.jsx";
-import { CreateLink } from "./link/CreateLink.jsx";
+import { LinkList } from "../link/LinkList.jsx";
+import { CreateLink } from "../link/CreateLink.jsx";
 
 export const LinkContainer = () => {
   const { state, dispatch } = useContext(StateContext);
