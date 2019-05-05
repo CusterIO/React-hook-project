@@ -1,69 +1,74 @@
 import React, { useContext, useEffect } from "react";
-import { StateContext } from '../context/index';
-import {Button, Grid, Typography, TextField} from '@material-ui/core';
+import { StateContext } from "../context/index";
+import { Button, Grid, Typography, TextField } from "@material-ui/core";
 import { styles } from "../style/Style";
-import gql from "graphql-tag";
-import { Mutation } from 'react-apollo'
+import { Mutation } from "react-apollo";
+import { POST_MUTATION } from "../graphql/Mutation";
+import { FEED_QUERY } from "../graphql/Query";
 
 export const CreateLink = () => {
-  const {state, dispatch } = useContext(StateContext);
-  const POST_MUTATION = gql`
-    mutation PostMutation($description: String!, $url: String!) {
-      post(description: $description, url: $url) {
-        id
-        createdAt
-        url
-        description
-      }
-    }
-  `;
+  const { state, dispatch } = useContext(StateContext);
   const description = state.URLDescription;
   const url = state.URL;
 
   useEffect(() => {
     const isURLValid = Validate(state.URL);
     if (isURLValid) {
-      dispatch({type: 'setURLValidation', isURLValid: true})
+      dispatch({ type: "setURLValidation", isURLValid: true });
     } else {
-      dispatch({type: 'setURLValidation', isURLValid: false})
+      dispatch({ type: "setURLValidation", isURLValid: false });
     }
-  }, [state.URL],
-  );
+  }, [state.URL]);
 
   useEffect(() => {
     const isURLDescriptionValid = Validate(state.URLDescription);
     if (isURLDescriptionValid) {
-      dispatch({type: 'setURLDescriptionValidation', isURLDescriptionValid: true})
+      dispatch({
+        type: "setURLDescriptionValidation",
+        isURLDescriptionValid: true
+      });
     } else {
-      dispatch({type: 'setURLDescriptionValidation', isURLDescriptionValid: false})
+      dispatch({
+        type: "setURLDescriptionValidation",
+        isURLDescriptionValid: false
+      });
     }
-  }, [state.URLDescription],
-  );
+  }, [state.URLDescription]);
 
   useEffect(() => {
     const isValid = ValidateAll();
     if (isValid) {
-      dispatch({type: 'setValidation', isValid: true})
+      dispatch({ type: "setValidation", isValid: true });
     } else {
-      dispatch({type: 'setValidation', isValid: false})
+      dispatch({ type: "setValidation", isValid: false });
     }
-  }, [state.isURLDescriptionValid, state.isURLValid],
-  ); 
+  }, [state.isURLDescriptionValid, state.isURLValid]);
 
-  const Validate = (input) => {
+  const Validate = input => {
     if (!input) {
       return false;
-    }
-    else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\@\r\n]+$/)) {
-      dispatch({type: 'setValidationMsg', validationMsg: 'Only letters, numbers and characters .,!?)(- allowed'})
+    } else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\@\r\n]+$/)) {
+      dispatch({
+        type: "setValidationMsg",
+        validationMsg: "Only letters, numbers and characters .,!?)(- allowed"
+      });
       return false;
     }
-    dispatch({type: 'setValidationMsg', validationMsg: ''})
+    dispatch({ type: "setValidationMsg", validationMsg: "" });
     return true;
   };
 
   const ValidateAll = () => {
     return !!(state.isURLValid && state.isURLDescriptionValid);
+  };
+
+  const updateCacheAfterCreateLink = (store, post) => {
+    const data = store.readQuery({ query: FEED_QUERY });
+    data.feed.links.unshift(post);
+    store.writeQuery({
+      query: FEED_QUERY,
+      data
+    });
   };
 
   return (
@@ -77,13 +82,12 @@ export const CreateLink = () => {
             required
             fullWidth={true}
             value={state.URL}
-            onChange={(e) => {
-              dispatch({type: 'setURL', URL: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({ type: "setURL", URL: e.target.value });
+            }}
             error={!state.isURLValid}
-            variant={'outlined'}
-            label='URL'
+            variant={"outlined"}
+            label="URL"
           />
         </Grid>
         <Grid item xs={12}>
@@ -94,31 +98,34 @@ export const CreateLink = () => {
             rows={4}
             rowsMax={200}
             value={state.URLDescription}
-            onChange={(e) => {
-              dispatch({type: 'setURLDescription', URLDescription: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({
+                type: "setURLDescription",
+                URLDescription: e.target.value
+              });
+            }}
             error={!state.isURLDescriptionValid}
-            variant={'outlined'}
-            label='Description'
+            variant={"outlined"}
+            label="Description"
           />
         </Grid>
         <Grid item xs={12}>
-          <Mutation 
+          <Mutation
             mutation={POST_MUTATION}
             variables={{ description, url }}
-            onCompleted={() =>
-              dispatch({type: 'resetLinkFields'})
+            onCompleted={() => dispatch({ type: "resetLinkFields" })}
+            update={(store, { data: { post } }) =>
+              updateCacheAfterCreateLink(store, post)
             }
           >
-            {(postMutation) => (
+            {postMutation => (
               <Button
-                color='primary'
-                variant='contained'
+                color="primary"
+                variant="contained"
                 disabled={!state.isValid}
-                onClick = {postMutation}
+                onClick={postMutation}
               >
-              Post link
+                Post link
               </Button>
             )}
           </Mutation>

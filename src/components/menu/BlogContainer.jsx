@@ -9,7 +9,7 @@ import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
 
 export const BlogContainer = () => {
-  const { state, dispatch } = useContext(StateContext);
+  const { state } = useContext(StateContext);
   let CurrentContent = <ArticleListView />;
 
   if (state.chosenArticle) {

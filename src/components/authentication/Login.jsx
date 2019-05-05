@@ -8,7 +8,7 @@ import { Mutation } from "react-apollo";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
-  const { login, email, password, name, repeatEmail } = state;
+  const { login, email, password, name, repeatEmail, isNameValid, isEmailValid, isPasswordValid } = state;
 
   const LOGIN_MUTATION = gql`
     mutation LoginMutation($email: String!, $password: String!) {
@@ -35,8 +35,8 @@ export const Login = () => {
   `;
 
   useEffect(() => {
-    const isNameValid = Validate(name);
-    if (isNameValid) {
+    const isValid = Validate(name);
+    if (isValid) {
       dispatch({ type: "setNameValidation", isNameValid: true });
     } else {
       dispatch({ type: "setNameValidation", isNameValid: false });
@@ -44,8 +44,8 @@ export const Login = () => {
   }, [name]);
 
   useEffect(() => {
-    const isEmailValid = Validate(email);
-    if (isEmailValid) {
+    const isValid = Validate(email);
+    if (isValid) {
       dispatch({ type: "setEmailValidation", isEmailValid: true });
     } else {
       dispatch({ type: "setEmailValidation", isEmailValid: false });
@@ -53,8 +53,8 @@ export const Login = () => {
   }, [email]);
 
   useEffect(() => {
-    const isPasswordValid = Validate(password);
-    if (isPasswordValid) {
+    const isValid = Validate(password);
+    if (isValid) {
       dispatch({ type: "setPasswordValidation", isPasswordValid: true });
     } else {
       dispatch({ type: "setPasswordValidation", isPasswordValid: false });
@@ -68,7 +68,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setValidation", isValid: false });
     }
-  }, [state.isNameValid, state.isEmailValid, state.isPasswordValid]);
+  }, [isNameValid, isEmailValid, isPasswordValid]);
 
   const Validate = input => {
     if (!input) {
@@ -85,11 +85,11 @@ export const Login = () => {
   };
 
   const ValidateSignup = () => {
-    return !!(state.isNameValid && state.isEmailValid && state.isPasswordValid);
+    return !!(isNameValid && isEmailValid && isPasswordValid);
   };
 
   const ValidateLogin = () => {
-    return !!(state.isEmailValid && state.isPasswordValid);
+    return !!(isEmailValid && isPasswordValid);
   };
 
   const saveUserData = token => {
@@ -118,7 +118,7 @@ export const Login = () => {
               onChange={e => {
                 dispatch({ type: "setName", name: e.target.value });
               }}
-              error={!state.isNameValid}
+              error={!isNameValid}
               variant={"outlined"}
               label="Name"
             />
@@ -132,7 +132,7 @@ export const Login = () => {
             onChange={e => {
               dispatch({ type: "setEmail", email: e.target.value });
             }}
-            error={!state.isEmailValid}
+            error={!isEmailValid}
             variant={"outlined"}
             label="Email"
           />
@@ -146,7 +146,7 @@ export const Login = () => {
               onChange={e => {
                 dispatch({ type: "setRepeatEmail", repeatEmail: e.target.value });
               }}
-              error={!state.isEmailValid}
+              error={!isEmailValid}
               variant={"outlined"}
               label="Repeat email"
             />
@@ -160,7 +160,7 @@ export const Login = () => {
             onChange={e => {
               dispatch({ type: "setPassword", password: e.target.value });
             }}
-            error={!state.isPasswordValid}
+            error={!isPasswordValid}
             variant={"outlined"}
             label="Password"
           />

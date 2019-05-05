@@ -8,7 +8,7 @@ import { LinkList } from "../link/LinkList.jsx";
 import { CreateLink } from "../link/CreateLink.jsx";
 
 export const LinkContainer = () => {
-  const { state, dispatch } = useContext(StateContext);
+  const { state } = useContext(StateContext);
   let CurrentContent = <LinkList />;
 
   if (state.createLink) {
