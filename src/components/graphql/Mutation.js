@@ -2,11 +2,9 @@ import gql from "graphql-tag";
 
 export const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
-    post(description: $description, url: $url) {
+    postLink(description: $description, url: $url) {
       id
       createdAt
-      url
-      description
     }
   }
 `;
@@ -32,20 +30,27 @@ export const VOTE_MUTATION = gql`
 
 export const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
-    post(email: $email, password: $password) {
+    login(email: $email, password: $password) {
       token
-      email
-      password
+      user {
+        id
+        email
+        links {
+          url
+          description
+        }
+      }
     }
   }
 `;
+
 export const SIGNUP_MUTATION = gql`
   mutation SignupMutation($name: String!, $email: String!, $password: String!) {
-    post(name: $name, email: $email, password: $password) {
+    signup(name: $name, email: $email, password: $password) {
       token
-      name
-      email
-      password
+      user {
+        id
+      }
     }
   }
 `;

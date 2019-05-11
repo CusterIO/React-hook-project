@@ -64,7 +64,7 @@ export const CreateLink = () => {
 
   const updateCacheAfterCreateLink = (store, post) => {
     const data = store.readQuery({ query: FEED_QUERY });
-    data.feed.links.unshift(post);
+    data.feedLinks.links.unshift(post);
     store.writeQuery({
       query: FEED_QUERY,
       data

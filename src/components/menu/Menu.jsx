@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import {
   Button,
   Typography,
-  IconButton,
   Toolbar,
   CssBaseline,
   TextField
@@ -35,41 +34,39 @@ export const Menu = () => {
             {state.login && "Login"}
             {state.signup && "Sign up"}
           </Typography>
-          <IconButton
-            style={{ backgroundColor: 'transparent' }}
-          >
-            {state.searchLink && (
-              <TextField dense
-                value={state.filterLink}
-                onChange={e => {
-                  dispatch({
-                    type: "setFilterLink",
-                    filterLink: e.target.value
-                  });
-                }}
-                variant={"outlined"}
-                label="Search links"
-                style={{ background: 'linear-gradient(45deg, #FFF176 30%, #DCEDC8 90%)'}}
-              />
-            )}
-            {state.searchLink && (
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                onClick={() => {
-                  dispatch({ type: "setExecuteSearch", executeSearch: true });
-                }}
-              >
-                Search
-              </Button>
-            )}
-            <Search
-              onClick={() => {
-                dispatch({ type: "setSearchLink" });
+          {state.searchLink && (
+            <TextField
+              value={state.filterLink}
+              onChange={e => {
+                dispatch({
+                  type: "setFilterLink",
+                  filterLink: e.target.value
+                });
+              }}
+              variant={"outlined"}
+              label="Search links"
+              style={{
+                background: "linear-gradient(45deg, #FFF176 30%, #DCEDC8 90%)"
               }}
             />
-          </IconButton>
+          )}
+          {state.searchLink && (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setExecuteSearch", executeSearch: true });
+              }}
+            >
+              Search
+            </Button>
+          )}
+          <Search
+            onClick={() => {
+              dispatch({ type: "setSearchLink" });
+            }}
+          />
           {!state.signup && (
             <Button
               variant="contained"
