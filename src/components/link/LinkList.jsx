@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StateContext } from "../context/index";
 import {
   Typography,
   CssBaseline,
@@ -12,10 +13,13 @@ import { styles } from "../style/Style";
 import { timeDifferenceForDate } from "../utils/timeDifference";
 import { AUTH_TOKEN } from "../constants";
 import { VOTE_MUTATION } from "../graphql/Mutation";
-import { FEED_QUERY } from "../graphql/Query";
+import { FEED_QUERY, FEED_SEARCH_QUERY } from "../graphql/Query";
 
 export const LinkList = () => {
+  const { state } = useContext(StateContext);
   const authToken = localStorage.getItem(AUTH_TOKEN);
+  let insertQuery = FEED_QUERY;
+  let searchFilter;
 
   const updateCacheAfterVote = (store, createVote, linkId) => {
     const data = store.readQuery({ query: FEED_QUERY });
@@ -26,8 +30,14 @@ export const LinkList = () => {
     store.writeQuery({ query: FEED_QUERY, data });
   };
 
+  if (state.executeSearch) {
+    const { filter } = state.filterLink;
+    insertQuery = FEED_SEARCH_QUERY;
+    searchFilter = { filter };
+  }
+
   return (
-    <Query query={FEED_QUERY}>
+    <Query query={insertQuery} variables={searchFilter}>
       {({ loading, error, data }) => {
         console.log(error);
         if (loading) return "Loading...";

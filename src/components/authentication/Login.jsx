@@ -1,38 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { Typography, Grid, Button, TextField } from "@material-ui/core";
 import { StateContext } from "../context/index";
-import gql from "graphql-tag";
 import { styles } from "../style/Style";
 import { AUTH_TOKEN } from "../constants";
 import { Mutation } from "react-apollo";
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/Mutation";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
   const { login, email, password, name, repeatEmail, isNameValid, isEmailValid, isPasswordValid } = state;
-
-  const LOGIN_MUTATION = gql`
-    mutation LoginMutation($email: String!, $password: String!) {
-      post(email: $email, password: $password) {
-        token
-        email
-        password
-      }
-    }
-  `;
-  const SIGNUP_MUTATION = gql`
-    mutation SignupMutation(
-      $name: String!
-      $email: String!
-      $password: String!
-    ) {
-      post(name: $name, email: $email, password: $password) {
-        token
-        name
-        email
-        password
-      }
-    }
-  `;
 
   useEffect(() => {
     const isValid = Validate(name);

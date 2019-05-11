@@ -4,7 +4,8 @@ import {
   Typography,
   IconButton,
   Toolbar,
-  CssBaseline
+  CssBaseline,
+  TextField
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
@@ -28,17 +29,51 @@ export const Menu = () => {
             noWrap
             style={styles.toolbarTitle}
           >
-            {!state.login && !state.signup && (state.viewLinks ? "Links" : "Blog")}
-            {state.login && ("Login")}
-            {state.signup && ("Sign up")}
+            {!state.login &&
+              !state.signup &&
+              (state.viewLinks ? "Links" : "Blog")}
+            {state.login && "Login"}
+            {state.signup && "Sign up"}
           </Typography>
-          <IconButton>
-            <Search />
+          <IconButton
+            style={{ backgroundColor: 'transparent' }}
+          >
+            {state.searchLink && (
+              <TextField dense
+                value={state.filterLink}
+                onChange={e => {
+                  dispatch({
+                    type: "setFilterLink",
+                    filterLink: e.target.value
+                  });
+                }}
+                variant={"outlined"}
+                label="Search links"
+                style={{ background: 'linear-gradient(45deg, #FFF176 30%, #DCEDC8 90%)'}}
+              />
+            )}
+            {state.searchLink && (
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={() => {
+                  dispatch({ type: "setExecuteSearch", executeSearch: true });
+                }}
+              >
+                Search
+              </Button>
+            )}
+            <Search
+              onClick={() => {
+                dispatch({ type: "setSearchLink" });
+              }}
+            />
           </IconButton>
           {!state.signup && (
             <Button
               variant="contained"
-              color='primary'
+              color="primary"
               size="small"
               onClick={() => {
                 dispatch({ type: "setSignup", signup: true });
@@ -51,7 +86,7 @@ export const Menu = () => {
           {!state.login && (
             <Button
               variant="contained"
-              color='primary'
+              color="primary"
               size="small"
               onClick={() => {
                 dispatch({ type: "setLogin", login: true });
@@ -66,7 +101,7 @@ export const Menu = () => {
           <Button
             variant="contained"
             size="small"
-            color='primary'
+            color="primary"
             onClick={() => {
               dispatch({ type: "setSubmitArticle", submitArticle: false });
               dispatch({ type: "setEditArticle", editArticle: false });
@@ -79,13 +114,19 @@ export const Menu = () => {
               dispatch({ type: "setLogin", login: false });
               dispatch({ type: "setCreateLink", createLink: false });
               dispatch({ type: "setViewLinks", viewLinks: false });
+              // Reset search. TODO! Add a reset search button?
+              dispatch({ type: "setExecuteSearch", executeSearch: false });
+              dispatch({ type: "setFilterLink", filterLink: "" });
+              if (state.searchLink) {
+                dispatch({ type: "setSearchLink" });
+              }
             }}
           >
             Home
           </Button>
           <Button
             variant="outlined"
-            color='primary'
+            color="primary"
             size="small"
             onClick={() => {
               dispatch({ type: "setViewLinks", viewLinks: false });
@@ -95,7 +136,7 @@ export const Menu = () => {
           </Button>
           <Button
             variant="outlined"
-            color='primary'
+            color="primary"
             size="small"
             onClick={() => {
               dispatch({ type: "setViewLinks", viewLinks: true });

@@ -90,6 +90,12 @@ const reducer = (state, action) => {
         login: false,
         signup: false
       };
+    case "setSearchLink":
+      return { ...state, searchLink: !state.searchLink };
+    case "setFilterLink":
+      return { ...state, filterLink: action.filterLink };
+    case "setExecuteSearch":
+      return { ...state, executeSearch: action.executeSearch };
     default:
       throw new Error("Unexpected action");
   }
@@ -118,15 +124,18 @@ const initialState = {
   isURLDescriptionValid: false,
   login: false,
   signup: false,
-  email: '',
-  repeatEmail: '',
-  password: '',
-  name: '',
+  email: "",
+  repeatEmail: "",
+  password: "",
+  name: "",
   isNameValid: false,
   isEmailValid: false,
   isPasswordValid: false,
   createLink: false,
-  viewLinks: false
+  viewLinks: false,
+  searchLink: false,
+  filterLink: "",
+  executeSearch: false
 };
 
 const StateContext = createContext(initialState);
