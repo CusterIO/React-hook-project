@@ -62,9 +62,9 @@ export const CreateLink = () => {
     return !!(state.isURLValid && state.isURLDescriptionValid);
   };
 
-  const updateCacheAfterCreateLink = (store, post) => {
+  const updateCacheAfterCreateLink = (store, postLink) => {
     const data = store.readQuery({ query: FEED_QUERY });
-    data.feedLinks.links.unshift(post);
+    data.feedLinks.links.unshift(postLink);
     store.writeQuery({
       query: FEED_QUERY,
       data
@@ -114,8 +114,8 @@ export const CreateLink = () => {
             mutation={POST_MUTATION}
             variables={{ description, url }}
             onCompleted={() => dispatch({ type: "resetLinkFields" })}
-            update={(store, { data: { post } }) =>
-              updateCacheAfterCreateLink(store, post)
+            update={(store, { data: { postLink } }) =>
+              updateCacheAfterCreateLink(store, postLink)
             }
           >
             {postMutation => (

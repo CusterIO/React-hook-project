@@ -25,6 +25,12 @@ export const LinkList = () => {
   let insertQuery = FEED_QUERY;
   let searchFilter = {};
 
+  if (state.executeSearch) {
+    const filter = state.filterLink;
+    insertQuery = FEED_SEARCH_QUERY;
+    searchFilter = { filter };
+  }
+
   const updateCacheAfterVote = async (store, createVote, linkId) => {
     const data = store.readQuery({ query: FEED_QUERY });
 
@@ -33,12 +39,6 @@ export const LinkList = () => {
 
     store.writeQuery({ query: FEED_QUERY, data });
   };
-
-  if (state.executeSearch) {
-    const filter = state.filterLink;
-    insertQuery = FEED_SEARCH_QUERY;
-    searchFilter = { filter };
-  }
 
   const subscribeToNewLinks = subscribeToMore => {
     subscribeToMore({
@@ -70,9 +70,9 @@ export const LinkList = () => {
       document: NEW_VOTES_SUBSCRIPTION
     });
   };
-  // <Query query={insertQuery} variables={searchFilter}>
+
   return (
-    <Query query={FEED_QUERY}>
+    <Query query={insertQuery} variables={searchFilter}>
       {({ loading, error, data, subscribeToMore }) => {
         console.log(error);
         if (loading) return "Loading...";
@@ -83,7 +83,6 @@ export const LinkList = () => {
         console.log(data);
 
         const links = data.feedLinks.links;
-        console.log(links[0]);
         if (!links[0]) {
           return "Link updating...";
         }
