@@ -25,7 +25,8 @@ export const Login = () => {
   useEffect(() => {
     dispatch({ type: "resetSignupFields" }); // Clear fields on load.
     return () => dispatch({ type: "resetSignupFields" }); // Clear fields on unmount.
-  }, []);
+    // eslint-disable-next-line
+  }, [login]);
 
   useEffect(() => {
     const isValid = Validate(name);
@@ -34,6 +35,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setNameValidation", isNameValid: false });
     }
+    // eslint-disable-next-line
   }, [name]);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ export const Login = () => {
         validationMsg: "Invalid email adress"
       });
     }
+    // eslint-disable-next-line
   }, [email]);
 
   useEffect(() => {
@@ -57,6 +60,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: false });
     }
+    // eslint-disable-next-line
   }, [email, repeatEmail]);
 
   useEffect(() => {
@@ -66,6 +70,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setPasswordValidation", isPasswordValid: false });
     }
+    // eslint-disable-next-line
   }, [password]);
 
   useEffect(() => {
@@ -75,6 +80,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setRepeatPasswordValidation", isRepeatPasswordValid: false });
     }
+    // eslint-disable-next-line
   }, [password, repeatPassword]);
 
   useEffect(() => {
@@ -84,6 +90,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setValidation", isValid: false });
     }
+    // eslint-disable-next-line
   }, [isNameValid, isEmailValid, isPasswordValid, isRepeatEmailValid, isRepeatPasswordValid]);
 
   const Validate = input => {

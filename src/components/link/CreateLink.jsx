@@ -18,6 +18,7 @@ export const CreateLink = () => {
     } else {
       dispatch({ type: "setURLValidation", isURLValid: false });
     }
+    // eslint-disable-next-line
   }, [state.URL]);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export const CreateLink = () => {
         isURLDescriptionValid: false
       });
     }
+    // eslint-disable-next-line
   }, [state.URLDescription]);
 
   useEffect(() => {
@@ -42,6 +44,7 @@ export const CreateLink = () => {
     } else {
       dispatch({ type: "setValidation", isValid: false });
     }
+    // eslint-disable-next-line
   }, [state.isURLDescriptionValid, state.isURLValid]);
 
   const Validate = input => {

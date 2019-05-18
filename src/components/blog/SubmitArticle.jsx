@@ -13,6 +13,7 @@ export const SubmitArticle = () => {
       dispatch({type: 'setAuthor', author: state.chosenArticle.author})
       dispatch({type: 'setTopic', topic: state.chosenArticle.topic})
     }
+    // eslint-disable-next-line
   }, [],
   );
 
@@ -23,6 +24,7 @@ export const SubmitArticle = () => {
     } else {
       dispatch({type: 'setTitleValidation', isTitleValid: false})
     }
+    // eslint-disable-next-line
   }, [state.title],
   );
 
@@ -33,6 +35,7 @@ export const SubmitArticle = () => {
     } else {
       dispatch({type: 'setDescriptionValidation', isDescriptionValid: false})
     }
+    // eslint-disable-next-line
   }, [state.description],
   );
 
@@ -43,6 +46,7 @@ export const SubmitArticle = () => {
     } else {
       dispatch({type: 'setAuthorValidation', isAuthorValid: false})
     }
+    // eslint-disable-next-line
   }, [state.author],
   );
 
@@ -53,6 +57,7 @@ export const SubmitArticle = () => {
     } else {
       dispatch({type: 'setValidation', isValid: false})
     }
+    // eslint-disable-next-line
   }, [state.isAuthorValid, state.isDescriptionValid, state.isTitleValid],
   ); 
 
