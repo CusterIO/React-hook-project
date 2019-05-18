@@ -45,3 +45,18 @@ export const FEED_SEARCH_QUERY = gql`
     }
   }
 `;
+
+export const USER_QUERY = gql`
+  query FeedSearchQuery($filter: String!) {
+    feedUser(filter: $filter) {
+      user {
+        id
+        email
+        links {
+          url
+          description
+        }
+      }
+    }
+  }
+`;

@@ -7,6 +7,7 @@ import {ArticleView} from "../blog/ArticleView";
 import { SubmitArticle } from '../blog/SubmitArticle';
 import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
+import { Profile } from "../account/Profile";
 
 export const BlogContainer = () => {
   const { state } = useContext(StateContext);
@@ -22,6 +23,10 @@ export const BlogContainer = () => {
 
   if (state.login || state.signup) {
     CurrentContent = <Login />;
+  }
+
+  if (state.profile) {
+    CurrentContent = <Profile />;
   }
 
   return (

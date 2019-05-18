@@ -9,7 +9,7 @@ import {
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
-import { AUTH_TOKEN } from '../constants';
+import { AUTH_TOKEN, USER_ID } from "../constants";
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -94,14 +94,28 @@ export const Menu = () => {
               Login
             </Button>
           )}
+          {state.token &&
+            !state.profile && (
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                onClick={() => {
+                  dispatch({ type: "setProfile", profile: true });
+                }}
+              >
+                Profile
+              </Button>
+            )}
           {state.token && (
             <Button
               variant="contained"
               color="primary"
               size="small"
               onClick={() => {
-                dispatch({ type: "setToken", token: '' });
+                dispatch({ type: "setToken", token: "" });
                 localStorage.removeItem(AUTH_TOKEN);
+                localStorage.removeItem(USER_ID);
               }}
             >
               Logout
@@ -131,6 +145,7 @@ export const Menu = () => {
               if (state.searchLink) {
                 dispatch({ type: "setSearchLink" });
               }
+              dispatch({ type: "setProfile", profile: false });
             }}
           >
             Home
@@ -155,17 +170,20 @@ export const Menu = () => {
           >
             Links
           </Button>
-          {state.token && !state.submitArticle && !state.chosenArticle && !state.viewLinks && (
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={() => {
-                dispatch({ type: "setSubmitArticle", submitArticle: true });
-              }}
-            >
-              New Article
-            </Button>
-          )}
+          {state.token &&
+            !state.submitArticle &&
+            !state.chosenArticle &&
+            !state.viewLinks && (
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => {
+                  dispatch({ type: "setSubmitArticle", submitArticle: true });
+                }}
+              >
+                New Article
+              </Button>
+            )}
           {state.token && state.viewLinks && !state.createLink && (
             <Button
               variant="outlined"

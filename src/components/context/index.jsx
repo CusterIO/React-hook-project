@@ -98,6 +98,10 @@ const reducer = (state, action) => {
       return { ...state, executeSearch: action.executeSearch };
     case "setToken":
       return { ...state, token: action.token };
+    case "setProfile":
+      return { ...state, profile: action.profile };
+    case "setUser":
+      return { ...state, setUser: action.user };
     default:
       throw new Error("Unexpected action");
   }
@@ -138,7 +142,9 @@ const initialState = {
   searchLink: false,
   filterLink: "",
   executeSearch: false,
-  token: ""
+  token: "",
+  profile: false,
+  user: {}
 };
 
 const StateContext = createContext(initialState);

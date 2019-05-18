@@ -83,9 +83,6 @@ export const LinkList = () => {
         console.log(data);
 
         const links = data.feedLinks.links;
-        if (!links[0]) {
-          return "Link updating...";
-        }
 
         return (
           <React.Fragment>

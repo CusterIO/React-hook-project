@@ -6,6 +6,7 @@ import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
 import { LinkList } from "../link/LinkList.jsx";
 import { CreateLink } from "../link/CreateLink.jsx";
+import { Profile } from "../account/Profile";
 
 export const LinkContainer = () => {
   const { state } = useContext(StateContext);
@@ -17,6 +18,10 @@ export const LinkContainer = () => {
 
   if (state.login || state.signup) {
     CurrentContent = <Login />;
+  }
+
+  if (state.profile) {
+    CurrentContent = <Profile />;
   }
 
   return (

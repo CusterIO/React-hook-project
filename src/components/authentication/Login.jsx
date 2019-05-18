@@ -2,13 +2,22 @@ import React, { useContext, useEffect } from "react";
 import { Typography, Grid, Button, TextField } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_TOKEN, USER_ID } from "../constants";
 import { Mutation } from "react-apollo";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/Mutation";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
-  const { login, email, password, name, repeatEmail, isNameValid, isEmailValid, isPasswordValid } = state;
+  const {
+    login,
+    email,
+    password,
+    name,
+    repeatEmail,
+    isNameValid,
+    isEmailValid,
+    isPasswordValid
+  } = state;
 
   useEffect(() => {
     const isValid = Validate(name);
@@ -72,16 +81,17 @@ export const Login = () => {
    * TODO! The JWT needs to be stored inside an HttpOnly cookie, a special kind of cookie
    * that's only sent in HTTP requests to the server, and it's never accessible
    * (both for reading or writing) from JavaScript running in the browser.
-   * @param {*} token 
+   * @param {*} token
    */
-  const saveUserData = token => {
+  const saveUserData = (token, user) => {
     dispatch({ type: "setToken", token: token }); // Temporary
     localStorage.setItem(AUTH_TOKEN, token);
+    localStorage.setItem(USER_ID, user.id);
   };
 
   const confirm = async data => {
-    const { token } = login ? data.login : data.signup;
-    saveUserData(token);
+    const { token, user } = login ? data.login : data.signup;
+    saveUserData(token, user);
     dispatch({ type: "resetLoginFields" });
   };
 
@@ -126,7 +136,10 @@ export const Login = () => {
               fullWidth={true}
               value={repeatEmail}
               onChange={e => {
-                dispatch({ type: "setRepeatEmail", repeatEmail: e.target.value });
+                dispatch({
+                  type: "setRepeatEmail",
+                  repeatEmail: e.target.value
+                });
               }}
               error={!isEmailValid}
               variant={"outlined"}
