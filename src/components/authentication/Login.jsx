@@ -49,7 +49,7 @@ export const Login = () => {
   const Validate = input => {
     if (!input) {
       return false;
-    } else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\@\r\n]+$/)) {
+    } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
       dispatch({
         type: "setValidationMsg",
         validationMsg: "Only letters, numbers and characters .,!?)(- allowed"
@@ -68,8 +68,14 @@ export const Login = () => {
     return !!(isEmailValid && isPasswordValid);
   };
 
+  /**
+   * TODO! The JWT needs to be stored inside an HttpOnly cookie, a special kind of cookie
+   * that's only sent in HTTP requests to the server, and it's never accessible
+   * (both for reading or writing) from JavaScript running in the browser.
+   * @param {*} token 
+   */
   const saveUserData = token => {
-    // TODO! Remove from localstorage.
+    dispatch({ type: "setToken", token: token }); // Temporary
     localStorage.setItem(AUTH_TOKEN, token);
   };
 

@@ -47,7 +47,7 @@ export const CreateLink = () => {
   const Validate = input => {
     if (!input) {
       return false;
-    } else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\@\r\n]+$/)) {
+    } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
       dispatch({
         type: "setValidationMsg",
         validationMsg: "Only letters, numbers and characters .,!?)(- allowed"

@@ -9,6 +9,7 @@ import {
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
+import { AUTH_TOKEN } from '../constants';
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -67,7 +68,7 @@ export const Menu = () => {
               dispatch({ type: "setSearchLink" });
             }}
           />
-          {!state.signup && (
+          {!state.signup && !state.token && (
             <Button
               variant="contained"
               color="primary"
@@ -80,7 +81,7 @@ export const Menu = () => {
               Sign up
             </Button>
           )}
-          {!state.login && (
+          {!state.login && !state.token && (
             <Button
               variant="contained"
               color="primary"
@@ -91,6 +92,19 @@ export const Menu = () => {
               }}
             >
               Login
+            </Button>
+          )}
+          {state.token && (
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setToken", token: '' });
+                localStorage.removeItem(AUTH_TOKEN);
+              }}
+            >
+              Logout
             </Button>
           )}
         </Toolbar>
@@ -141,7 +155,7 @@ export const Menu = () => {
           >
             Links
           </Button>
-          {!state.submitArticle && !state.chosenArticle && !state.viewLinks && (
+          {state.token && !state.submitArticle && !state.chosenArticle && !state.viewLinks && (
             <Button
               variant="outlined"
               size="small"
@@ -152,7 +166,7 @@ export const Menu = () => {
               New Article
             </Button>
           )}
-          {state.viewLinks && !state.createLink && (
+          {state.token && state.viewLinks && !state.createLink && (
             <Button
               variant="outlined"
               size="small"
