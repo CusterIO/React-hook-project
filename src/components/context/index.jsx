@@ -70,6 +70,8 @@ const reducer = (state, action) => {
       return { ...state, repeatEmail: action.repeatEmail };
     case "setPassword":
       return { ...state, password: action.password };
+    case "setRepeatPassword":
+      return { ...state, repeatPassword: action.repeatPassword };
     case "setName":
       return { ...state, name: action.name };
     case "setNameValidation":
@@ -88,7 +90,24 @@ const reducer = (state, action) => {
         email: "",
         password: "",
         login: false,
-        signup: false
+        signup: false,
+        repeatPassword: "",
+        repeatEmail: ""
+      };
+    case "resetSignupFields":
+      return {
+        ...state,
+        isValid: false,
+        isRepeatEmailValid: false,
+        isRepeatPasswordValid: false,
+        isNameValid: false,
+        isEmailValid: false,
+        isPasswordValid: false,
+        name: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+        repeatEmail: ""
       };
     case "setSearchLink":
       return { ...state, searchLink: !state.searchLink };
@@ -104,6 +123,8 @@ const reducer = (state, action) => {
       return { ...state, setUser: action.user };
     case "setRepeatEmailValidation":
       return { ...state, isRepeatEmailValid: action.isRepeatEmailValid };
+    case "setRepeatPasswordValidation":
+      return { ...state, isRepeatPasswordValid: action.isRepeatPasswordValid };
     default:
       throw new Error("Unexpected action");
   }
@@ -135,6 +156,7 @@ const initialState = {
   email: "",
   repeatEmail: "",
   password: "",
+  repeatPassword: "",
   name: "",
   isNameValid: false,
   isEmailValid: false,
@@ -147,7 +169,8 @@ const initialState = {
   token: "",
   profile: false,
   user: {},
-  isRepeatEmailValid: false
+  isRepeatEmailValid: false,
+  isRepeatPasswordValid: false
 };
 
 const StateContext = createContext(initialState);

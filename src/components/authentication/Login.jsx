@@ -14,11 +14,18 @@ export const Login = () => {
     password,
     name,
     repeatEmail,
+    repeatPassword,
     isNameValid,
     isEmailValid,
     isPasswordValid,
-    isRepeatEmailValid
+    isRepeatEmailValid,
+    isRepeatPasswordValid
   } = state;
+
+  useEffect(() => {
+    dispatch({ type: "resetSignupFields" }); // Clear fields on load.
+    return () => dispatch({ type: "resetSignupFields" }); // Clear fields on unmount.
+  }, []);
 
   useEffect(() => {
     const isValid = Validate(name);
@@ -50,7 +57,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: false });
     }
-  }, [repeatEmail]);
+  }, [email, repeatEmail]);
 
   useEffect(() => {
     const isValid = Validate(password);
@@ -62,13 +69,22 @@ export const Login = () => {
   }, [password]);
 
   useEffect(() => {
+    const isValid = ValidateRepeatPassword();
+    if (isValid) {
+      dispatch({ type: "setRepeatPasswordValidation", isRepeatPasswordValid: true });
+    } else {
+      dispatch({ type: "setRepeatPasswordValidation", isRepeatPasswordValid: false });
+    }
+  }, [password, repeatPassword]);
+
+  useEffect(() => {
     const isValid = login ? ValidateLogin() : ValidateSignup();
     if (isValid) {
       dispatch({ type: "setValidation", isValid: true });
     } else {
       dispatch({ type: "setValidation", isValid: false });
     }
-  }, [isNameValid, isEmailValid, isPasswordValid, isRepeatEmailValid]);
+  }, [isNameValid, isEmailValid, isPasswordValid, isRepeatEmailValid, isRepeatPasswordValid]);
 
   const Validate = input => {
     if (!input) {
@@ -105,8 +121,20 @@ export const Login = () => {
     return false;
   };
 
+  const ValidateRepeatPassword = () => {
+    if (password === repeatPassword) {
+      dispatch({ type: "setValidationMsg", validationMsg: "" });
+      return true;
+    }
+    dispatch({
+      type: "setValidationMsg",
+      validationMsg: "Password do not match"
+    });
+    return false;
+  };
+
   const ValidateSignup = () => {
-    return !!(isNameValid && isEmailValid && isPasswordValid && isRepeatEmailValid);
+    return !!(isNameValid && isEmailValid && isPasswordValid && isRepeatEmailValid && isRepeatPasswordValid);
   };
 
   const ValidateLogin = () => {
@@ -196,6 +224,24 @@ export const Login = () => {
             label="Password"
           />
         </Grid>
+        {!login && (
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth={true}
+              value={repeatPassword}
+              onChange={e => {
+                dispatch({
+                  type: "setRepeatPassword",
+                  repeatPassword: e.target.value
+                });
+              }}
+              error={!isRepeatPasswordValid}
+              variant={"outlined"}
+              label="Repeat password"
+            />
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Mutation
             mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
