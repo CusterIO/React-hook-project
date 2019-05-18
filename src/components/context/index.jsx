@@ -102,6 +102,8 @@ const reducer = (state, action) => {
       return { ...state, profile: action.profile };
     case "setUser":
       return { ...state, setUser: action.user };
+    case "setRepeatEmailValidation":
+      return { ...state, isRepeatEmailValid: action.isRepeatEmailValid };
     default:
       throw new Error("Unexpected action");
   }
@@ -144,7 +146,8 @@ const initialState = {
   executeSearch: false,
   token: "",
   profile: false,
-  user: {}
+  user: {},
+  isRepeatEmailValid: false
 };
 
 const StateContext = createContext(initialState);

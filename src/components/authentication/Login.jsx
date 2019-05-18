@@ -16,7 +16,8 @@ export const Login = () => {
     repeatEmail,
     isNameValid,
     isEmailValid,
-    isPasswordValid
+    isPasswordValid,
+    isRepeatEmailValid
   } = state;
 
   useEffect(() => {
@@ -29,13 +30,27 @@ export const Login = () => {
   }, [name]);
 
   useEffect(() => {
-    const isValid = Validate(email);
+    const isValid = ValidateEmail(email);
     if (isValid) {
       dispatch({ type: "setEmailValidation", isEmailValid: true });
+      dispatch({ type: "setValidationMsg", validationMsg: "" });
     } else {
       dispatch({ type: "setEmailValidation", isEmailValid: false });
+      dispatch({
+        type: "setValidationMsg",
+        validationMsg: "Invalid email adress"
+      });
     }
   }, [email]);
+
+  useEffect(() => {
+    const isValid = ValidateRepeatEmail();
+    if (isValid) {
+      dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: true });
+    } else {
+      dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: false });
+    }
+  }, [repeatEmail]);
 
   useEffect(() => {
     const isValid = Validate(password);
@@ -53,7 +68,7 @@ export const Login = () => {
     } else {
       dispatch({ type: "setValidation", isValid: false });
     }
-  }, [isNameValid, isEmailValid, isPasswordValid]);
+  }, [isNameValid, isEmailValid, isPasswordValid, isRepeatEmailValid]);
 
   const Validate = input => {
     if (!input) {
@@ -61,7 +76,7 @@ export const Login = () => {
     } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
       dispatch({
         type: "setValidationMsg",
-        validationMsg: "Only letters, numbers and characters .,!?)(- allowed"
+        validationMsg: "Only letters, numbers and characters .,!?@)(- allowed"
       });
       return false;
     }
@@ -69,8 +84,29 @@ export const Login = () => {
     return true;
   };
 
+  /**
+   * This is a modified version of the regex at: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+   * @param {*} email 
+   */
+  const ValidateEmail = email => {
+    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum|one|nes|tech|app|agency|blog|auto|buy|business)\b/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const ValidateRepeatEmail = () => {
+    if (email === repeatEmail) {
+      dispatch({ type: "setValidationMsg", validationMsg: "" });
+      return true;
+    }
+    dispatch({
+      type: "setValidationMsg",
+      validationMsg: "Email do not match"
+    });
+    return false;
+  };
+
   const ValidateSignup = () => {
-    return !!(isNameValid && isEmailValid && isPasswordValid);
+    return !!(isNameValid && isEmailValid && isPasswordValid && isRepeatEmailValid);
   };
 
   const ValidateLogin = () => {
@@ -141,7 +177,7 @@ export const Login = () => {
                   repeatEmail: e.target.value
                 });
               }}
-              error={!isEmailValid}
+              error={!isRepeatEmailValid}
               variant={"outlined"}
               label="Repeat email"
             />
