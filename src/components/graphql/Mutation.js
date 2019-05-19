@@ -28,6 +28,34 @@ export const VOTE_MUTATION = gql`
   }
 `;
 
+export const POST_ARTICLE_MUTATION = gql`
+  mutation PostMutation($title: String!, $description: String!, $author: String!, $topic: String!) {
+    postArticle(title: $title, description: $description, author: $author, topic: $topic) {
+      id
+      createdAt
+    }
+  }
+`;
+
+export const VOTE_ARTICLE_MUTATION = gql`
+  mutation VoteMutation($articleId: ID!) {
+    voteArticle(articleId: $articleId) {
+      id
+      article {
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`;
+
 export const LOGIN_MUTATION = gql`
   mutation LoginMutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {

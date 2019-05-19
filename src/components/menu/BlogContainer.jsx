@@ -1,24 +1,27 @@
 import React, { useContext } from "react";
 import { StateContext } from "../context/index";
-import {ArticleListView} from "../blog/ArticleListView";
 import {Menu} from "./Menu";
 import {Footer} from "./Footer";
-import {ArticleView} from "../blog/ArticleView";
-import { SubmitArticle } from '../blog/SubmitArticle';
 import { styles } from "../style/Style";
 import { Login } from "../authentication/Login";
 import { Profile } from "../account/Profile";
+import {BlogList} from "../blog/BlogList";
+import {Blog} from "../blog/Blog";
+import {CreateBlogPost} from "../blog/CreateBlogPost";
+// import {ArticleView} from "../frontendOnlyBlog/ArticleView";
+// import { SubmitArticle } from '../frontendOnlyBlog/SubmitArticle';
+// import {ArticleListView} from "../frontendOnlyBlog/ArticleListView";
 
 export const BlogContainer = () => {
   const { state } = useContext(StateContext);
-  let CurrentContent = <ArticleListView />;
+  let CurrentContent = <BlogList />;
 
   if (state.chosenArticle) {
-    CurrentContent = <ArticleView />;
+    CurrentContent = <Blog />;
   }
 
   if (state.submitArticle || state.editArticle) {
-    CurrentContent = <SubmitArticle />;
+    CurrentContent = <CreateBlogPost />;
   }
 
   if (state.login || state.signup) {

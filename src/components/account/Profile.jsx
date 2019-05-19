@@ -7,7 +7,7 @@ import { USER_ID } from "../constants";
 import { Query } from "react-apollo";
 
 export const Profile = () => {
-  const { state, dispatch } = useContext(StateContext);
+  const { dispatch } = useContext(StateContext);
   const filter = localStorage.getItem(USER_ID);
 
   return (
@@ -33,6 +33,13 @@ export const Profile = () => {
                       color="primary"
                       gutterBottom
                     >
+                      Name: {user.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color="inherit"
+                      gutterBottom
+                    >
                       Email: {user.email}
                     </Typography>
                     <Typography
@@ -41,6 +48,13 @@ export const Profile = () => {
                       gutterBottom
                     >
                       Links: You created {user.links ? user.links.length : 0} links.
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      color="inherit"
+                      gutterBottom
+                    >
+                      Articles: You created {user.articles ? user.articles.length : 0} articles.
                     </Typography>
                   </div>
                 </Paper>

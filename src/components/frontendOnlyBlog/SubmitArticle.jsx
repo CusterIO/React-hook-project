@@ -161,9 +161,6 @@ export const SubmitArticle = () => {
               removeArticle(state, dispatch);
               dispatch({type: 'setArticle', article: article})
               dispatch({type: 'resetArticleFields'})
-              dispatch({ type: "setChosenArticle", chosenArticle: "" });
-              dispatch({type: 'setSubmitArticle', submitArticle: false})
-              dispatch({type: 'setEditArticle', editArticle: false})
             }
             }
           >

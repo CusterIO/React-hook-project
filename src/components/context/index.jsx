@@ -30,7 +30,10 @@ const reducer = (state, action) => {
         isValid: false,
         title: "",
         description: "",
-        author: ""
+        author: "",
+        chosenArticle: "",
+        submitArticle: false,
+        editArticle: false
       };
     case "setTopic":
       return { ...state, topic: action.topic };
