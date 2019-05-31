@@ -4,7 +4,7 @@ import { Button, Grid, Typography, TextField } from "@material-ui/core";
 import { styles } from "../style/Style";
 import { Mutation } from "react-apollo";
 import { POST_MUTATION } from "../graphql/Mutation";
-import { FEED_QUERY } from "../graphql/Query";
+import { FEED_QUERY, USER_QUERY } from "../graphql/Query";
 
 export const CreateLink = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -65,11 +65,20 @@ export const CreateLink = () => {
     return !!(state.isURLValid && state.isURLDescriptionValid);
   };
 
+  // https://www.apollographql.com/docs/angular/features/cache-updates/
   const updateCacheAfterCreateLink = (store, postLink) => {
     const data = store.readQuery({ query: FEED_QUERY });
-    data.feedLinks.links.unshift(postLink);
+    data.feedLinks.links.push(postLink); // data.feedLinks.links.unshift(postLink);
     store.writeQuery({
       query: FEED_QUERY,
+      data
+    });
+
+    // Update profile cache
+    const data = store.readQuery({ query: USER_QUERY });
+    data.feedUser.user.links.push(postLink);
+    store.writeQuery({
+      query: USER_QUERY,
       data
     });
   };

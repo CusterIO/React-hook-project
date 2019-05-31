@@ -14,14 +14,14 @@ import {CreateBlogPost} from "../blog/CreateBlogPost";
 
 export const BlogContainer = () => {
   const { state } = useContext(StateContext);
-  let CurrentContent = <BlogList />;
+  let CurrentContent = <BlogList />; // Frontend only blog => replace with <ArticleListView />
 
   if (state.chosenArticle) {
-    CurrentContent = <Blog />;
+    CurrentContent = <Blog />; // Frontend only blog => replace with <ArticleView />
   }
 
   if (state.submitArticle || state.editArticle) {
-    CurrentContent = <CreateBlogPost />;
+    CurrentContent = <CreateBlogPost />; // Frontend only blog => replace with <SubmitArticle />
   }
 
   if (state.login || state.signup) {

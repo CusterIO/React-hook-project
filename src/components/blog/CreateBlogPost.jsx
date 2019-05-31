@@ -4,7 +4,7 @@ import { Button, Grid, Typography, TextField, Select, MenuItem } from "@material
 import { styles } from "../style/Style";
 import { Mutation } from "react-apollo";
 import { POST_ARTICLE_MUTATION } from "../graphql/Mutation";
-import { ARTICLE_QUERY } from "../graphql/Query";
+import { ARTICLE_QUERY, USER_QUERY } from "../graphql/Query";
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -81,11 +81,20 @@ export const CreateBlogPost = () => {
     return !!(state.isAuthorValid && state.isDescriptionValid && state.isTitleValid);
   };
 
+  // https://www.apollographql.com/docs/angular/features/cache-updates/
   const updateCacheAfterCreateArticle = (store, postArticle) => {
     const data = store.readQuery({ query: ARTICLE_QUERY });
-    data.feedArticles.articles.unshift(postArticle);
+    data.feedArticles.articles.push(postArticle);
     store.writeQuery({
       query: ARTICLE_QUERY,
+      data
+    });
+
+    // Update profile cache
+    const data = store.readQuery({ query: USER_QUERY });
+    data.feedUser.user.articles.push(postArticle);
+    store.writeQuery({
+      query: USER_QUERY,
       data
     });
   };
