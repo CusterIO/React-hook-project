@@ -94,19 +94,18 @@ export const Menu = () => {
               Login
             </Button>
           )}
-          {state.token &&
-            !state.profile && (
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                onClick={() => {
-                  dispatch({ type: "setProfile", profile: true });
-                }}
-              >
-                Profile
-              </Button>
-            )}
+          {state.token && !state.profile && (
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setProfile", profile: true });
+              }}
+            >
+              Profile
+            </Button>
+          )}
           {state.token && (
             <Button
               variant="contained"
@@ -150,30 +149,35 @@ export const Menu = () => {
           >
             Home
           </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            onClick={() => {
-              dispatch({ type: "setViewLinks", viewLinks: false });
-            }}
-          >
-            Blog
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            size="small"
-            onClick={() => {
-              dispatch({ type: "setViewLinks", viewLinks: true });
-            }}
-          >
-            Links
-          </Button>
+          {!state.profile && (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setViewLinks", viewLinks: false });
+              }}
+            >
+              Blog
+            </Button>
+          )}
+          {!state.profile && (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: "setViewLinks", viewLinks: true });
+              }}
+            >
+              Links
+            </Button>
+          )}
           {state.token &&
             !state.submitArticle &&
             !state.chosenArticle &&
-            !state.viewLinks && (
+            !state.viewLinks &&
+            !state.profile && (
               <Button
                 variant="outlined"
                 size="small"
@@ -196,7 +200,7 @@ export const Menu = () => {
             </Button>
           )}
         </Toolbar>
-        {!state.submitArticle && !state.chosenArticle && (
+        {!state.submitArticle && !state.chosenArticle && !state.profile && !state.createLink && !state.viewLinks && ( // TODO! Create a state for blog instead of listing all other cases it should NOT be.
           <Toolbar variant="dense" style={styles.toolbarSecondary}>
             {sections.map(section => (
               <Typography color="inherit" key={section}>

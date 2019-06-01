@@ -35,6 +35,11 @@ export const BlogList = () => {
 
         let articles = data.feedArticles.articles;
 
+        // Avoid errors caused by undefined.
+        if (!articles) {
+          articles = [];
+        }
+
         if (state.selectedTopic && state.selectedTopic !== "All Topics") {
           articles = articles.filter(
             article => article.topic === state.selectedTopic
@@ -182,7 +187,7 @@ export const BlogList = () => {
   );
 };
 
-const limitedDescription = (description) => {
+const limitedDescription = description => {
   if (description.length > 50) {
     return description.substring(0, 50);
   }

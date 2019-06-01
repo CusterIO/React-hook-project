@@ -1,10 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { StateContext } from "../context/index";
-import { Button, Grid, Typography, TextField, Select, MenuItem } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Typography,
+  TextField,
+  Select,
+  MenuItem
+} from "@material-ui/core";
 import { styles } from "../style/Style";
 import { Mutation } from "react-apollo";
 import { POST_ARTICLE_MUTATION } from "../graphql/Mutation";
-import { ARTICLE_QUERY, USER_QUERY } from "../graphql/Query";
+import { ARTICLE_QUERY } from "../graphql/Query";
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -12,73 +19,77 @@ export const CreateBlogPost = () => {
 
   useEffect(() => {
     if (state.editArticle && state.chosenArticle) {
-      dispatch({type: 'setTitle', title: state.chosenArticle.title})
-      dispatch({type: 'setDescription', description: state.chosenArticle.description})
-      dispatch({type: 'setAuthor', author: state.chosenArticle.author})
-      dispatch({type: 'setTopic', topic: state.chosenArticle.topic})
+      dispatch({ type: "setTitle", title: state.chosenArticle.title });
+      dispatch({
+        type: "setDescription",
+        description: state.chosenArticle.description
+      });
+      dispatch({ type: "setAuthor", author: state.chosenArticle.author });
+      dispatch({ type: "setTopic", topic: state.chosenArticle.topic });
     }
     // eslint-disable-next-line
-  }, [],
-  );
+  }, []);
 
   useEffect(() => {
     const isTitleValid = Validate(title);
     if (isTitleValid) {
-      dispatch({type: 'setTitleValidation', isTitleValid: true})
+      dispatch({ type: "setTitleValidation", isTitleValid: true });
     } else {
-      dispatch({type: 'setTitleValidation', isTitleValid: false})
+      dispatch({ type: "setTitleValidation", isTitleValid: false });
     }
     // eslint-disable-next-line
-  }, [title],
-  );
+  }, [title]);
 
   useEffect(() => {
     const isDescriptionValid = Validate(description);
     if (isDescriptionValid) {
-      dispatch({type: 'setDescriptionValidation', isDescriptionValid: true})
+      dispatch({ type: "setDescriptionValidation", isDescriptionValid: true });
     } else {
-      dispatch({type: 'setDescriptionValidation', isDescriptionValid: false})
+      dispatch({ type: "setDescriptionValidation", isDescriptionValid: false });
     }
     // eslint-disable-next-line
-  }, [description],
-  );
+  }, [description]);
 
   useEffect(() => {
     const isAuthorValid = Validate(author);
     if (isAuthorValid) {
-      dispatch({type: 'setAuthorValidation', isAuthorValid: true})
+      dispatch({ type: "setAuthorValidation", isAuthorValid: true });
     } else {
-      dispatch({type: 'setAuthorValidation', isAuthorValid: false})
+      dispatch({ type: "setAuthorValidation", isAuthorValid: false });
     }
     // eslint-disable-next-line
-  }, [author],
-  );
+  }, [author]);
 
   useEffect(() => {
     const isValid = ValidateAll();
     if (isValid) {
-      dispatch({type: 'setValidation', isValid: true})
+      dispatch({ type: "setValidation", isValid: true });
     } else {
-      dispatch({type: 'setValidation', isValid: false})
+      dispatch({ type: "setValidation", isValid: false });
     }
     // eslint-disable-next-line
-  }, [state.isAuthorValid, state.isDescriptionValid, state.isTitleValid],
-  ); 
+  }, [state.isAuthorValid, state.isDescriptionValid, state.isTitleValid]);
 
-  const Validate = (input) => {
+  const Validate = input => {
     if (!input) {
       return false;
-    }
-    else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\r\n]+$/)) {
-      dispatch({type: 'setValidationMsg', validationMsg: 'Only letters, numbers and characters .,!?)(- allowed'})
+    } else if (!input.match(/^[a-zA-Z0-9 .,!?)(\-\r\n]+$/)) {
+      dispatch({
+        type: "setValidationMsg",
+        validationMsg: "Only letters, numbers and characters .,!?)(- allowed"
+      });
       return false;
     }
-    dispatch({type: 'setValidationMsg', validationMsg: ''})
+    dispatch({ type: "setValidationMsg", validationMsg: "" });
     return true;
   };
 
   const ValidateAll = () => {
-    return !!(state.isAuthorValid && state.isDescriptionValid && state.isTitleValid);
+    return !!(
+      state.isAuthorValid &&
+      state.isDescriptionValid &&
+      state.isTitleValid
+    );
   };
 
   // https://www.apollographql.com/docs/angular/features/cache-updates/
@@ -89,14 +100,6 @@ export const CreateBlogPost = () => {
       query: ARTICLE_QUERY,
       data
     });
-
-    // Update profile cache
-    const data = store.readQuery({ query: USER_QUERY });
-    data.feedUser.user.articles.push(postArticle);
-    store.writeQuery({
-      query: USER_QUERY,
-      data
-    });
   };
 
   return (
@@ -105,18 +108,17 @@ export const CreateBlogPost = () => {
         {state.validationMsg}
       </Typography>
       <Grid container spacing={24}>
-      <Grid item xs={12}>
+        <Grid item xs={12}>
           <TextField
             required
             fullWidth={true}
             value={title}
-            onChange={(e) => {
-              dispatch({type: 'setTitle', title: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({ type: "setTitle", title: e.target.value });
+            }}
             error={!state.isTitleValid}
-            variant={'outlined'}
-            label='Title'
+            variant={"outlined"}
+            label="Title"
           />
         </Grid>
         <Grid item xs={12}>
@@ -127,13 +129,12 @@ export const CreateBlogPost = () => {
             rows={4}
             rowsMax={200}
             value={description}
-            onChange={(e) => {
-              dispatch({type: 'setDescription', description: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({ type: "setDescription", description: e.target.value });
+            }}
             error={!state.isDescriptionValid}
-            variant={'outlined'}
-            label='Description'
+            variant={"outlined"}
+            label="Description"
           />
         </Grid>
         <Grid item xs={12}>
@@ -141,13 +142,12 @@ export const CreateBlogPost = () => {
             required
             fullWidth={true}
             value={author}
-            onChange={(e) => {
-              dispatch({type: 'setAuthor', author: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({ type: "setAuthor", author: e.target.value });
+            }}
             error={!state.isAuthorValid}
-            variant={'outlined'}
-            label='Author'
+            variant={"outlined"}
+            label="Author"
           />
         </Grid>
         <Grid item xs={12}>
@@ -155,22 +155,21 @@ export const CreateBlogPost = () => {
             required
             autoWidth={true}
             value={topic}
-            onChange={(e) => {
-              dispatch({type: 'setTopic', topic: e.target.value})
-            }
-            }
+            onChange={e => {
+              dispatch({ type: "setTopic", topic: e.target.value });
+            }}
           >
-            <MenuItem value={'React Hooks'}>React Hooks</MenuItem>
-            <MenuItem value={'Reactjs'}>Reactjs</MenuItem>
-            <MenuItem value={'GraphQL'}>GraphQL</MenuItem>
-            <MenuItem value={'Material UI'}>Material UI</MenuItem>
+            <MenuItem value={"React Hooks"}>React Hooks</MenuItem>
+            <MenuItem value={"Reactjs"}>Reactjs</MenuItem>
+            <MenuItem value={"GraphQL"}>GraphQL</MenuItem>
+            <MenuItem value={"Material UI"}>Material UI</MenuItem>
           </Select>
         </Grid>
         <Grid item xs={12}>
           <Mutation
             mutation={POST_ARTICLE_MUTATION}
             variables={{ title, description, author, topic }}
-            onCompleted={() => dispatch({type: 'resetArticleFields'})}
+            onCompleted={() => dispatch({ type: "resetArticleFields" })}
             update={(store, { data: { postArticle } }) =>
               updateCacheAfterCreateArticle(store, postArticle)
             }

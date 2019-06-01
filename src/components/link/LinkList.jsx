@@ -82,7 +82,12 @@ export const LinkList = () => {
         subscribeToNewVotes(subscribeToMore);
         console.log(data);
 
-        const links = data.feedLinks.links;
+        let links = data.feedLinks.links;
+
+        // Avoid errors caused by undefined links.
+        if (!links) {
+          links = [];
+        }
 
         return (
           <React.Fragment>
@@ -201,7 +206,7 @@ export const LinkList = () => {
                                 color="inherit"
                                 gutterBottom
                               >
-                                {link.votes.length} votes | by{" "}
+                                {link.votes ? link.votes.length : 0} votes | by{" "}
                                 {link.postedBy ? link.postedBy.name : "Unknown"}{" "}
                                 {timeDifferenceForDate(link.createdAt)}
                               </Typography>

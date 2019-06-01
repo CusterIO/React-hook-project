@@ -11,15 +11,50 @@ export const Profile = () => {
   const filter = localStorage.getItem(USER_ID);
 
   return (
-    <Query query={USER_QUERY} variables={{filter}}>
+    <Query
+      fetchPolicy={"network-only"}
+      query={USER_QUERY}
+      variables={{ filter }}
+    >
       {({ loading, error, data }) => {
         console.log(error);
         if (loading) return "Loading...";
         if (error) return `Error! ${error.message}`;
 
-        const user = data.feedUser.user;
+        // Handle undefined data.
+        if (!data) {
+          return (
+            <React.Fragment>
+              <div style={styles.layout}>
+                <main>
+                  <Paper elevation={10} style={styles.chosenArticlePaper}>
+                    <div style={styles.choseArticleContent}>
+                      <Typography
+                        component="h1"
+                        variant="title"
+                        color="primary"
+                        gutterBottom
+                      >
+                        Woops! Something went wrong
+                      </Typography>
+                    </div>
+                  </Paper>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => {
+                      dispatch({ type: "setProfile", profile: false });
+                    }}
+                  >
+                    Ok
+                  </Button>
+                </main>
+              </div>
+            </React.Fragment>
+          );
+        }
 
-        console.log(user);
+        const user = data.feedUser.user;
 
         return (
           <React.Fragment>
@@ -47,14 +82,16 @@ export const Profile = () => {
                       color="inherit"
                       gutterBottom
                     >
-                      Links: You created {user.links ? user.links.length : 0} links.
+                      Links: You created {user.links ? user.links.length : 0}{" "}
+                      links.
                     </Typography>
                     <Typography
                       variant="subtitle1"
                       color="inherit"
                       gutterBottom
                     >
-                      Articles: You created {user.articles ? user.articles.length : 0} articles.
+                      Articles: You created{" "}
+                      {user.articles ? user.articles.length : 0} articles.
                     </Typography>
                   </div>
                 </Paper>
