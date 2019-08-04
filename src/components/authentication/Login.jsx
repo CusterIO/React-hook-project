@@ -15,7 +15,8 @@ import {
   ValidateEmail,
   ValidateCharacters,
   ValidateRepeatEmail,
-  ValidateRepeatPassword
+  ValidateRepeatPassword,
+  ValidatePassword
 } from "../utils/validation";
 
 export const Login = () => {
@@ -79,9 +80,9 @@ export const Login = () => {
     }
 
     // TODO! Create a password validation
-    const passwordError = false;
+    const passwordError = ValidatePassword(v.password);
     if (passwordError) {
-      errors.password = "Invalid password character(s)";
+      errors.password = "Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.";
     }
 
     // Only validate these fields on signup
@@ -145,7 +146,7 @@ export const Login = () => {
                   value={values.name}
                   error={checkError(errors.name)}
                 />
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="body2" color="error" gutterBottom>
                   {errors.name}
                 </Typography>
               </Grid>
@@ -163,7 +164,7 @@ export const Login = () => {
                 value={values.email}
                 error={checkError(errors.email)}
               />
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="body2" color="error" gutterBottom>
                 {errors.email}
               </Typography>
             </Grid>
@@ -181,7 +182,7 @@ export const Login = () => {
                   value={values.repeatEmail}
                   error={checkError(errors.repeatEmail)}
                 />
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="body2" color="error" gutterBottom>
                   {errors.repeatEmail}
                 </Typography>
               </Grid>
@@ -199,7 +200,7 @@ export const Login = () => {
                 value={values.password}
                 error={checkError(errors.password)}
               />
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="body2" color="error" gutterBottom>
                 {errors.password}
               </Typography>
             </Grid>
@@ -217,7 +218,7 @@ export const Login = () => {
                   value={values.repeatPassword}
                   error={checkError(errors.repeatPassword)}
                 />
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="body2" color="error" gutterBottom>
                   {errors.repeatPassword}
                 </Typography>
               </Grid>
