@@ -11,7 +11,7 @@ import {
 import { Query, Mutation } from "react-apollo";
 import { styles } from "../style/Style";
 import { timeDifferenceForDate } from "../utils/timeDifference";
-import { AUTH_TOKEN } from "../constants";
+import { AUTH_TOKEN } from "../context/constants";
 import { VOTE_MUTATION } from "../graphql/Mutation";
 import { FEED_QUERY, FEED_SEARCH_QUERY } from "../graphql/Query";
 import {

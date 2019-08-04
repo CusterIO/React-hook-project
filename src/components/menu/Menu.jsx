@@ -9,7 +9,9 @@ import {
 import { Search } from "@material-ui/icons";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
-import { AUTH_TOKEN, USER_ID } from "../constants";
+import { AUTH_TOKEN, USER_ID } from "../context/constants";
+import { ACTION_SHOWPROFILE, ACTION_HIDEPROFILE, ACTION_CLOSELOGIN,
+  ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from "../context/actions";
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -74,8 +76,7 @@ export const Menu = () => {
               color="primary"
               size="small"
               onClick={() => {
-                dispatch({ type: "setSignup", signup: true });
-                dispatch({ type: "setLogin", login: false });
+                dispatch(ACTION_OPENSIGNIN);
               }}
             >
               Sign up
@@ -87,8 +88,7 @@ export const Menu = () => {
               color="primary"
               size="small"
               onClick={() => {
-                dispatch({ type: "setLogin", login: true });
-                dispatch({ type: "setSignup", signup: false });
+                dispatch(ACTION_OPENLOGIN);
               }}
             >
               Login
@@ -100,7 +100,7 @@ export const Menu = () => {
               color="primary"
               size="small"
               onClick={() => {
-                dispatch({ type: "setProfile", profile: true });
+                dispatch(ACTION_SHOWPROFILE);
               }}
             >
               Profile
@@ -134,8 +134,7 @@ export const Menu = () => {
                 type: "setSelectedTopic",
                 selectedTopic: "All Topics"
               });
-              dispatch({ type: "setSignup", signup: false });
-              dispatch({ type: "setLogin", login: false });
+              dispatch(ACTION_CLOSELOGIN);
               dispatch({ type: "setCreateLink", createLink: false });
               dispatch({ type: "setViewLinks", viewLinks: false });
               // Reset search. TODO! Add a reset search button?
@@ -144,7 +143,7 @@ export const Menu = () => {
               if (state.searchLink) {
                 dispatch({ type: "setSearchLink" });
               }
-              dispatch({ type: "setProfile", profile: false });
+              dispatch(ACTION_HIDEPROFILE);
             }}
           >
             Home

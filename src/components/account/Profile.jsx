@@ -3,7 +3,8 @@ import { Typography, Paper, Button } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
 import { USER_QUERY } from "../graphql/Query";
-import { USER_ID } from "../constants";
+import { USER_ID } from "../context/constants";
+import { ACTION_HIDEPROFILE } from "../context/actions";
 import { Query } from "react-apollo";
 
 export const Profile = () => {
@@ -43,7 +44,7 @@ export const Profile = () => {
                     variant="outlined"
                     size="small"
                     onClick={() => {
-                      dispatch({ type: "setProfile", profile: false });
+                      dispatch(ACTION_HIDEPROFILE);
                     }}
                   >
                     Ok
@@ -99,7 +100,7 @@ export const Profile = () => {
                   variant="outlined"
                   size="small"
                   onClick={() => {
-                    dispatch({ type: "setProfile", profile: false });
+                    dispatch(ACTION_HIDEPROFILE);
                   }}
                 >
                   Done

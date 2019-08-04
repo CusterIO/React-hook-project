@@ -1,152 +1,32 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
+import { Formik } from "formik";
 import { Typography, Grid, Button, TextField } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
-import { AUTH_TOKEN, USER_ID } from "../constants";
+import { AUTH_TOKEN, USER_ID } from "../context/constants";
+import {
+  ACTION_CLOSELOGIN,
+  ACTION_OPENLOGIN,
+  ACTION_OPENSIGNIN
+} from "../context/actions";
 import { Mutation } from "react-apollo";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/Mutation";
+import {
+  ValidateEmail,
+  ValidateCharacters,
+  ValidateRepeatEmail,
+  ValidateRepeatPassword
+} from "../utils/validation";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
-  const {
-    login,
-    email,
-    password,
-    name,
-    repeatEmail,
-    repeatPassword,
-    isNameValid,
-    isEmailValid,
-    isPasswordValid,
-    isRepeatEmailValid,
-    isRepeatPasswordValid
-  } = state;
-
-  useEffect(() => {
-    dispatch({ type: "resetSignupFields" }); // Clear fields on load.
-    return () => dispatch({ type: "resetSignupFields" }); // Clear fields on unmount.
-    // eslint-disable-next-line
-  }, [login]);
-
-  useEffect(() => {
-    const isValid = Validate(name);
-    if (isValid) {
-      dispatch({ type: "setNameValidation", isNameValid: true });
-    } else {
-      dispatch({ type: "setNameValidation", isNameValid: false });
-    }
-    // eslint-disable-next-line
-  }, [name]);
-
-  useEffect(() => {
-    const isValid = ValidateEmail(email);
-    if (isValid) {
-      dispatch({ type: "setEmailValidation", isEmailValid: true });
-      dispatch({ type: "setValidationMsg", validationMsg: "" });
-    } else {
-      dispatch({ type: "setEmailValidation", isEmailValid: false });
-      dispatch({
-        type: "setValidationMsg",
-        validationMsg: "Invalid email adress"
-      });
-    }
-    // eslint-disable-next-line
-  }, [email]);
-
-  useEffect(() => {
-    const isValid = ValidateRepeatEmail();
-    if (isValid) {
-      dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: true });
-    } else {
-      dispatch({ type: "setRepeatEmailValidation", isRepeatEmailValid: false });
-    }
-    // eslint-disable-next-line
-  }, [email, repeatEmail]);
-
-  useEffect(() => {
-    const isValid = Validate(password);
-    if (isValid) {
-      dispatch({ type: "setPasswordValidation", isPasswordValid: true });
-    } else {
-      dispatch({ type: "setPasswordValidation", isPasswordValid: false });
-    }
-    // eslint-disable-next-line
-  }, [password]);
-
-  useEffect(() => {
-    const isValid = ValidateRepeatPassword();
-    if (isValid) {
-      dispatch({ type: "setRepeatPasswordValidation", isRepeatPasswordValid: true });
-    } else {
-      dispatch({ type: "setRepeatPasswordValidation", isRepeatPasswordValid: false });
-    }
-    // eslint-disable-next-line
-  }, [password, repeatPassword]);
-
-  useEffect(() => {
-    const isValid = login ? ValidateLogin() : ValidateSignup();
-    if (isValid) {
-      dispatch({ type: "setValidation", isValid: true });
-    } else {
-      dispatch({ type: "setValidation", isValid: false });
-    }
-    // eslint-disable-next-line
-  }, [isNameValid, isEmailValid, isPasswordValid, isRepeatEmailValid, isRepeatPasswordValid]);
-
-  const Validate = input => {
-    if (!input) {
-      return false;
-    } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
-      dispatch({
-        type: "setValidationMsg",
-        validationMsg: "Only letters, numbers and characters .,!?@)(- allowed"
-      });
-      return false;
-    }
-    dispatch({ type: "setValidationMsg", validationMsg: "" });
-    return true;
-  };
-
-  /**
-   * This is a modified version of the regex at: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-   * @param {*} email 
-   */
-  const ValidateEmail = email => {
-    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum|one|nes|tech|app|agency|blog|auto|buy|business)\b/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  const ValidateRepeatEmail = () => {
-    if (email === repeatEmail) {
-      dispatch({ type: "setValidationMsg", validationMsg: "" });
-      return true;
-    }
-    dispatch({
-      type: "setValidationMsg",
-      validationMsg: "Email do not match"
-    });
-    return false;
-  };
-
-  const ValidateRepeatPassword = () => {
-    if (password === repeatPassword) {
-      dispatch({ type: "setValidationMsg", validationMsg: "" });
-      return true;
-    }
-    dispatch({
-      type: "setValidationMsg",
-      validationMsg: "Password do not match"
-    });
-    return false;
-  };
-
-  const ValidateSignup = () => {
-    return !!(isNameValid && isEmailValid && isPasswordValid && isRepeatEmailValid && isRepeatPasswordValid);
-  };
-
-  const ValidateLogin = () => {
-    return !!(isEmailValid && isPasswordValid);
-  };
+  const { login } = state;
+  // Form constants
+  const name = "";
+  const email = "";
+  const repeatEmail = "";
+  const password = "";
+  const repeatPassword = "";
 
   /**
    * TODO! The JWT needs to be stored inside an HttpOnly cookie, a special kind of cookie
@@ -155,7 +35,7 @@ export const Login = () => {
    * @param {*} token
    */
   const saveUserData = (token, user) => {
-    dispatch({ type: "setToken", token: token }); // Temporary
+    dispatch({ type: "setToken", value: token }); // Temporary
     localStorage.setItem(AUTH_TOKEN, token);
     localStorage.setItem(USER_ID, user.id);
   };
@@ -163,128 +43,213 @@ export const Login = () => {
   const confirm = async data => {
     const { token, user } = login ? data.login : data.signup;
     saveUserData(token, user);
-    dispatch({ type: "resetLoginFields" });
+    dispatch(ACTION_CLOSELOGIN);
+  };
+
+  const executeLoginSignup = v => {
+    return (
+      <Mutation
+        mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
+        variables={
+          login
+            ? { email: v.email, password: v.password }
+            : { name: v.name, email: v.email, password: v.password }
+        }
+        onCompleted={data => confirm(data)}
+      >
+        {mutation => mutation()}
+      </Mutation>
+    );
+  };
+
+  const initialValues = {
+    name,
+    email,
+    repeatEmail,
+    password,
+    repeatPassword
+  };
+
+  const validate = v => {
+    let errors = {};
+
+    const emailError = ValidateEmail(v.email);
+    if (emailError) {
+      errors.email = "Invalid email adress";
+    }
+
+    // TODO! Create a password validation
+    const passwordError = false;
+    if (passwordError) {
+      errors.password = "Invalid password character(s)";
+    }
+
+    // Only validate these fields on signup
+    if (!login) {
+      const nameError = ValidateCharacters(v.name);
+      if (nameError) {
+        errors.name = "Only letters, numbers and characters .,!?@)(- allowed";
+      }
+
+      const repeatEmailError = ValidateRepeatEmail({
+        email: v.email,
+        repeatEmail: v.repeatEmail
+      });
+      if (repeatEmailError) {
+        errors.repeatEmail = "Email do not match";
+      }
+
+      const repeatPasswordError = ValidateRepeatPassword({
+        password: v.password,
+        repeatPassword: v.repeatPassword
+      });
+      if (repeatPasswordError) {
+        errors.repeatPassword = "Password do not match";
+      }
+    }
+
+    return errors;
+  };
+
+  const onSubmit = v => {
+    console.log(v);
+    executeLoginSignup(v);
+  };
+
+  const checkError = e => {
+    if (e) {
+      return true;
+    }
+    return false;
   };
 
   return (
     <div style={styles.submitArticleContainer}>
-      <Typography variant="h6" gutterBottom>
-        {state.validationMsg}
-      </Typography>
-      <Grid container spacing={24}>
-        {!login && (
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth={true}
-              value={name}
-              onChange={e => {
-                dispatch({ type: "setName", name: e.target.value });
-              }}
-              error={!isNameValid}
-              variant={"outlined"}
-              label="Name"
-            />
-          </Grid>
-        )}
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth={true}
-            value={email}
-            onChange={e => {
-              dispatch({ type: "setEmail", email: e.target.value });
-            }}
-            error={!isEmailValid}
-            variant={"outlined"}
-            label="Email"
-          />
-        </Grid>
-        {!login && (
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth={true}
-              value={repeatEmail}
-              onChange={e => {
-                dispatch({
-                  type: "setRepeatEmail",
-                  repeatEmail: e.target.value
-                });
-              }}
-              error={!isRepeatEmailValid}
-              variant={"outlined"}
-              label="Repeat email"
-            />
-          </Grid>
-        )}
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth={true}
-            value={password}
-            onChange={e => {
-              dispatch({ type: "setPassword", password: e.target.value });
-            }}
-            error={!isPasswordValid}
-            variant={"outlined"}
-            label="Password"
-          />
-        </Grid>
-        {!login && (
-          <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth={true}
-              value={repeatPassword}
-              onChange={e => {
-                dispatch({
-                  type: "setRepeatPassword",
-                  repeatPassword: e.target.value
-                });
-              }}
-              error={!isRepeatPasswordValid}
-              variant={"outlined"}
-              label="Repeat password"
-            />
-          </Grid>
-        )}
-        <Grid item xs={12}>
-          <Mutation
-            mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-            variables={{ name, email, password }}
-            onCompleted={data => confirm(data)}
-          >
-            {mutation => (
+      <Formik
+        initialValues={initialValues}
+        validate={validate}
+        onSubmit={onSubmit}
+      >
+        {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
+          <Grid container spacing={24}>
+            {!login && (
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth={true}
+                  variant={"outlined"}
+                  label="Name"
+                  name="name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name}
+                  error={checkError(errors.name)}
+                />
+                <Typography variant="h6" gutterBottom>
+                  {errors.name}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth={true}
+                variant={"outlined"}
+                label="Email"
+                name="email"
+                type="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                error={checkError(errors.email)}
+              />
+              <Typography variant="h6" gutterBottom>
+                {errors.email}
+              </Typography>
+            </Grid>
+            {!login && (
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth={true}
+                  variant={"outlined"}
+                  label="Repeat email"
+                  name="repeatEmail"
+                  type="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.repeatEmail}
+                  error={checkError(errors.repeatEmail)}
+                />
+                <Typography variant="h6" gutterBottom>
+                  {errors.repeatEmail}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth={true}
+                variant={"outlined"}
+                label="Password"
+                name="password"
+                type="password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                error={checkError(errors.password)}
+              />
+              <Typography variant="h6" gutterBottom>
+                {errors.password}
+              </Typography>
+            </Grid>
+            {!login && (
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth={true}
+                  variant={"outlined"}
+                  label="Repeat password"
+                  name="repeatPassword"
+                  type="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.repeatPassword}
+                  error={checkError(errors.repeatPassword)}
+                />
+                <Typography variant="h6" gutterBottom>
+                  {errors.repeatPassword}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
               <Button
+                type="submit"
                 color="primary"
                 variant="contained"
-                disabled={!state.isValid}
-                onClick={mutation}
+                onClick={handleSubmit}
               >
                 {login ? "login" : "create account"}
               </Button>
-            )}
-          </Mutation>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              if (login) {
-                dispatch({ type: "setSignup", signup: true });
-                dispatch({ type: "setLogin", login: false });
-              } else {
-                dispatch({ type: "setLogin", login: true });
-                dispatch({ type: "setSignup", signup: false });
-              }
-            }}
-          >
-            {login ? "Create an account?" : "Login to account?"}
-          </Button>
-        </Grid>
-      </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  if (login) {
+                    dispatch(ACTION_OPENSIGNIN);
+                  } else {
+                    dispatch(ACTION_OPENLOGIN);
+                  }
+                }}
+              >
+                {login ? "Create an account?" : "Login to account?"}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+      </Formik>
     </div>
   );
 };

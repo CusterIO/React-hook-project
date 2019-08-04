@@ -4,7 +4,7 @@ import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
 import { Mutation } from "react-apollo";
 import { timeDifferenceForDate } from "../utils/timeDifference";
-import { AUTH_TOKEN, USER_ID } from "../constants";
+import { AUTH_TOKEN, USER_ID } from "../context/constants";
 import { VOTE_ARTICLE_MUTATION } from "../graphql/Mutation";
 import { ARTICLE_QUERY } from "../graphql/Query";
 

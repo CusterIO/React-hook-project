@@ -1,4 +1,12 @@
 import React, { useReducer, createContext } from "react";
+import {
+  TYPE_SETPROFILE,
+  VALUE_FALSE,
+  VALUE_TRUE,
+  TYPE_CLOSELOGIN,
+  TYPE_OPENLOGIN,
+  TYPE_OPENSIGNIN
+} from "./constants";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -10,8 +18,6 @@ const reducer = (state, action) => {
       return { ...state, description: action.description };
     case "setAuthor":
       return { ...state, author: action.author };
-    case "setValidationMsg":
-      return { ...state, validationMsg: action.validationMsg };
     case "setValidation":
       return { ...state, isValid: action.isValid };
     case "setTitleValidation":
@@ -27,13 +33,13 @@ const reducer = (state, action) => {
     case "resetArticleFields":
       return {
         ...state,
-        isValid: false,
+        isValid: VALUE_FALSE,
         title: "",
         description: "",
         author: "",
         chosenArticle: "",
-        submitArticle: false,
-        editArticle: false
+        submitArticle: VALUE_FALSE,
+        editArticle: VALUE_FALSE
       };
     case "setTopic":
       return { ...state, topic: action.topic };
@@ -60,57 +66,28 @@ const reducer = (state, action) => {
     case "resetLinkFields":
       return {
         ...state,
-        isValid: false,
+        isValid: VALUE_FALSE,
         URL: "",
         URLDescription: "",
-        createLink: false
+        createLink: VALUE_FALSE
       };
-    case "setLogin":
-      return { ...state, login: action.login };
-    case "setEmail":
-      return { ...state, email: action.email };
-    case "setRepeatEmail":
-      return { ...state, repeatEmail: action.repeatEmail };
-    case "setPassword":
-      return { ...state, password: action.password };
-    case "setRepeatPassword":
-      return { ...state, repeatPassword: action.repeatPassword };
-    case "setName":
-      return { ...state, name: action.name };
-    case "setNameValidation":
-      return { ...state, isNameValid: action.isNameValid };
-    case "setEmailValidation":
-      return { ...state, isEmailValid: action.isEmailValid };
-    case "setPasswordValidation":
-      return { ...state, isPasswordValid: action.isPasswordValid };
-    case "setSignup":
-      return { ...state, signup: action.signup };
-    case "resetLoginFields":
+    case TYPE_OPENLOGIN:
       return {
         ...state,
-        isValid: false,
-        name: "",
-        email: "",
-        password: "",
-        login: false,
-        signup: false,
-        repeatPassword: "",
-        repeatEmail: ""
+        login: VALUE_TRUE,
+        signup: VALUE_FALSE
       };
-    case "resetSignupFields":
+    case TYPE_OPENSIGNIN:
       return {
         ...state,
-        isValid: false,
-        isRepeatEmailValid: false,
-        isRepeatPasswordValid: false,
-        isNameValid: false,
-        isEmailValid: false,
-        isPasswordValid: false,
-        name: "",
-        email: "",
-        password: "",
-        repeatPassword: "",
-        repeatEmail: ""
+        login: VALUE_FALSE,
+        signup: VALUE_TRUE
+      };
+    case TYPE_CLOSELOGIN:
+      return {
+        ...state,
+        signup: VALUE_FALSE,
+        login: VALUE_FALSE
       };
     case "setSearchLink":
       return { ...state, searchLink: !state.searchLink };
@@ -119,15 +96,11 @@ const reducer = (state, action) => {
     case "setExecuteSearch":
       return { ...state, executeSearch: action.executeSearch };
     case "setToken":
-      return { ...state, token: action.token };
-    case "setProfile":
-      return { ...state, profile: action.profile };
+      return { ...state, token: action.value };
+    case TYPE_SETPROFILE:
+      return { ...state, profile: action.value };
     case "setUser":
       return { ...state, setUser: action.user };
-    case "setRepeatEmailValidation":
-      return { ...state, isRepeatEmailValid: action.isRepeatEmailValid };
-    case "setRepeatPasswordValidation":
-      return { ...state, isRepeatPasswordValid: action.isRepeatPasswordValid };
     default:
       throw new Error("Unexpected action");
   }
@@ -138,42 +111,31 @@ const initialState = {
   title: "",
   description: "",
   author: "",
-  validationMsg: "",
-  isValid: false,
-  isTitleValid: false,
-  isDescriptionValid: false,
-  isAuthorValid: false,
+  isValid: VALUE_FALSE,
+  isTitleValid: VALUE_FALSE,
+  isDescriptionValid: VALUE_FALSE,
+  isAuthorValid: VALUE_FALSE,
   articles: [],
   topics: ["All Topics", "React Hooks", "Reactjs", "GraphQL", "Material UI"],
   topic: "React Hooks",
   selectedTopic: "",
   chosenArticle: "",
-  submitArticle: false,
-  editArticle: false,
+  submitArticle: VALUE_FALSE,
+  editArticle: VALUE_FALSE,
   URL: "",
   URLDescription: "",
-  isURLValid: false,
-  isURLDescriptionValid: false,
-  login: false,
-  signup: false,
-  email: "",
-  repeatEmail: "",
-  password: "",
-  repeatPassword: "",
-  name: "",
-  isNameValid: false,
-  isEmailValid: false,
-  isPasswordValid: false,
-  createLink: false,
-  viewLinks: false,
-  searchLink: false,
+  isURLValid: VALUE_FALSE,
+  isURLDescriptionValid: VALUE_FALSE,
+  login: VALUE_FALSE,
+  signup: VALUE_FALSE,
+  createLink: VALUE_FALSE,
+  viewLinks: VALUE_FALSE,
+  searchLink: VALUE_FALSE,
   filterLink: "",
-  executeSearch: false,
+  executeSearch: VALUE_FALSE,
   token: "",
-  profile: false,
-  user: {},
-  isRepeatEmailValid: false,
-  isRepeatPasswordValid: false
+  profile: VALUE_FALSE,
+  user: {}
 };
 
 const StateContext = createContext(initialState);
