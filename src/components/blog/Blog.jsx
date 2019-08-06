@@ -7,6 +7,7 @@ import { timeDifferenceForDate } from "../utils/timeDifference";
 import { AUTH_TOKEN, USER_ID } from "../context/constants";
 import { VOTE_ARTICLE_MUTATION } from "../graphql/Mutation";
 import { ARTICLE_QUERY } from "../graphql/Query";
+import { ACTION_EDITARTICLE } from "../context/actions";
 
 export const Blog = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -86,7 +87,7 @@ export const Blog = () => {
               variant="outlined"
               size="small"
               onClick={() => {
-                dispatch({ type: "setEditArticle", editArticle: true });
+                dispatch(ACTION_EDITARTICLE);
               }}
             >
               Edit Article

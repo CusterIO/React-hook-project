@@ -12,6 +12,7 @@ import {
 import { Query } from "react-apollo";
 import { styles } from "../style/Style";
 import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from "../graphql/Query";
+import { ACTION_OPENARTICLE } from "../context/actions";
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -99,10 +100,7 @@ export const BlogList = () => {
                               size="small"
                               color="primary"
                               onClick={() => {
-                                dispatch({
-                                  type: "setChosenArticle",
-                                  chosenArticle: articles[0]
-                                });
+                                dispatch(ACTION_OPENARTICLE(articles[0]))
                               }}
                             >
                               Continue reading...
@@ -162,10 +160,7 @@ export const BlogList = () => {
                                   variant="contained"
                                   size="small"
                                   onClick={() => {
-                                    dispatch({
-                                      type: "setChosenArticle",
-                                      chosenArticle: article
-                                    });
+                                    dispatch(ACTION_OPENARTICLE(article))
                                   }}
                                 >
                                   Continue reading...

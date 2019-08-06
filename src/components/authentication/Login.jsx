@@ -79,7 +79,6 @@ export const Login = () => {
       errors.email = "Invalid email adress";
     }
 
-    // TODO! Create a password validation
     const passwordError = ValidatePassword(v.password);
     if (passwordError) {
       errors.password = "Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.";

@@ -46,11 +46,11 @@ const reducer = (state, action) => {
     case "setSelectedTopic":
       return { ...state, selectedTopic: action.selectedTopic };
     case "setChosenArticle":
-      return { ...state, chosenArticle: action.chosenArticle };
+      return { ...state, chosenArticle: action.value };
     case "setSubmitArticle":
       return { ...state, submitArticle: action.submitArticle };
     case "setEditArticle":
-      return { ...state, editArticle: action.editArticle };
+      return { ...state, editArticle: action.value };
     case "setURL":
       return { ...state, URL: action.URL };
     case "setURLDescription":
