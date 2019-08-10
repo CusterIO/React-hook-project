@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Formik } from "formik";
+import { useMutation } from "@apollo/react-hooks";
 import { Typography, Grid, Button, TextField } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
@@ -9,7 +10,6 @@ import {
   ACTION_OPENLOGIN,
   ACTION_OPENSIGNIN
 } from "../context/actions";
-import { Mutation } from "react-apollo";
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/Mutation";
 import {
   ValidateEmail,
@@ -28,6 +28,35 @@ export const Login = () => {
   const repeatEmail = "";
   const password = "";
   const repeatPassword = "";
+  // Mutation hooks
+  const [
+    loginUser,
+    { loading: loginLoading, error: loginError, data: loginData }
+  ] = useMutation(LOGIN_MUTATION, {
+    variables: { email, password },
+    onError: error => {
+      console.error(`Login error: ${error}`);
+    },
+    onCompleted: data => {
+      const { token, user } = data.login;
+      saveUserData(token, user);
+      dispatch(ACTION_CLOSELOGIN);
+    }
+  });
+  const [
+    signupUser,
+    { loading: signupLoading, error: signupError, data: signupData }
+  ] = useMutation(SIGNUP_MUTATION, {
+    variables: { name, email, password },
+    onError: error => {
+      console.error(`Signup error: ${error}`);
+    },
+    onCompleted: data => {
+      const { token, user } = data.signup;
+      saveUserData(token, user);
+      dispatch(ACTION_CLOSELOGIN);
+    }
+  });
 
   /**
    * TODO! The JWT needs to be stored inside an HttpOnly cookie, a special kind of cookie
@@ -39,28 +68,6 @@ export const Login = () => {
     dispatch({ type: "setToken", value: token }); // Temporary
     localStorage.setItem(AUTH_TOKEN, token);
     localStorage.setItem(USER_ID, user.id);
-  };
-
-  const confirm = async data => {
-    const { token, user } = login ? data.login : data.signup;
-    saveUserData(token, user);
-    dispatch(ACTION_CLOSELOGIN);
-  };
-
-  const executeLoginSignup = v => {
-    return (
-      <Mutation
-        mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-        variables={
-          login
-            ? { email: v.email, password: v.password }
-            : { name: v.name, email: v.email, password: v.password }
-        }
-        onCompleted={data => confirm(data)}
-      >
-        {mutation => mutation()}
-      </Mutation>
-    );
   };
 
   const initialValues = {
@@ -81,7 +88,8 @@ export const Login = () => {
 
     const passwordError = ValidatePassword(v.password);
     if (passwordError) {
-      errors.password = "Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.";
+      errors.password =
+        "Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.";
     }
 
     // Only validate these fields on signup
@@ -112,8 +120,13 @@ export const Login = () => {
   };
 
   const onSubmit = v => {
-    console.log(v);
-    executeLoginSignup(v);
+    if (login) {
+      loginUser({ variables: { email: v.email, password: v.password } });
+    } else {
+      signupUser({
+        variables: { name: v.name, email: v.email, password: v.password }
+      });
+    }
   };
 
   const checkError = e => {

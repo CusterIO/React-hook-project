@@ -10,7 +10,7 @@ import {
   MenuItem
 } from "@material-ui/core";
 import { styles } from "../style/Style";
-import { Mutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { POST_ARTICLE_MUTATION } from "../graphql/Mutation";
 import { ARTICLE_QUERY } from "../graphql/Query";
 import { ValidateText } from "../utils/validation";
@@ -29,6 +29,22 @@ export const CreateBlogPost = () => {
   // Constants
   const ERROR_MESSAGE = "Only letters, numbers and characters .,!?)(- allowed";
 
+  const [
+    createBlog,
+    { loading: blogLoading, error: blogError, data: blogData }
+  ] = useMutation(POST_ARTICLE_MUTATION, {
+    variables: { title, description, author, topic },
+    onError: error => {
+      console.error(`Create blog error: ${error}`);
+    },
+    onCompleted: () => {
+      dispatch(ACTION_RESETARTICLEFIELD);
+    },
+    update: (cache, { data: { postArticle } }) => {
+      updateCacheAfterCreateBlogPost(cache, postArticle);
+    }
+  });
+
   useEffect(() => {
     if (editArticle && chosenArticle) {
       setTitle(chosenArticle.title);
@@ -38,19 +54,18 @@ export const CreateBlogPost = () => {
     }
   }, [editArticle, chosenArticle]);
 
-  const executeCreatePost = ({ title, description, author, topic }) => {
-    return (
-      <Mutation
-        mutation={POST_ARTICLE_MUTATION}
-        variables={{ title, description, author, topic }}
-        onCompleted={() => dispatch(ACTION_RESETARTICLEFIELD)}
-        update={(store, { data: { postArticle } }) =>
-          updateCacheAfterCreateArticle(store, postArticle)
-        }
-      >
-        {postMutation => postMutation()}
-      </Mutation>
-    );
+  const blogPost = ({ title, description, author, topic }) => {
+    createBlog({variables: { title, description, author, topic }});
+  };
+
+  // https://www.apollographql.com/docs/angular/features/cache-updates/
+  const updateCacheAfterCreateBlogPost = (store, postArticle) => {
+    const data = store.readQuery({ query: ARTICLE_QUERY });
+    data.feedArticles.articles.push(postArticle);
+    store.writeQuery({
+      query: ARTICLE_QUERY,
+      data
+    });
   };
 
   const initialValues = {
@@ -83,7 +98,7 @@ export const CreateBlogPost = () => {
 
   const onSubmit = v => {
     console.log(v);
-    executeCreatePost(v);
+    blogPost(v);
   };
 
   const checkError = e => {
@@ -91,16 +106,6 @@ export const CreateBlogPost = () => {
       return true;
     }
     return false;
-  };
-
-  // https://www.apollographql.com/docs/angular/features/cache-updates/
-  const updateCacheAfterCreateArticle = (store, postArticle) => {
-    const data = store.readQuery({ query: ARTICLE_QUERY });
-    data.feedArticles.articles.push(postArticle);
-    store.writeQuery({
-      query: ARTICLE_QUERY,
-      data
-    });
   };
 
   return (

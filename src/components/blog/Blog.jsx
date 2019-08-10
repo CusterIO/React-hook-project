@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Typography, Paper, Button } from "@material-ui/core";
 import { StateContext } from "../context/index";
 import { styles } from "../style/Style";
-import { Mutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import { timeDifferenceForDate } from "../utils/timeDifference";
 import { AUTH_TOKEN, USER_ID } from "../context/constants";
 import { VOTE_ARTICLE_MUTATION } from "../graphql/Mutation";
@@ -14,16 +14,30 @@ export const Blog = () => {
   const article = state.chosenArticle;
   const authToken = localStorage.getItem(AUTH_TOKEN);
   const userId = localStorage.getItem(USER_ID);
+  let articleId = "";
 
-  const updateCacheAfterVote = async (store, createVote, articleId) => {
-    const data = store.readQuery({ query: ARTICLE_QUERY });
+  const [
+    voteArticle,
+    { loading: voteLoading, error: voteError, data: voteData }
+  ] = useMutation(VOTE_ARTICLE_MUTATION, {
+    variables: { articleId },
+    onError: error => {
+      console.error(`Vote article error: ${error}`);
+    },
+    update: (cache, { data: { voteArticle } }) => {
+      updateCacheAfterVote(cache, voteArticle, article.id);
+    }
+  });
+
+  const updateCacheAfterVote = async (cache, createVote, articleId) => {
+    const data = cache.readQuery({ query: ARTICLE_QUERY });
 
     const votedArticle = data.feedArticles.articles.find(
       article => article.id === articleId
     );
     votedArticle.votes = createVote.article.votes;
 
-    store.writeQuery({ query: ARTICLE_QUERY, data });
+    cache.writeQuery({ query: ARTICLE_QUERY, data });
   };
 
   return (
@@ -55,25 +69,17 @@ export const Blog = () => {
                 {article.topic}
               </Typography>
               {authToken && (
-                <Mutation
-                  mutation={VOTE_ARTICLE_MUTATION}
-                  variables={{ articleId: article.id }}
-                  update={(store, { data: { voteArticle } }) =>
-                    updateCacheAfterVote(store, voteArticle, article.id)
-                  }
+                <Typography
+                  component="h1"
+                  variant="title"
+                  color="primary"
+                  onClick={voteArticle({
+                    variables: { articleId: article.id }
+                  })}
+                  gutterBottom
                 >
-                  {voteMutation => (
-                    <Typography
-                      component="h1"
-                      variant="title"
-                      color="primary"
-                      onClick={voteMutation}
-                      gutterBottom
-                    >
-                      ▲
-                    </Typography>
-                  )}
-                </Mutation>
+                  ▲
+                </Typography>
               )}
               <Typography variant="subtitle1" color="inherit" gutterBottom>
                 {article.votes.length} votes | by{" "}
