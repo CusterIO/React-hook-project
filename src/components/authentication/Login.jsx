@@ -18,10 +18,14 @@ import {
   ValidateRepeatPassword,
   ValidatePassword
 } from "../utils/validation";
+import { ErrorFeedback } from "../error/feedback";
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
   const { login } = state;
+  // Error constants
+  let signupErrorMsg;
+  let loginErrorMsg;
   // Form constants
   const name = "";
   const email = "";
@@ -29,46 +33,50 @@ export const Login = () => {
   const password = "";
   const repeatPassword = "";
   // Mutation hooks
-  const [
-    loginUser,
-    { loading: loginLoading, error: loginError, data: loginData }
-  ] = useMutation(LOGIN_MUTATION, {
-    variables: { email, password },
-    onError: error => {
-      console.error(`Login error: ${error}`);
-    },
-    onCompleted: data => {
-      const { token, user } = data.login;
-      saveUserData(token, user);
-      dispatch(ACTION_CLOSELOGIN);
+  const [loginUser, { loading: loginLoading, error: loginError }] = useMutation(
+    LOGIN_MUTATION,
+    {
+      variables: { email, password },
+      onCompleted: data => {
+        const { token, user } = data.login;
+        dispatch({ type: "setToken", value: token }); // Temporary
+        localStorage.setItem(AUTH_TOKEN, token);
+        localStorage.setItem(USER_ID, user.id);
+        dispatch(ACTION_CLOSELOGIN);
+      }
     }
-  });
+  );
   const [
     signupUser,
-    { loading: signupLoading, error: signupError, data: signupData }
+    { loading: signupLoading, error: signupError }
   ] = useMutation(SIGNUP_MUTATION, {
     variables: { name, email, password },
-    onError: error => {
-      console.error(`Signup error: ${error}`);
-    },
     onCompleted: data => {
       const { token, user } = data.signup;
-      saveUserData(token, user);
+      dispatch({ type: "setToken", value: token }); // Temporary
+      localStorage.setItem(AUTH_TOKEN, token);
+      localStorage.setItem(USER_ID, user.id);
       dispatch(ACTION_CLOSELOGIN);
     }
   });
 
-  /**
-   * TODO! The JWT needs to be stored inside an HttpOnly cookie, a special kind of cookie
-   * that's only sent in HTTP requests to the server, and it's never accessible
-   * (both for reading or writing) from JavaScript running in the browser.
-   * @param {*} token
-   */
-  const saveUserData = (token, user) => {
-    dispatch({ type: "setToken", value: token }); // Temporary
-    localStorage.setItem(AUTH_TOKEN, token);
-    localStorage.setItem(USER_ID, user.id);
-  };
+  // Display current state
+  if (loginLoading) return "Loading...";
+  if (signupLoading) return "Loading...";
+
+  // Display login error message
+  if (loginError) {
+    loginError.graphQLErrors.forEach(({ message }) => {
+      loginErrorMsg = message;
+    });
+  }
+
+  // Display custom signup error message
+  if (signupError) {
+    signupError.graphQLErrors.forEach(({ code }) => {
+      signupErrorMsg = ErrorFeedback(code);
+    });
+  }
 
   const initialValues = {
     name,
@@ -145,6 +153,20 @@ export const Login = () => {
       >
         {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
           <Grid container spacing={24}>
+            {loginError && (
+              <Grid item xs={12}>
+                <Typography variant="h6" color="error" gutterBottom>
+                  {loginErrorMsg}
+                </Typography>
+              </Grid>
+            )}
+            {signupError && (
+              <Grid item xs={12}>
+                <Typography variant="h6" color="error" gutterBottom>
+                  {signupErrorMsg}
+                </Typography>
+              </Grid>
+            )}
             {!login && (
               <Grid item xs={12}>
                 <TextField

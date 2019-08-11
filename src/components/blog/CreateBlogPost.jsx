@@ -28,22 +28,32 @@ export const CreateBlogPost = () => {
   const [topic, setTopic] = useState(TYPE_EMPTYSTRING);
   // Constants
   const ERROR_MESSAGE = "Only letters, numbers and characters .,!?)(- allowed";
+  let blogErrorMsg;
 
-  const [
-    createBlog,
-    { loading: blogLoading, error: blogError, data: blogData }
-  ] = useMutation(POST_ARTICLE_MUTATION, {
-    variables: { title, description, author, topic },
-    onError: error => {
-      console.error(`Create blog error: ${error}`);
-    },
-    onCompleted: () => {
-      dispatch(ACTION_RESETARTICLEFIELD);
-    },
-    update: (cache, { data: { postArticle } }) => {
-      updateCacheAfterCreateBlogPost(cache, postArticle);
+  const [createBlog, { loading: blogLoading, error: blogError }] = useMutation(
+    POST_ARTICLE_MUTATION,
+    {
+      variables: { title, description, author, topic },
+      onCompleted: () => {
+        // Do not reset fields on error
+        if (!blogError) {
+          dispatch(ACTION_RESETARTICLEFIELD);
+        }
+      },
+      update: (cache, { data: { postArticle } }) => {
+        // Do not update cache on error
+        if (blogError) {
+          return;
+        }
+        const data = cache.readQuery({ query: ARTICLE_QUERY });
+        data.feedArticles.articles.push(postArticle);
+        cache.writeQuery({
+          query: ARTICLE_QUERY,
+          data
+        });
+      }
     }
-  });
+  );
 
   useEffect(() => {
     if (editArticle && chosenArticle) {
@@ -54,41 +64,40 @@ export const CreateBlogPost = () => {
     }
   }, [editArticle, chosenArticle]);
 
-  const blogPost = ({ title, description, author, topic }) => {
-    createBlog({variables: { title, description, author, topic }});
-  };
+  // Display current state
+  if (blogLoading) return "Loading...";
 
-  // https://www.apollographql.com/docs/angular/features/cache-updates/
-  const updateCacheAfterCreateBlogPost = (store, postArticle) => {
-    const data = store.readQuery({ query: ARTICLE_QUERY });
-    data.feedArticles.articles.push(postArticle);
-    store.writeQuery({
-      query: ARTICLE_QUERY,
-      data
+  // Display create blog error message
+  if (blogError) {
+    blogError.graphQLErrors.forEach(({ message }) => {
+      blogErrorMsg = message;
     });
-  };
+  }
 
   const initialValues = {
-    title,
-    description,
-    author,
-    topic
+    blogPost: {
+      title,
+      description,
+      author,
+      topic
+    }
   };
 
   const validate = v => {
+    const { blogPost } = v;
     let errors = {};
 
-    const titleError = ValidateText(v.title);
+    const titleError = ValidateText(blogPost.title);
     if (titleError) {
       errors.title = ERROR_MESSAGE;
     }
 
-    const descriptionError = ValidateText(v.description);
+    const descriptionError = ValidateText(blogPost.description);
     if (descriptionError) {
       errors.description = ERROR_MESSAGE;
     }
 
-    const authorError = ValidateText(v.author);
+    const authorError = ValidateText(blogPost.author);
     if (authorError) {
       errors.author = ERROR_MESSAGE;
     }
@@ -97,8 +106,8 @@ export const CreateBlogPost = () => {
   };
 
   const onSubmit = v => {
-    console.log(v);
-    blogPost(v);
+    const { blogPost } = v;
+    createBlog({ variables: blogPost });
   };
 
   const checkError = e => {
@@ -116,6 +125,11 @@ export const CreateBlogPost = () => {
     >
       {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
         <div style={styles.submitArticleContainer}>
+          {blogError && (
+            <Typography variant="h6" color="error" gutterBottom>
+              {blogErrorMsg}
+            </Typography>
+          )}
           <Typography variant="h6" gutterBottom>
             {state.validationMsg}
           </Typography>
@@ -126,10 +140,10 @@ export const CreateBlogPost = () => {
                 fullWidth={true}
                 variant={"outlined"}
                 label="Title"
-                name="title"
+                name="blogPost.title"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.title}
+                value={values.blogPost.title}
                 error={checkError(errors.title)}
               />
               <Typography variant="body2" color="error" gutterBottom>
@@ -145,16 +159,15 @@ export const CreateBlogPost = () => {
                 rows={4}
                 rowsMax={200}
                 label="Description"
-                name="description"
+                name="blogPost.description"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.description}
+                value={values.blogPost.description}
                 error={checkError(errors.description)}
               />
               <Typography variant="body2" color="error" gutterBottom>
                 {errors.description}
               </Typography>
-              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -162,10 +175,10 @@ export const CreateBlogPost = () => {
                 fullWidth={true}
                 variant={"outlined"}
                 label="Author"
-                name="author"
+                name="blogPost.author"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.author}
+                value={values.blogPost.author}
                 error={checkError(errors.author)}
               />
               <Typography variant="body2" color="error" gutterBottom>
@@ -177,10 +190,10 @@ export const CreateBlogPost = () => {
                 required
                 autoWidth={true}
                 label="Topic"
-                name="topic"
+                name="blogPost.topic"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.topic}
+                value={values.blogPost.topic}
               >
                 <MenuItem value={"React Hooks"}>React Hooks</MenuItem>
                 <MenuItem value={"Reactjs"}>Reactjs</MenuItem>

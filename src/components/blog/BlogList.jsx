@@ -18,6 +18,7 @@ export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
   let insertQuery = ARTICLE_QUERY;
   let searchFilter = {};
+  let bloglistErrorMsg;
 
   if (state.executeSearch) {
     const filter = state.filterLink;
@@ -30,14 +31,17 @@ export const BlogList = () => {
     error: bloglistError,
     data: bloglistData
   } = useQuery(insertQuery, {
-    variables: searchFilter,
-    onError: error => {
-      console.error(`Query bloglist error: ${error}`);
-    }
+    variables: searchFilter
   });
 
   if (bloglistLoading) return "Loading...";
-  if (bloglistError) return `Error! ${bloglistError.message}`;
+
+  // Display vote error message
+  if (bloglistError) {
+    bloglistError.graphQLErrors.forEach(({ message }) => {
+      bloglistErrorMsg = message;
+    });
+  }
 
   let articles = bloglistData.feedArticles.articles;
 
@@ -59,6 +63,13 @@ export const BlogList = () => {
         <main>
           <Paper style={styles.mainFeaturedlink}>
             <Grid container spacing={16}>
+              {bloglistError && (
+                <Grid item xs={12}>
+                  <Typography variant="h6" color="error" gutterBottom>
+                    {bloglistErrorMsg}
+                  </Typography>
+                </Grid>
+              )}
               <Grid item xs={12} md={12}>
                 {articles.length > 0 && (
                   <div style={styles.mainFeaturedarticleContent}>

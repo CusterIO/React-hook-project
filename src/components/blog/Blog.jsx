@@ -14,31 +14,37 @@ export const Blog = () => {
   const article = state.chosenArticle;
   const authToken = localStorage.getItem(AUTH_TOKEN);
   const userId = localStorage.getItem(USER_ID);
-  let articleId = "";
+  // Constants
+  let articleId;
+  let voteErrorMsg;
 
-  const [
-    voteArticle,
-    { loading: voteLoading, error: voteError, data: voteData }
-  ] = useMutation(VOTE_ARTICLE_MUTATION, {
-    variables: { articleId },
-    onError: error => {
-      console.error(`Vote article error: ${error}`);
-    },
-    update: (cache, { data: { voteArticle } }) => {
-      updateCacheAfterVote(cache, voteArticle, article.id);
+  const [voteArticle, { loading: voteLoading, error: voteError }] = useMutation(
+    VOTE_ARTICLE_MUTATION,
+    {
+      variables: { articleId },
+      update: (cache, { data: { voteArticle } }) => {
+        const data = cache.readQuery({ query: ARTICLE_QUERY });
+        const selectedArticle = article.id;
+
+        const votedArticle = data.feedArticles.articles.find(
+          article => article.id === selectedArticle
+        );
+        votedArticle.votes = voteArticle.article.votes;
+
+        cache.writeQuery({ query: ARTICLE_QUERY, data });
+      }
     }
-  });
+  );
 
-  const updateCacheAfterVote = async (cache, createVote, articleId) => {
-    const data = cache.readQuery({ query: ARTICLE_QUERY });
+  // Display current state
+  if (voteLoading) return "Loading...";
 
-    const votedArticle = data.feedArticles.articles.find(
-      article => article.id === articleId
-    );
-    votedArticle.votes = createVote.article.votes;
-
-    cache.writeQuery({ query: ARTICLE_QUERY, data });
-  };
+  // Display vote error message
+  if (voteError) {
+    voteError.graphQLErrors.forEach(({ message }) => {
+      voteErrorMsg = message;
+    });
+  }
 
   return (
     <React.Fragment>
@@ -46,6 +52,11 @@ export const Blog = () => {
         <main>
           <Paper elevation={10} style={styles.chosenArticlePaper}>
             <div style={styles.choseArticleContent}>
+              {voteError && (
+                <Typography variant="h6" color="error" gutterBottom>
+                  {voteErrorMsg}
+                </Typography>
+              )}
               <Typography
                 component="h1"
                 variant="title"
