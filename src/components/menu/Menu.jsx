@@ -184,7 +184,7 @@ export const Menu = () => {
                   dispatch({ type: "setSubmitArticle", submitArticle: true });
                 }}
               >
-                New Article
+                New Blog post
               </Button>
             )}
           {state.token && state.viewLinks && !state.createLink && (
