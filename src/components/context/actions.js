@@ -10,6 +10,7 @@ import {
 } from './constants';
 // Type constanst
 const TYPE_RESETARTICLEFIELD = 'resetArticleFields';
+const TYPE_RESETLINKFIELD = 'resetLinkFields';
 // ACTIONS
 export const ACTION_HIDEPROFILE = { type: TYPE_SETPROFILE, value: VALUE_FALSE };
 export const ACTION_SHOWPROFILE = { type: TYPE_SETPROFILE, value: VALUE_TRUE };
@@ -21,3 +22,4 @@ export const ACTION_OPENARTICLE = article => {
   return { type: TYPE_OPENARTICLE, value: article };
 };
 export const ACTION_RESETARTICLEFIELD = { type: TYPE_RESETARTICLEFIELD };
+export const ACTION_RESETLINKFIELD = { type: TYPE_RESETLINKFIELD };

@@ -1,138 +1,150 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { Formik } from 'formik';
+// Components
 import { StateContext } from '../context/index';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
-import { styles } from '../style/Style';
-import { Mutation } from 'react-apollo';
-import { POST_MUTATION } from '../graphql/Mutation';
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
+import { POST_LINK_MUTATION } from '../graphql/Mutation';
 import { FEED_QUERY } from '../graphql/Query';
+// Helpers
+import { ValidateText } from '../utils/validation';
+import { ACTION_RESETLINKFIELD } from '../context/actions';
+// CSS
+import { styles } from '../style/Style';
 
 export const CreateLink = () => {
   const { state, dispatch } = useContext(StateContext);
-  const description = state.URLDescription;
-  const url = state.URL;
+  // Constants
+  const url = '';
+  const description = '';
+  const ERROR_MESSAGE = 'Only letters, numbers and characters .,!?)(- allowed';
+  let linkErrorMsg;
 
-  useEffect(() => {
-    const isURLValid = Validate(state.URL);
-    if (isURLValid) {
-      dispatch({ type: 'setURLValidation', isURLValid: true });
-    } else {
-      dispatch({ type: 'setURLValidation', isURLValid: false });
-    }
-    // eslint-disable-next-line
-  }, [state.URL]);
-
-  useEffect(() => {
-    const isURLDescriptionValid = Validate(state.URLDescription);
-    if (isURLDescriptionValid) {
-      dispatch({
-        type: 'setURLDescriptionValidation',
-        isURLDescriptionValid: true
+  const [createLink, { loading: linkLoading, error: linkError }] = useMutation(POST_LINK_MUTATION, {
+    variables: { description, url },
+    onCompleted: () => {
+      // Do not reset fields on error
+      if (!linkError) {
+        dispatch(ACTION_RESETLINKFIELD);
+      }
+    },
+    update: (cache, { data: { postLink } }) => {
+      // Do not update cache on error
+      if (linkError) {
+        return;
+      }
+      const data = cache.readQuery({ query: FEED_QUERY });
+      data.feedLinks.links.push(postLink);
+      cache.writeQuery({
+        query: FEED_QUERY,
+        data
       });
-    } else {
-      dispatch({
-        type: 'setURLDescriptionValidation',
-        isURLDescriptionValid: false
-      });
     }
-    // eslint-disable-next-line
-  }, [state.URLDescription]);
+  });
 
-  useEffect(() => {
-    const isValid = ValidateAll();
-    if (isValid) {
-      dispatch({ type: 'setValidation', isValid: true });
-    } else {
-      dispatch({ type: 'setValidation', isValid: false });
-    }
-    // eslint-disable-next-line
-  }, [state.isURLDescriptionValid, state.isURLValid]);
+  // Display current state
+  if (linkLoading) return 'Loading...';
 
-  const Validate = input => {
-    if (!input) {
-      return false;
-    } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
-      dispatch({
-        type: 'setValidationMsg',
-        validationMsg: 'Only letters, numbers and characters .,!?)(- allowed'
-      });
-      return false;
-    }
-    dispatch({ type: 'setValidationMsg', validationMsg: '' });
-    return true;
-  };
-
-  const ValidateAll = () => {
-    return !!(state.isURLValid && state.isURLDescriptionValid);
-  };
-
-  // https://www.apollographql.com/docs/angular/features/cache-updates/
-  const updateCacheAfterCreateLink = (store, postLink) => {
-    const data = store.readQuery({ query: FEED_QUERY });
-    data.feedLinks.links.push(postLink); // data.feedLinks.links.unshift(postLink);
-    store.writeQuery({
-      query: FEED_QUERY,
-      data
+  // Display create blog error message
+  if (linkError) {
+    linkError.graphQLErrors.forEach(({ message }) => {
+      linkErrorMsg = message;
     });
+  }
+
+  const initialValues = {
+    linkPost: {
+      url,
+      description
+    }
+  };
+
+  const validate = v => {
+    const { linkPost } = v;
+    let errors = {};
+
+    const urlError = ValidateText(linkPost.url);
+    if (urlError) {
+      errors.url = ERROR_MESSAGE;
+    }
+
+    const descriptionError = ValidateText(linkPost.description);
+    if (descriptionError) {
+      errors.description = ERROR_MESSAGE;
+    }
+
+    return errors;
+  };
+
+  const onSubmit = v => {
+    const { linkPost } = v;
+    createLink({ variables: linkPost });
+  };
+
+  const checkError = e => {
+    if (e) {
+      return true;
+    }
+    return false;
   };
 
   return (
-    <div style={styles.submitArticleContainer}>
-      <Typography variant="h6" gutterBottom>
-        {state.validationMsg}
-      </Typography>
-      <Grid container spacing={24}>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth={true}
-            value={state.URL}
-            onChange={e => {
-              dispatch({ type: 'setURL', URL: e.target.value });
-            }}
-            error={!state.isURLValid}
-            variant={'outlined'}
-            label="URL"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            fullWidth={true}
-            multiline={true}
-            rows={4}
-            rowsMax={200}
-            value={state.URLDescription}
-            onChange={e => {
-              dispatch({
-                type: 'setURLDescription',
-                URLDescription: e.target.value
-              });
-            }}
-            error={!state.isURLDescriptionValid}
-            variant={'outlined'}
-            label="Description"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Mutation
-            mutation={POST_MUTATION}
-            variables={{ description, url }}
-            onCompleted={() => dispatch({ type: 'resetLinkFields' })}
-            update={(store, { data: { postLink } }) => updateCacheAfterCreateLink(store, postLink)}
-          >
-            {postMutation => (
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={!state.isValid}
-                onClick={postMutation}
-              >
+    <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
+      {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
+        <div style={styles.submitArticleContainer}>
+          {linkError && (
+            <Typography variant="h6" color="error" gutterBottom>
+              {linkErrorMsg}
+            </Typography>
+          )}
+          <Typography variant="h6" gutterBottom>
+            {state.validationMsg}
+          </Typography>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth={true}
+                variant={'outlined'}
+                label="url"
+                name="linkPost.url"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.linkPost.url}
+                error={checkError(errors.url)}
+              />
+              <Typography variant="body2" color="error" gutterBottom>
+                {errors.url}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth={true}
+                multiline={true}
+                rows={4}
+                rowsMax={200}
+                variant={'outlined'}
+                label="Description"
+                name="linkPost.urlDescription"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.linkPost.urlDescription}
+                error={checkError(errors.urlDescription)}
+              />
+              <Typography variant="body2" color="error" gutterBottom>
+                {errors.urlDescription}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button color="primary" variant="contained" onClick={handleSubmit}>
                 Post link
               </Button>
-            )}
-          </Mutation>
-        </Grid>
-      </Grid>
-    </div>
+            </Grid>
+          </Grid>
+        </div>
+      )}
+    </Formik>
   );
 };

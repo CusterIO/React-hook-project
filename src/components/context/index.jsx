@@ -5,7 +5,8 @@ import {
   VALUE_TRUE,
   TYPE_CLOSELOGIN,
   TYPE_OPENLOGIN,
-  TYPE_OPENSIGNIN
+  TYPE_OPENSIGNIN,
+  VALUE_EMPTYSTRING
 } from './constants';
 
 const reducer = (state, action) => {
@@ -18,14 +19,6 @@ const reducer = (state, action) => {
       return { ...state, description: action.description };
     case 'setAuthor':
       return { ...state, author: action.author };
-    case 'setValidation':
-      return { ...state, isValid: action.isValid };
-    case 'setTitleValidation':
-      return { ...state, isTitleValid: action.isTitleValid };
-    case 'setDescriptionValidation':
-      return { ...state, isDescriptionValid: action.isDescriptionValid };
-    case 'setAuthorValidation':
-      return { ...state, isAuthorValid: action.isAuthorValid };
     case 'setArticle':
       return { ...state, articles: [...state.articles, action.article] };
     case 'updateArticles':
@@ -33,11 +26,10 @@ const reducer = (state, action) => {
     case 'resetArticleFields':
       return {
         ...state,
-        isValid: VALUE_FALSE,
-        title: '',
-        description: '',
-        author: '',
-        chosenArticle: '',
+        title: VALUE_EMPTYSTRING,
+        description: VALUE_EMPTYSTRING,
+        author: VALUE_EMPTYSTRING,
+        chosenArticle: VALUE_EMPTYSTRING,
         submitArticle: VALUE_FALSE,
         editArticle: VALUE_FALSE
       };
@@ -51,14 +43,6 @@ const reducer = (state, action) => {
       return { ...state, submitArticle: action.submitArticle };
     case 'setEditArticle':
       return { ...state, editArticle: action.value };
-    case 'setURL':
-      return { ...state, URL: action.URL };
-    case 'setURLDescription':
-      return { ...state, URLDescription: action.URLDescription };
-    case 'setURLValidation':
-      return { ...state, isURLValid: action.isURLValid };
-    case 'setURLDescriptionValidation':
-      return { ...state, isURLDescriptionValid: action.isURLDescriptionValid };
     case 'setCreateLink':
       return { ...state, createLink: action.createLink };
     case 'setViewLinks':
@@ -66,9 +50,6 @@ const reducer = (state, action) => {
     case 'resetLinkFields':
       return {
         ...state,
-        isValid: VALUE_FALSE,
-        URL: '',
-        URLDescription: '',
         createLink: VALUE_FALSE
       };
     case TYPE_OPENLOGIN:
@@ -108,32 +89,24 @@ const reducer = (state, action) => {
 
 const initialState = {
   slider: 0,
-  title: '',
-  description: '',
-  author: '',
-  isValid: VALUE_FALSE,
-  isTitleValid: VALUE_FALSE,
-  isDescriptionValid: VALUE_FALSE,
-  isAuthorValid: VALUE_FALSE,
+  title: VALUE_EMPTYSTRING,
+  description: VALUE_EMPTYSTRING,
+  author: VALUE_EMPTYSTRING,
   articles: [],
   topics: ['All Topics', 'React Hooks', 'Reactjs', 'GraphQL', 'Material UI'],
   topic: 'React Hooks',
-  selectedTopic: '',
-  chosenArticle: '',
+  selectedTopic: VALUE_EMPTYSTRING,
+  chosenArticle: VALUE_EMPTYSTRING,
   submitArticle: VALUE_FALSE,
   editArticle: VALUE_FALSE,
-  URL: '',
-  URLDescription: '',
-  isURLValid: VALUE_FALSE,
-  isURLDescriptionValid: VALUE_FALSE,
   login: VALUE_FALSE,
   signup: VALUE_FALSE,
   createLink: VALUE_FALSE,
   viewLinks: VALUE_FALSE,
   searchLink: VALUE_FALSE,
-  filterLink: '',
+  filterLink: VALUE_EMPTYSTRING,
   executeSearch: VALUE_FALSE,
-  token: '',
+  token: VALUE_EMPTYSTRING,
   profile: VALUE_FALSE,
   user: {}
 };

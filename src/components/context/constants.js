@@ -11,3 +11,4 @@ export const TYPE_OPENARTICLE = 'setChosenArticle';
 // Value
 export const VALUE_FALSE = false;
 export const VALUE_TRUE = true;
+export const VALUE_EMPTYSTRING = '';
