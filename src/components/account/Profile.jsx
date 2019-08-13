@@ -1,27 +1,23 @@
-import React, { useContext } from "react";
-import { Typography, Paper, Button } from "@material-ui/core";
-import { StateContext } from "../context/index";
-import { styles } from "../style/Style";
-import { USER_QUERY } from "../graphql/Query";
-import { USER_ID } from "../context/constants";
-import { ACTION_HIDEPROFILE } from "../context/actions";
-import { useQuery } from "@apollo/react-hooks";
+import React, { useContext } from 'react';
+import { Typography, Paper, Button } from '@material-ui/core';
+import { StateContext } from '../context/index';
+import { styles } from '../style/Style';
+import { USER_QUERY } from '../graphql/Query';
+import { USER_ID } from '../context/constants';
+import { ACTION_HIDEPROFILE } from '../context/actions';
+import { useQuery } from '@apollo/react-hooks';
 
 export const Profile = () => {
   const { dispatch } = useContext(StateContext);
   const filter = localStorage.getItem(USER_ID);
   let profileErrorMsg;
 
-  const {
-    loading: profileLoading,
-    error: profileError,
-    data: profileData
-  } = useQuery(USER_QUERY, {
+  const { loading: profileLoading, error: profileError, data: profileData } = useQuery(USER_QUERY, {
     variables: { filter },
-    fetchPolicy: "network-only"
+    fetchPolicy: 'network-only'
   });
 
-  if (profileLoading) return "Loading...";
+  if (profileLoading) return 'Loading...';
 
   // Display vote error message
   if (profileError) {
@@ -42,12 +38,7 @@ export const Profile = () => {
                 {profileErrorMsg}
               </Typography>
             )}
-            <Typography
-              component="h1"
-              variant="title"
-              color="primary"
-              gutterBottom
-            >
+            <Typography component="h1" variant="title" color="primary" gutterBottom>
               Name: {user.name}
             </Typography>
             <Typography variant="subtitle1" color="inherit" gutterBottom>
@@ -57,8 +48,7 @@ export const Profile = () => {
               Links: You created {user.links ? user.links.length : 0} links.
             </Typography>
             <Typography variant="subtitle1" color="inherit" gutterBottom>
-              Articles: You created {user.articles ? user.articles.length : 0}{" "}
-              articles.
+              Articles: You created {user.articles ? user.articles.length : 0} articles.
             </Typography>
           </div>
         </Paper>

@@ -1,18 +1,10 @@
-import React, { useContext } from "react";
-import { StateContext } from "../context/index";
-import {
-  Typography,
-  CssBaseline,
-  CardContent,
-  Card,
-  Paper,
-  Grid,
-  Button
-} from "@material-ui/core";
-import { useQuery } from "@apollo/react-hooks";
-import { styles } from "../style/Style";
-import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from "../graphql/Query";
-import { ACTION_OPENARTICLE } from "../context/actions";
+import React, { useContext } from 'react';
+import { StateContext } from '../context/index';
+import { Typography, CssBaseline, CardContent, Card, Paper, Grid, Button } from '@material-ui/core';
+import { useQuery } from '@apollo/react-hooks';
+import { styles } from '../style/Style';
+import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from '../graphql/Query';
+import { ACTION_OPENARTICLE } from '../context/actions';
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -26,15 +18,14 @@ export const BlogList = () => {
     searchFilter = { filter };
   }
 
-  const {
-    loading: bloglistLoading,
-    error: bloglistError,
-    data: bloglistData
-  } = useQuery(insertQuery, {
-    variables: searchFilter
-  });
+  const { loading: bloglistLoading, error: bloglistError, data: bloglistData } = useQuery(
+    insertQuery,
+    {
+      variables: searchFilter
+    }
+  );
 
-  if (bloglistLoading) return "Loading...";
+  if (bloglistLoading) return 'Loading...';
 
   // Display vote error message
   if (bloglistError) {
@@ -50,10 +41,8 @@ export const BlogList = () => {
     articles = [];
   }
 
-  if (state.selectedTopic && state.selectedTopic !== "All Topics") {
-    articles = articles.filter(
-      article => article.topic === state.selectedTopic
-    );
+  if (state.selectedTopic && state.selectedTopic !== 'All Topics') {
+    articles = articles.filter(article => article.topic === state.selectedTopic);
   }
 
   return (
@@ -73,41 +62,19 @@ export const BlogList = () => {
               <Grid item xs={12} md={12}>
                 {articles.length > 0 && (
                   <div style={styles.mainFeaturedarticleContent}>
-                    <Typography
-                      component="h1"
-                      variant="title"
-                      color="primary"
-                      gutterBottom
-                    >
+                    <Typography component="h1" variant="title" color="primary" gutterBottom>
                       {articles[0].title}
                     </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      color="inherit"
-                      gutterBottom
-                    >
+                    <Typography variant="subtitle1" color="inherit" gutterBottom>
                       {articles[0].author}
                     </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      paragraph
-                      color="inherit"
-                      gutterBottom
-                    >
+                    <Typography variant="subtitle2" paragraph color="inherit" gutterBottom>
                       {limitedDescription(articles[0].description)}
                     </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="inherit"
-                      gutterBottom
-                    >
+                    <Typography variant="subtitle2" color="inherit" gutterBottom>
                       {articles[0].topic}
                     </Typography>
-                    <Typography
-                      variant="subtitle2"
-                      color="inherit"
-                      gutterBottom
-                    >
+                    <Typography variant="subtitle2" color="inherit" gutterBottom>
                       {articles[0].createdAt}
                     </Typography>
                     <Typography variant="subtitle2" gutterBottom>
@@ -134,41 +101,19 @@ export const BlogList = () => {
                   <Card style={styles.card}>
                     <div style={styles.cardDetails}>
                       <CardContent>
-                        <Typography
-                          component="h2"
-                          variant="title"
-                          color="primary"
-                          gutterBottom
-                        >
+                        <Typography component="h2" variant="title" color="primary" gutterBottom>
                           {article.title}
                         </Typography>
-                        <Typography
-                          variant="subtitle1"
-                          color="inherit"
-                          gutterBottom
-                        >
+                        <Typography variant="subtitle1" color="inherit" gutterBottom>
                           {article.author}
                         </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          paragraph
-                          color="inherit"
-                          gutterBottom
-                        >
+                        <Typography variant="subtitle2" paragraph color="inherit" gutterBottom>
                           {limitedDescription(article.description)}
                         </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          color="inherit"
-                          gutterBottom
-                        >
+                        <Typography variant="subtitle2" color="inherit" gutterBottom>
                           {article.topic}
                         </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          color="inherit"
-                          gutterBottom
-                        >
+                        <Typography variant="subtitle2" color="inherit" gutterBottom>
                           {article.createdAt}
                         </Typography>
                         <Typography variant="subtitle2" gutterBottom>

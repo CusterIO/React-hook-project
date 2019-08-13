@@ -34,9 +34,7 @@ export const ValidateRepeatPassword = ({ password, repeatPassword }) => {
 };
 
 export const ValidatePassword = password => {
-  let strongRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-  );
+  let strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})');
   return !strongRegex.test(String(password));
 };
 

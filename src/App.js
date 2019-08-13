@@ -1,6 +1,6 @@
-import React from "react";
-import "./App.css";
-import { Container } from "./components/Container.jsx";
+import React from 'react';
+import './App.css';
+import { Container } from './components/Container.jsx';
 import { StateProvider } from './components/context/index';
 
 const App = () => {

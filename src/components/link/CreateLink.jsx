@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
-import { StateContext } from "../context/index";
-import { Button, Grid, Typography, TextField } from "@material-ui/core";
-import { styles } from "../style/Style";
-import { Mutation } from "react-apollo";
-import { POST_MUTATION } from "../graphql/Mutation";
-import { FEED_QUERY } from "../graphql/Query";
+import React, { useContext, useEffect } from 'react';
+import { StateContext } from '../context/index';
+import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { styles } from '../style/Style';
+import { Mutation } from 'react-apollo';
+import { POST_MUTATION } from '../graphql/Mutation';
+import { FEED_QUERY } from '../graphql/Query';
 
 export const CreateLink = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -14,9 +14,9 @@ export const CreateLink = () => {
   useEffect(() => {
     const isURLValid = Validate(state.URL);
     if (isURLValid) {
-      dispatch({ type: "setURLValidation", isURLValid: true });
+      dispatch({ type: 'setURLValidation', isURLValid: true });
     } else {
-      dispatch({ type: "setURLValidation", isURLValid: false });
+      dispatch({ type: 'setURLValidation', isURLValid: false });
     }
     // eslint-disable-next-line
   }, [state.URL]);
@@ -25,12 +25,12 @@ export const CreateLink = () => {
     const isURLDescriptionValid = Validate(state.URLDescription);
     if (isURLDescriptionValid) {
       dispatch({
-        type: "setURLDescriptionValidation",
+        type: 'setURLDescriptionValidation',
         isURLDescriptionValid: true
       });
     } else {
       dispatch({
-        type: "setURLDescriptionValidation",
+        type: 'setURLDescriptionValidation',
         isURLDescriptionValid: false
       });
     }
@@ -40,9 +40,9 @@ export const CreateLink = () => {
   useEffect(() => {
     const isValid = ValidateAll();
     if (isValid) {
-      dispatch({ type: "setValidation", isValid: true });
+      dispatch({ type: 'setValidation', isValid: true });
     } else {
-      dispatch({ type: "setValidation", isValid: false });
+      dispatch({ type: 'setValidation', isValid: false });
     }
     // eslint-disable-next-line
   }, [state.isURLDescriptionValid, state.isURLValid]);
@@ -52,12 +52,12 @@ export const CreateLink = () => {
       return false;
     } else if (!input.match(/^[a-zA-Z0-9 .,!?@)(\-\r\n]+$/)) {
       dispatch({
-        type: "setValidationMsg",
-        validationMsg: "Only letters, numbers and characters .,!?)(- allowed"
+        type: 'setValidationMsg',
+        validationMsg: 'Only letters, numbers and characters .,!?)(- allowed'
       });
       return false;
     }
-    dispatch({ type: "setValidationMsg", validationMsg: "" });
+    dispatch({ type: 'setValidationMsg', validationMsg: '' });
     return true;
   };
 
@@ -87,10 +87,10 @@ export const CreateLink = () => {
             fullWidth={true}
             value={state.URL}
             onChange={e => {
-              dispatch({ type: "setURL", URL: e.target.value });
+              dispatch({ type: 'setURL', URL: e.target.value });
             }}
             error={!state.isURLValid}
-            variant={"outlined"}
+            variant={'outlined'}
             label="URL"
           />
         </Grid>
@@ -104,12 +104,12 @@ export const CreateLink = () => {
             value={state.URLDescription}
             onChange={e => {
               dispatch({
-                type: "setURLDescription",
+                type: 'setURLDescription',
                 URLDescription: e.target.value
               });
             }}
             error={!state.isURLDescriptionValid}
-            variant={"outlined"}
+            variant={'outlined'}
             label="Description"
           />
         </Grid>
@@ -117,10 +117,8 @@ export const CreateLink = () => {
           <Mutation
             mutation={POST_MUTATION}
             variables={{ description, url }}
-            onCompleted={() => dispatch({ type: "resetLinkFields" })}
-            update={(store, { data: { postLink } }) =>
-              updateCacheAfterCreateLink(store, postLink)
-            }
+            onCompleted={() => dispatch({ type: 'resetLinkFields' })}
+            update={(store, { data: { postLink } }) => updateCacheAfterCreateLink(store, postLink)}
           >
             {postMutation => (
               <Button

@@ -1,33 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Formik } from "formik";
-import { StateContext } from "../context/index";
-import {
-  Button,
-  Grid,
-  Typography,
-  TextField,
-  Select,
-  MenuItem
-} from "@material-ui/core";
-import { styles } from "../style/Style";
-import { useMutation } from "@apollo/react-hooks";
-import { POST_ARTICLE_MUTATION } from "../graphql/Mutation";
-import { ARTICLE_QUERY } from "../graphql/Query";
-import { ValidateText } from "../utils/validation";
-import { ACTION_RESETARTICLEFIELD } from "../context/actions";
+import React, { useContext, useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import { StateContext } from '../context/index';
+import { Button, Grid, Typography, TextField, Select, MenuItem } from '@material-ui/core';
+import { styles } from '../style/Style';
+import { useMutation } from '@apollo/react-hooks';
+import { POST_ARTICLE_MUTATION } from '../graphql/Mutation';
+import { ARTICLE_QUERY } from '../graphql/Query';
+import { ValidateText } from '../utils/validation';
+import { ACTION_RESETARTICLEFIELD } from '../context/actions';
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);
   const { editArticle, chosenArticle } = state;
   // Default state
-  const TYPE_EMPTYSTRING = "";
+  const TYPE_EMPTYSTRING = '';
   // Local state
   const [title, setTitle] = useState(TYPE_EMPTYSTRING);
   const [description, setDescription] = useState(TYPE_EMPTYSTRING);
   const [author, setAuthor] = useState(TYPE_EMPTYSTRING);
   const [topic, setTopic] = useState(TYPE_EMPTYSTRING);
   // Constants
-  const ERROR_MESSAGE = "Only letters, numbers and characters .,!?)(- allowed";
+  const ERROR_MESSAGE = 'Only letters, numbers and characters .,!?)(- allowed';
   let blogErrorMsg;
 
   const [createBlog, { loading: blogLoading, error: blogError }] = useMutation(
@@ -65,7 +58,7 @@ export const CreateBlogPost = () => {
   }, [editArticle, chosenArticle]);
 
   // Display current state
-  if (blogLoading) return "Loading...";
+  if (blogLoading) return 'Loading...';
 
   // Display create blog error message
   if (blogError) {
@@ -118,11 +111,7 @@ export const CreateBlogPost = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
+    <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
       {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
         <div style={styles.submitArticleContainer}>
           {blogError && (
@@ -138,7 +127,7 @@ export const CreateBlogPost = () => {
               <TextField
                 required
                 fullWidth={true}
-                variant={"outlined"}
+                variant={'outlined'}
                 label="Title"
                 name="blogPost.title"
                 onChange={handleChange}
@@ -155,7 +144,7 @@ export const CreateBlogPost = () => {
                 required
                 fullWidth={true}
                 multiline={true}
-                variant={"outlined"}
+                variant={'outlined'}
                 rows={4}
                 rowsMax={200}
                 label="Description"
@@ -173,7 +162,7 @@ export const CreateBlogPost = () => {
               <TextField
                 required
                 fullWidth={true}
-                variant={"outlined"}
+                variant={'outlined'}
                 label="Author"
                 name="blogPost.author"
                 onChange={handleChange}
@@ -195,18 +184,14 @@ export const CreateBlogPost = () => {
                 onBlur={handleBlur}
                 value={values.blogPost.topic}
               >
-                <MenuItem value={"React Hooks"}>React Hooks</MenuItem>
-                <MenuItem value={"Reactjs"}>Reactjs</MenuItem>
-                <MenuItem value={"GraphQL"}>GraphQL</MenuItem>
-                <MenuItem value={"Material UI"}>Material UI</MenuItem>
+                <MenuItem value={'React Hooks'}>React Hooks</MenuItem>
+                <MenuItem value={'Reactjs'}>Reactjs</MenuItem>
+                <MenuItem value={'GraphQL'}>GraphQL</MenuItem>
+                <MenuItem value={'Material UI'}>Material UI</MenuItem>
               </Select>
             </Grid>
             <Grid item xs={12}>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={handleSubmit}
-              >
+              <Button color="primary" variant="contained" onClick={handleSubmit}>
                 Post blog
               </Button>
             </Grid>

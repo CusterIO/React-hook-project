@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from "react";
+import React, { useReducer, createContext } from 'react';
 import {
   TYPE_SETPROFILE,
   VALUE_FALSE,
@@ -6,69 +6,69 @@ import {
   TYPE_CLOSELOGIN,
   TYPE_OPENLOGIN,
   TYPE_OPENSIGNIN
-} from "./constants";
+} from './constants';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "setSlider":
+    case 'setSlider':
       return { ...state, slider: action.slider };
-    case "setTitle":
+    case 'setTitle':
       return { ...state, title: action.title };
-    case "setDescription":
+    case 'setDescription':
       return { ...state, description: action.description };
-    case "setAuthor":
+    case 'setAuthor':
       return { ...state, author: action.author };
-    case "setValidation":
+    case 'setValidation':
       return { ...state, isValid: action.isValid };
-    case "setTitleValidation":
+    case 'setTitleValidation':
       return { ...state, isTitleValid: action.isTitleValid };
-    case "setDescriptionValidation":
+    case 'setDescriptionValidation':
       return { ...state, isDescriptionValid: action.isDescriptionValid };
-    case "setAuthorValidation":
+    case 'setAuthorValidation':
       return { ...state, isAuthorValid: action.isAuthorValid };
-    case "setArticle":
+    case 'setArticle':
       return { ...state, articles: [...state.articles, action.article] };
-    case "updateArticles":
+    case 'updateArticles':
       return { ...state, articles: [...action.articles] };
-    case "resetArticleFields":
+    case 'resetArticleFields':
       return {
         ...state,
         isValid: VALUE_FALSE,
-        title: "",
-        description: "",
-        author: "",
-        chosenArticle: "",
+        title: '',
+        description: '',
+        author: '',
+        chosenArticle: '',
         submitArticle: VALUE_FALSE,
         editArticle: VALUE_FALSE
       };
-    case "setTopic":
+    case 'setTopic':
       return { ...state, topic: action.topic };
-    case "setSelectedTopic":
+    case 'setSelectedTopic':
       return { ...state, selectedTopic: action.selectedTopic };
-    case "setChosenArticle":
+    case 'setChosenArticle':
       return { ...state, chosenArticle: action.value };
-    case "setSubmitArticle":
+    case 'setSubmitArticle':
       return { ...state, submitArticle: action.submitArticle };
-    case "setEditArticle":
+    case 'setEditArticle':
       return { ...state, editArticle: action.value };
-    case "setURL":
+    case 'setURL':
       return { ...state, URL: action.URL };
-    case "setURLDescription":
+    case 'setURLDescription':
       return { ...state, URLDescription: action.URLDescription };
-    case "setURLValidation":
+    case 'setURLValidation':
       return { ...state, isURLValid: action.isURLValid };
-    case "setURLDescriptionValidation":
+    case 'setURLDescriptionValidation':
       return { ...state, isURLDescriptionValid: action.isURLDescriptionValid };
-    case "setCreateLink":
+    case 'setCreateLink':
       return { ...state, createLink: action.createLink };
-    case "setViewLinks":
+    case 'setViewLinks':
       return { ...state, viewLinks: action.viewLinks };
-    case "resetLinkFields":
+    case 'resetLinkFields':
       return {
         ...state,
         isValid: VALUE_FALSE,
-        URL: "",
-        URLDescription: "",
+        URL: '',
+        URLDescription: '',
         createLink: VALUE_FALSE
       };
     case TYPE_OPENLOGIN:
@@ -89,41 +89,41 @@ const reducer = (state, action) => {
         signup: VALUE_FALSE,
         login: VALUE_FALSE
       };
-    case "setSearchLink":
+    case 'setSearchLink':
       return { ...state, searchLink: !state.searchLink };
-    case "setFilterLink":
+    case 'setFilterLink':
       return { ...state, filterLink: action.filterLink };
-    case "setExecuteSearch":
+    case 'setExecuteSearch':
       return { ...state, executeSearch: action.executeSearch };
-    case "setToken":
+    case 'setToken':
       return { ...state, token: action.value };
     case TYPE_SETPROFILE:
       return { ...state, profile: action.value };
-    case "setUser":
+    case 'setUser':
       return { ...state, setUser: action.user };
     default:
-      throw new Error("Unexpected action");
+      throw new Error('Unexpected action');
   }
 };
 
 const initialState = {
   slider: 0,
-  title: "",
-  description: "",
-  author: "",
+  title: '',
+  description: '',
+  author: '',
   isValid: VALUE_FALSE,
   isTitleValid: VALUE_FALSE,
   isDescriptionValid: VALUE_FALSE,
   isAuthorValid: VALUE_FALSE,
   articles: [],
-  topics: ["All Topics", "React Hooks", "Reactjs", "GraphQL", "Material UI"],
-  topic: "React Hooks",
-  selectedTopic: "",
-  chosenArticle: "",
+  topics: ['All Topics', 'React Hooks', 'Reactjs', 'GraphQL', 'Material UI'],
+  topic: 'React Hooks',
+  selectedTopic: '',
+  chosenArticle: '',
   submitArticle: VALUE_FALSE,
   editArticle: VALUE_FALSE,
-  URL: "",
-  URLDescription: "",
+  URL: '',
+  URLDescription: '',
   isURLValid: VALUE_FALSE,
   isURLDescriptionValid: VALUE_FALSE,
   login: VALUE_FALSE,
@@ -131,9 +131,9 @@ const initialState = {
   createLink: VALUE_FALSE,
   viewLinks: VALUE_FALSE,
   searchLink: VALUE_FALSE,
-  filterLink: "",
+  filterLink: '',
   executeSearch: VALUE_FALSE,
-  token: "",
+  token: '',
   profile: VALUE_FALSE,
   user: {}
 };
@@ -143,9 +143,7 @@ const StateContext = createContext(initialState);
 function StateProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <StateContext.Provider value={{ state, dispatch }}>
-      {props.children}
-    </StateContext.Provider>
+    <StateContext.Provider value={{ state, dispatch }}>{props.children}</StateContext.Provider>
   );
 }
 

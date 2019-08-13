@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { StateContext } from "../context/index";
-import {Menu} from "./Menu";
-import {Footer} from "./Footer";
-import { styles } from "../style/Style";
-import { Login } from "../authentication/Login";
-import { Profile } from "../account/Profile";
-import {BlogList} from "../blog/BlogList";
-import {Blog} from "../blog/Blog";
-import {CreateBlogPost} from "../blog/CreateBlogPost";
+import React, { useContext } from 'react';
+import { StateContext } from '../context/index';
+import { Menu } from './Menu';
+import { Footer } from './Footer';
+import { styles } from '../style/Style';
+import { Login } from '../authentication/Login';
+import { Profile } from '../account/Profile';
+import { BlogList } from '../blog/BlogList';
+import { Blog } from '../blog/Blog';
+import { CreateBlogPost } from '../blog/CreateBlogPost';
 // import {ArticleView} from "../frontendOnlyBlog/ArticleView";
 // import { SubmitArticle } from '../frontendOnlyBlog/SubmitArticle';
 // import {ArticleListView} from "../frontendOnlyBlog/ArticleListView";
@@ -36,23 +36,17 @@ export const BlogContainer = () => {
     <React.Fragment>
       <div style={styles.appWrapper}>
         <div style={styles.leftSideContainer}>
-          <div style={styles.verticalTextLeft}>
-            Roger Hurtig
-          </div>
+          <div style={styles.verticalTextLeft}>Roger Hurtig</div>
         </div>
         <div style={styles.applicationContainer}>
           <Menu />
-          <div style={styles.articleContentContainer}>
-            {CurrentContent}
-          </div>
+          <div style={styles.articleContentContainer}>{CurrentContent}</div>
           <Footer />
         </div>
         <div style={styles.rightSideContainer}>
-          <div style={styles.verticalTextRight}>
-            Custer IO
-          </div>
+          <div style={styles.verticalTextRight}>Custer IO</div>
         </div>
       </div>
     </React.Fragment>
   );
-}
+};

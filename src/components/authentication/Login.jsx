@@ -1,24 +1,20 @@
-import React, { useContext } from "react";
-import { Formik } from "formik";
-import { useMutation } from "@apollo/react-hooks";
-import { Typography, Grid, Button, TextField } from "@material-ui/core";
-import { StateContext } from "../context/index";
-import { styles } from "../style/Style";
-import { AUTH_TOKEN, USER_ID } from "../context/constants";
-import {
-  ACTION_CLOSELOGIN,
-  ACTION_OPENLOGIN,
-  ACTION_OPENSIGNIN
-} from "../context/actions";
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from "../graphql/Mutation";
+import React, { useContext } from 'react';
+import { Formik } from 'formik';
+import { useMutation } from '@apollo/react-hooks';
+import { Typography, Grid, Button, TextField } from '@material-ui/core';
+import { StateContext } from '../context/index';
+import { styles } from '../style/Style';
+import { AUTH_TOKEN, USER_ID } from '../context/constants';
+import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from '../context/actions';
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/Mutation';
 import {
   ValidateEmail,
   ValidateCharacters,
   ValidateRepeatEmail,
   ValidateRepeatPassword,
   ValidatePassword
-} from "../utils/validation";
-import { ErrorFeedback } from "../error/feedback";
+} from '../utils/validation';
+import { ErrorFeedback } from '../error/feedback';
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -27,42 +23,39 @@ export const Login = () => {
   let signupErrorMsg;
   let loginErrorMsg;
   // Form constants
-  const name = "";
-  const email = "";
-  const repeatEmail = "";
-  const password = "";
-  const repeatPassword = "";
+  const name = '';
+  const email = '';
+  const repeatEmail = '';
+  const password = '';
+  const repeatPassword = '';
   // Mutation hooks
-  const [loginUser, { loading: loginLoading, error: loginError }] = useMutation(
-    LOGIN_MUTATION,
+  const [loginUser, { loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION, {
+    variables: { email, password },
+    onCompleted: data => {
+      const { token, user } = data.login;
+      dispatch({ type: 'setToken', value: token }); // Temporary
+      localStorage.setItem(AUTH_TOKEN, token);
+      localStorage.setItem(USER_ID, user.id);
+      dispatch(ACTION_CLOSELOGIN);
+    }
+  });
+  const [signupUser, { loading: signupLoading, error: signupError }] = useMutation(
+    SIGNUP_MUTATION,
     {
-      variables: { email, password },
+      variables: { name, email, password },
       onCompleted: data => {
-        const { token, user } = data.login;
-        dispatch({ type: "setToken", value: token }); // Temporary
+        const { token, user } = data.signup;
+        dispatch({ type: 'setToken', value: token }); // Temporary
         localStorage.setItem(AUTH_TOKEN, token);
         localStorage.setItem(USER_ID, user.id);
         dispatch(ACTION_CLOSELOGIN);
       }
     }
   );
-  const [
-    signupUser,
-    { loading: signupLoading, error: signupError }
-  ] = useMutation(SIGNUP_MUTATION, {
-    variables: { name, email, password },
-    onCompleted: data => {
-      const { token, user } = data.signup;
-      dispatch({ type: "setToken", value: token }); // Temporary
-      localStorage.setItem(AUTH_TOKEN, token);
-      localStorage.setItem(USER_ID, user.id);
-      dispatch(ACTION_CLOSELOGIN);
-    }
-  });
 
   // Display current state
-  if (loginLoading) return "Loading...";
-  if (signupLoading) return "Loading...";
+  if (loginLoading) return 'Loading...';
+  if (signupLoading) return 'Loading...';
 
   // Display login error message
   if (loginError) {
@@ -91,20 +84,20 @@ export const Login = () => {
 
     const emailError = ValidateEmail(v.email);
     if (emailError) {
-      errors.email = "Invalid email adress";
+      errors.email = 'Invalid email adress';
     }
 
     const passwordError = ValidatePassword(v.password);
     if (passwordError) {
       errors.password =
-        "Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.";
+        'Must contain at least 1 numeric character, 1 special character (?=.[!@#$%^&]), 1 lowercase and 1 uppercase alphabetical character. The string must be eight characters or longer.';
     }
 
     // Only validate these fields on signup
     if (!login) {
       const nameError = ValidateCharacters(v.name);
       if (nameError) {
-        errors.name = "Only letters, numbers and characters .,!?@)(- allowed";
+        errors.name = 'Only letters, numbers and characters .,!?@)(- allowed';
       }
 
       const repeatEmailError = ValidateRepeatEmail({
@@ -112,7 +105,7 @@ export const Login = () => {
         repeatEmail: v.repeatEmail
       });
       if (repeatEmailError) {
-        errors.repeatEmail = "Email do not match";
+        errors.repeatEmail = 'Email do not match';
       }
 
       const repeatPasswordError = ValidateRepeatPassword({
@@ -120,7 +113,7 @@ export const Login = () => {
         repeatPassword: v.repeatPassword
       });
       if (repeatPasswordError) {
-        errors.repeatPassword = "Password do not match";
+        errors.repeatPassword = 'Password do not match';
       }
     }
 
@@ -146,11 +139,7 @@ export const Login = () => {
 
   return (
     <div style={styles.submitArticleContainer}>
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        onSubmit={onSubmit}
-      >
+      <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
           <Grid container spacing={24}>
             {loginError && (
@@ -172,7 +161,7 @@ export const Login = () => {
                 <TextField
                   required
                   fullWidth={true}
-                  variant={"outlined"}
+                  variant={'outlined'}
                   label="Name"
                   name="name"
                   onChange={handleChange}
@@ -189,7 +178,7 @@ export const Login = () => {
               <TextField
                 required
                 fullWidth={true}
-                variant={"outlined"}
+                variant={'outlined'}
                 label="Email"
                 name="email"
                 type="email"
@@ -207,7 +196,7 @@ export const Login = () => {
                 <TextField
                   required
                   fullWidth={true}
-                  variant={"outlined"}
+                  variant={'outlined'}
                   label="Repeat email"
                   name="repeatEmail"
                   type="email"
@@ -225,7 +214,7 @@ export const Login = () => {
               <TextField
                 required
                 fullWidth={true}
-                variant={"outlined"}
+                variant={'outlined'}
                 label="Password"
                 name="password"
                 type="password"
@@ -243,7 +232,7 @@ export const Login = () => {
                 <TextField
                   required
                   fullWidth={true}
-                  variant={"outlined"}
+                  variant={'outlined'}
                   label="Repeat password"
                   name="repeatPassword"
                   type="password"
@@ -258,13 +247,8 @@ export const Login = () => {
               </Grid>
             )}
             <Grid item xs={12}>
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                onClick={handleSubmit}
-              >
-                {login ? "login" : "create account"}
+              <Button type="submit" color="primary" variant="contained" onClick={handleSubmit}>
+                {login ? 'login' : 'create account'}
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -279,7 +263,7 @@ export const Login = () => {
                   }
                 }}
               >
-                {login ? "Create an account?" : "Login to account?"}
+                {login ? 'Create an account?' : 'Login to account?'}
               </Button>
             </Grid>
           </Grid>

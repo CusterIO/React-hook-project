@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { Typography, Paper, Button } from "@material-ui/core";
-import { StateContext } from "../context/index";
-import { styles } from "../style/Style";
-import { useMutation } from "@apollo/react-hooks";
-import { timeDifferenceForDate } from "../utils/timeDifference";
-import { AUTH_TOKEN, USER_ID } from "../context/constants";
-import { VOTE_ARTICLE_MUTATION } from "../graphql/Mutation";
-import { ARTICLE_QUERY } from "../graphql/Query";
-import { ACTION_EDITARTICLE } from "../context/actions";
+import React, { useContext } from 'react';
+import { Typography, Paper, Button } from '@material-ui/core';
+import { StateContext } from '../context/index';
+import { styles } from '../style/Style';
+import { useMutation } from '@apollo/react-hooks';
+import { timeDifferenceForDate } from '../utils/timeDifference';
+import { AUTH_TOKEN, USER_ID } from '../context/constants';
+import { VOTE_ARTICLE_MUTATION } from '../graphql/Mutation';
+import { ARTICLE_QUERY } from '../graphql/Query';
+import { ACTION_EDITARTICLE } from '../context/actions';
 
 export const Blog = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -37,7 +37,7 @@ export const Blog = () => {
   );
 
   // Display current state
-  if (voteLoading) return "Loading...";
+  if (voteLoading) return 'Loading...';
 
   // Display vote error message
   if (voteError) {
@@ -57,23 +57,13 @@ export const Blog = () => {
                   {voteErrorMsg}
                 </Typography>
               )}
-              <Typography
-                component="h1"
-                variant="title"
-                color="primary"
-                gutterBottom
-              >
+              <Typography component="h1" variant="title" color="primary" gutterBottom>
                 {article.title}
               </Typography>
               <Typography variant="subtitle1" color="inherit" gutterBottom>
                 {article.author}
               </Typography>
-              <Typography
-                variant="subtitle2"
-                paragraph
-                color="inherit"
-                gutterBottom
-              >
+              <Typography variant="subtitle2" paragraph color="inherit" gutterBottom>
                 {article.description}
               </Typography>
               <Typography variant="subtitle2" color="inherit" gutterBottom>
@@ -93,8 +83,8 @@ export const Blog = () => {
                 </Typography>
               )}
               <Typography variant="subtitle1" color="inherit" gutterBottom>
-                {article.votes.length} votes | by{" "}
-                {article.postedBy ? article.postedBy.name : "Unknown"}{" "}
+                {article.votes.length} votes | by{' '}
+                {article.postedBy ? article.postedBy.name : 'Unknown'}{' '}
                 {timeDifferenceForDate(article.createdAt)}
               </Typography>
             </div>
