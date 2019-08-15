@@ -1,12 +1,9 @@
 import React, { useContext } from 'react';
 import { Formik } from 'formik';
-import { useMutation } from '@apollo/react-hooks';
+// Components
+import { Spinner } from '../loader/Spinner';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
 import { StateContext } from '../context/index';
-import { styles } from '../style/Style';
-import { AUTH_TOKEN, USER_ID } from '../context/constants';
-import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from '../context/actions';
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/Mutation';
 import {
   ValidateEmail,
   ValidateCharacters,
@@ -14,7 +11,15 @@ import {
   ValidateRepeatPassword,
   ValidatePassword
 } from '../utils/validation';
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
 import { ErrorFeedback } from '../error/feedback';
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/Mutation';
+// Contents
+import { AUTH_TOKEN, USER_ID } from '../context/constants';
+import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from '../context/actions';
+// CSS
+import { styles } from '../style/Style';
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -54,8 +59,8 @@ export const Login = () => {
   );
 
   // Display current state
-  if (loginLoading) return 'Loading...';
-  if (signupLoading) return 'Loading...';
+  if (loginLoading) return <Spinner />;
+  if (signupLoading) return <Spinner />;
 
   // Display login error message
   if (loginError) {

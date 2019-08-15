@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
+// Components
 import { Typography, Paper, Button } from '@material-ui/core';
 import { StateContext } from '../context/index';
-import { styles } from '../style/Style';
-import { useMutation } from '@apollo/react-hooks';
+import { Spinner } from '../loader/Spinner';
 import { timeDifferenceForDate } from '../utils/timeDifference';
-import { AUTH_TOKEN, USER_ID } from '../context/constants';
+// GraphQL
+import { useMutation } from '@apollo/react-hooks';
 import { VOTE_ARTICLE_MUTATION } from '../graphql/Mutation';
 import { ARTICLE_QUERY } from '../graphql/Query';
+// Constants
 import { ACTION_EDITARTICLE } from '../context/actions';
+import { AUTH_TOKEN, USER_ID } from '../context/constants';
+// CSS
+import { styles } from '../style/Style';
 
 export const Blog = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -37,7 +42,7 @@ export const Blog = () => {
   );
 
   // Display current state
-  if (voteLoading) return 'Loading...';
+  if (voteLoading) return <Spinner />;
 
   // Display vote error message
   if (voteError) {

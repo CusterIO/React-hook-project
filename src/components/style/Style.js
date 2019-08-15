@@ -121,5 +121,12 @@ export const styles = {
     flex: 1,
     bottom: 0,
     left: 0
+  },
+  spinner: {
+    width: "100%",
+    height: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    flexGrow: 1
   }
 };

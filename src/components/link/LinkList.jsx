@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
 import { StateContext } from '../context/index';
+// Components
 import { Typography, CssBaseline, CardContent, Card, Paper, Grid } from '@material-ui/core';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { styles } from '../style/Style';
 import { timeDifferenceForDate } from '../utils/timeDifference';
-import { AUTH_TOKEN } from '../context/constants';
+import { Spinner } from '../loader/Spinner';
+// GraphQL
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { VOTE_MUTATION } from '../graphql/Mutation';
 import { FEED_QUERY, FEED_SEARCH_QUERY } from '../graphql/Query';
 import { NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION } from '../graphql/Subscription';
+// Constants
+import { AUTH_TOKEN } from '../context/constants';
+// CSS
+import { styles } from '../style/Style';
 
 export const LinkList = () => {
   const { state } = useContext(StateContext);
@@ -72,7 +77,7 @@ export const LinkList = () => {
     }
   });
 
-  if (linklistLoading) return 'Loading...';
+  if (linklistLoading) return <Spinner />;
 
   // Display vote error message
   if (linklistError) {
@@ -81,7 +86,7 @@ export const LinkList = () => {
     });
   }
 
-  if (voteLoading) return 'Loading...';
+  if (voteLoading) return <Spinner />;
 
   let links = linklistData.feedLinks.links;
 

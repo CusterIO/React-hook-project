@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
+// Components
 import { StateContext } from '../context/index';
 import { Typography, CssBaseline, CardContent, Card, Paper, Grid, Button } from '@material-ui/core';
+import {Spinner} from '../loader/Spinner';
+// GraphQL
 import { useQuery } from '@apollo/react-hooks';
-import { styles } from '../style/Style';
 import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from '../graphql/Query';
+// Constants
 import { ACTION_OPENARTICLE } from '../context/actions';
+// CSS
+import { styles } from '../style/Style';
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -25,7 +30,7 @@ export const BlogList = () => {
     }
   );
 
-  if (bloglistLoading) return 'Loading...';
+  if (bloglistLoading) return <Spinner />;
 
   // Display vote error message
   if (bloglistError) {

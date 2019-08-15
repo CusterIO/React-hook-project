@@ -1,13 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
+// Components
 import { StateContext } from '../context/index';
 import { Button, Grid, Typography, TextField, Select, MenuItem } from '@material-ui/core';
-import { styles } from '../style/Style';
+import { ValidateText } from '../utils/validation';
+import { Spinner } from '../loader/Spinner';
+// GraphQL
 import { useMutation } from '@apollo/react-hooks';
 import { POST_ARTICLE_MUTATION } from '../graphql/Mutation';
 import { ARTICLE_QUERY } from '../graphql/Query';
-import { ValidateText } from '../utils/validation';
+// Constants
 import { ACTION_RESETARTICLEFIELD } from '../context/actions';
+// CSS
+import { styles } from '../style/Style';
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -58,7 +63,7 @@ export const CreateBlogPost = () => {
   }, [editArticle, chosenArticle]);
 
   // Display current state
-  if (blogLoading) return 'Loading...';
+  if (blogLoading) return <Spinner />;
 
   // Display create blog error message
   if (blogError) {

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+// Components
 import { StateContext } from '../context/index';
 import { Slider } from '../sliders/Slider.jsx';
 

@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 // Components
 import { StateContext } from '../context/index';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
+import { Spinner } from '../loader/Spinner';
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
 import { POST_LINK_MUTATION } from '../graphql/Mutation';
@@ -44,7 +45,7 @@ export const CreateLink = () => {
   });
 
   // Display current state
-  if (linkLoading) return 'Loading...';
+  if (linkLoading) return <Spinner />;
 
   // Display create blog error message
   if (linkError) {

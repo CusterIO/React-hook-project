@@ -1,11 +1,16 @@
 import React, { useContext } from 'react';
+// Components
 import { Typography, Paper, Button } from '@material-ui/core';
 import { StateContext } from '../context/index';
-import { styles } from '../style/Style';
+import {Spinner} from '../loader/Spinner';
+// GraphQL
 import { USER_QUERY } from '../graphql/Query';
+import { useQuery } from '@apollo/react-hooks';
+// Constants
 import { USER_ID } from '../context/constants';
 import { ACTION_HIDEPROFILE } from '../context/actions';
-import { useQuery } from '@apollo/react-hooks';
+// CSS
+import { styles } from '../style/Style';
 
 export const Profile = () => {
   const { dispatch } = useContext(StateContext);
@@ -17,7 +22,7 @@ export const Profile = () => {
     fetchPolicy: 'network-only'
   });
 
-  if (profileLoading) return 'Loading...';
+  if (profileLoading) return <Spinner />;
 
   // Display vote error message
   if (profileError) {
