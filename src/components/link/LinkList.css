@@ -1,0 +1,27 @@
+.linkList-wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  flex-grow: 1;
+}
+
+.linkList-style__paper {
+  background-color: #000000;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.linkList-wrapper__typography {
+  padding: 6px;
+  flex-grow: 1;
+}
+
+.linkList-style__card {
+  display: flex;
+  width: 100%;
+}
+
+.linkList-wrapper__card-typography {
+  flex: 1;
+  flex-grow: 1;
+}

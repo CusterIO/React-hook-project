@@ -1,0 +1,19 @@
+.blog-wrapper {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  flex-grow: 1;
+}
+
+.blog-style__paper {
+  background-color: #000000;
+  color: #FFFFFF;
+  margin-bottom: 4px;
+}
+
+.blog-wrapper__typography {
+  color: #FFFFFF;
+  margin-top: 6px;
+  padding: 6px;
+  flex-grow: 1;
+}

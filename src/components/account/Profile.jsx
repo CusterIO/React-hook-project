@@ -10,7 +10,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { USER_ID } from '../context/constants';
 import { ACTION_HIDEPROFILE } from '../context/actions';
 // CSS
-import { styles } from '../style/Style';
+import './Profile.css';
 
 export const Profile = () => {
   const { dispatch } = useContext(StateContext);
@@ -31,13 +31,13 @@ export const Profile = () => {
     });
   }
 
-  const user = profileData.feedUser.user;
+  const {user} = profileData.feedUser;
 
   return (
-    <div style={styles.layout}>
+    <div className="profile-wrapper">
       <main>
-        <Paper elevation={10} style={styles.chosenArticlePaper}>
-          <div style={styles.choseArticleContent}>
+        <Paper elevation={10} className="profile-style__paper">
+          <div className="profile-wrapper__typography">
             {profileError && (
               <Typography variant="h6" color="error" gutterBottom>
                 {profileErrorMsg}

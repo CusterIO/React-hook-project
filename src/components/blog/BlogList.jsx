@@ -9,13 +9,14 @@ import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from '../graphql/Query';
 // Constants
 import { ACTION_OPENARTICLE } from '../context/actions';
 // CSS
-import { styles } from '../style/Style';
+import './BlogList.css';
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
   let insertQuery = ARTICLE_QUERY;
   let searchFilter = {};
   let bloglistErrorMsg;
+  let articles = [];
 
   if (state.executeSearch) {
     const filter = state.filterLink;
@@ -39,11 +40,8 @@ export const BlogList = () => {
     });
   }
 
-  let articles = bloglistData.feedArticles.articles;
-
-  // Avoid errors caused by undefined.
-  if (!articles) {
-    articles = [];
+  if (bloglistData) {
+    articles = bloglistData.feedArticles.articles;
   }
 
   if (state.selectedTopic && state.selectedTopic !== 'All Topics') {
@@ -53,9 +51,9 @@ export const BlogList = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <div style={styles.layout}>
+      <div className="blogList-wrapper">
         <main>
-          <Paper style={styles.mainFeaturedlink}>
+          <Paper className="blogList-style__paper">
             <Grid container spacing={16}>
               {bloglistError && (
                 <Grid item xs={12}>
@@ -66,7 +64,7 @@ export const BlogList = () => {
               )}
               <Grid item xs={12} md={12}>
                 {articles.length > 0 && (
-                  <div style={styles.mainFeaturedarticleContent}>
+                  <div className="blogList-wrapper__typography">
                     <Typography component="h1" variant="title" color="primary" gutterBottom>
                       {articles[0].title}
                     </Typography>
@@ -103,8 +101,8 @@ export const BlogList = () => {
             <Grid container spacing={16}>
               {articles.slice(1).map((article, index) => (
                 <Grid item key={article.id} xs={12} md={6}>
-                  <Card style={styles.card}>
-                    <div style={styles.cardDetails}>
+                  <Card className="blogList-style__card">
+                    <div className="blogList-wrapper__card-typography">
                       <CardContent>
                         <Typography component="h2" variant="title" color="primary" gutterBottom>
                           {article.title}

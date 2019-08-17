@@ -12,7 +12,7 @@ import { NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION } from '../graphql/Subsc
 // Constants
 import { AUTH_TOKEN } from '../context/constants';
 // CSS
-import { styles } from '../style/Style';
+import './LinkList.css';
 
 export const LinkList = () => {
   const { state } = useContext(StateContext);
@@ -21,6 +21,7 @@ export const LinkList = () => {
   let searchFilter = {};
   let linklistErrorMsg;
   let linkId;
+  let links = [];
 
   if (state.executeSearch) {
     const filter = state.filterLink;
@@ -88,19 +89,16 @@ export const LinkList = () => {
 
   if (voteLoading) return <Spinner />;
 
-  let links = linklistData.feedLinks.links;
-
-  // Avoid errors caused by undefined links.
-  if (!links) {
-    links = [];
+  if (linklistData) {
+    links = linklistData.feedLinks.links;
   }
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <div style={styles.layout}>
+      <div className="linkList-wrapper">
         <main>
-          <Paper style={styles.mainFeaturedlink}>
+          <Paper className="linkList-style__paper">
             <Grid container spacing={16}>
               {linklistError && (
                 <Grid item xs={12}>
@@ -111,7 +109,7 @@ export const LinkList = () => {
               )}
               <Grid item xs={12} md={12}>
                 {links.length > 0 && (
-                  <div style={styles.mainFeaturedlinkContent}>
+                  <div className="linkList-wrapper__typography">
                     <Typography component="h1" variant="title" color="primary" gutterBottom>
                       {links[0].description}
                     </Typography>
@@ -145,8 +143,8 @@ export const LinkList = () => {
             <Grid container spacing={16}>
               {links.slice(1).map((link, index) => (
                 <Grid item key={link.id} xs={12} md={6}>
-                  <Card style={styles.card}>
-                    <div style={styles.cardDetails}>
+                  <Card className="linkList-style__card">
+                    <div className="linkList-wrapper__card-typography">
                       <CardContent>
                         <Typography variant="subtitle1" color="inherit" gutterBottom>
                           {index + 1}.

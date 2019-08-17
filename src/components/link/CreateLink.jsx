@@ -12,7 +12,7 @@ import { FEED_QUERY } from '../graphql/Query';
 import { ValidateText } from '../utils/validation';
 import { ACTION_RESETLINKFIELD } from '../context/actions';
 // CSS
-import { styles } from '../style/Style';
+import './CreateLink.css';
 
 export const CreateLink = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -93,7 +93,7 @@ export const CreateLink = () => {
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
       {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
-        <div style={styles.submitArticleContainer}>
+        <div className="createLink-wrapper">
           {linkError && (
             <Typography variant="h6" color="error" gutterBottom>
               {linkErrorMsg}

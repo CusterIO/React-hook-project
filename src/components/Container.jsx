@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+// Components
 import { StateContext } from './context/index';
 import { BlogContainer } from './menu/BlogContainer.jsx';
 import { LinkContainer } from './menu/LinkContainer.jsx';

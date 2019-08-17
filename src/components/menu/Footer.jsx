@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
+// Components
 import { Typography, IconButton, Toolbar, Grid } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
 import { StateContext } from '../context/index';
-import { styles } from '../style/Style';
+// CSS
+import './Footer.css';
 
 export const Footer = () => {
   const { state, dispatch } = useContext(StateContext);
 
   return (
     <React.Fragment>
-      <div style={styles.footer}>
+      <div className="footer-wrapper">
         <Grid item xs={12} md={'auto'}>
-          <Toolbar variant="dense" style={{ justifyContent: 'center' }}>
+          <Toolbar variant="dense" className="footer-toolbar">
             <IconButton color={'primary'}>
               <Share />
             </IconButton>

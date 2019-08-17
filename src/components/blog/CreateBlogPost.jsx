@@ -12,7 +12,7 @@ import { ARTICLE_QUERY } from '../graphql/Query';
 // Constants
 import { ACTION_RESETARTICLEFIELD } from '../context/actions';
 // CSS
-import { styles } from '../style/Style';
+import './CreateBlogPost.css';
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -118,7 +118,7 @@ export const CreateBlogPost = () => {
   return (
     <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
       {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
-        <div style={styles.submitArticleContainer}>
+        <div className="createBlogPost-wrapper">
           {blogError && (
             <Typography variant="h6" color="error" gutterBottom>
               {blogErrorMsg}

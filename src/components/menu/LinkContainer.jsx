@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
+// Components
 import { StateContext } from '../context/index';
 import { Menu } from './Menu';
 import { Footer } from './Footer';
-import { styles } from '../style/Style';
 import { Login } from '../authentication/Login';
 import { LinkList } from '../link/LinkList.jsx';
 import { CreateLink } from '../link/CreateLink.jsx';
 import { Profile } from '../account/Profile';
+// CSS
+import './LinkContainer.css';
 
 export const LinkContainer = () => {
   const { state } = useContext(StateContext);
@@ -26,17 +28,17 @@ export const LinkContainer = () => {
 
   return (
     <React.Fragment>
-      <div style={styles.appWrapper}>
-        <div style={styles.leftSideContainer}>
-          <div style={styles.verticalTextLeft}>Roger Hurtig</div>
+      <div className="linkContainer-wrapper">
+        <div className="linkContainer-wrapper__leftSide">
+          <div className="linkContainer-wrapper__leftSide-style">Roger Hurtig</div>
         </div>
-        <div style={styles.applicationContainer}>
+        <div className="linkContainer-wrapper__content">
           <Menu />
-          <div style={styles.articleContentContainer}>{CurrentContent}</div>
+          <div className="linkContainer-wrapper__content-style">{CurrentContent}</div>
           <Footer />
         </div>
-        <div style={styles.rightSideContainer}>
-          <div style={styles.verticalTextRight}>Custer IO</div>
+        <div className="linkContainer-wrapper__rightSide">
+          <div className="linkContainer-wrapper__rightSide-style">Custer IO</div>
         </div>
       </div>
     </React.Fragment>

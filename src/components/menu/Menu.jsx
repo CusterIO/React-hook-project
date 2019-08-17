@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
+// Components
 import { Button, Typography, Toolbar, CssBaseline, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { StateContext } from '../context/index';
-import { styles } from '../style/Style';
+// Constants
 import { AUTH_TOKEN, USER_ID } from '../context/constants';
 import {
   ACTION_SHOWPROFILE,
@@ -11,6 +12,8 @@ import {
   ACTION_OPENLOGIN,
   ACTION_OPENSIGNIN
 } from '../context/actions';
+// CSS
+import './Menu.css';
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -19,8 +22,8 @@ export const Menu = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <div style={styles.layout}>
-        <Toolbar style={styles.toolbarMain}>
+      <div className="menu-wrapper">
+        <Toolbar className="menu-toolbar__main">
           <Button size="small">Subscribe</Button>
           <Typography
             component="h2"
@@ -28,7 +31,7 @@ export const Menu = () => {
             color="inherit"
             align="center"
             noWrap
-            style={styles.toolbarTitle}
+            className="menu-toolbar__title"
           >
             {!state.login && !state.signup && (state.viewLinks ? 'Links' : 'Blog')}
             {state.login && 'Login'}
@@ -45,9 +48,7 @@ export const Menu = () => {
               }}
               variant={'outlined'}
               label="Search links"
-              style={{
-                background: 'linear-gradient(45deg, #FFF176 30%, #DCEDC8 90%)'
-              }}
+              className="menu-toolbar__search"
             />
           )}
           {state.searchLink && (
@@ -118,7 +119,7 @@ export const Menu = () => {
             </Button>
           )}
         </Toolbar>
-        <Toolbar variant="dense" style={styles.toolbarMainSecondary}>
+        <Toolbar variant="dense" className="menu-toolbar__second">
           <Button
             variant="contained"
             size="small"
@@ -201,7 +202,7 @@ export const Menu = () => {
         !state.profile &&
         !state.createLink &&
         !state.viewLinks && ( // TODO! Create a state for blog instead of listing all other cases it should NOT be.
-            <Toolbar variant="dense" style={styles.toolbarSecondary}>
+            <Toolbar variant="dense" className="menu-toolbar__third">
               {sections.map(section => (
                 <Typography color="inherit" key={section}>
                   <Button

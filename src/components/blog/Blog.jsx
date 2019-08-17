@@ -12,7 +12,7 @@ import { ARTICLE_QUERY } from '../graphql/Query';
 import { ACTION_EDITARTICLE } from '../context/actions';
 import { AUTH_TOKEN, USER_ID } from '../context/constants';
 // CSS
-import { styles } from '../style/Style';
+import './Blog.css';
 
 export const Blog = () => {
   const { state, dispatch } = useContext(StateContext);
@@ -53,10 +53,10 @@ export const Blog = () => {
 
   return (
     <React.Fragment>
-      <div style={styles.layout}>
+      <div className="blog-wrapper">
         <main>
-          <Paper elevation={10} style={styles.chosenArticlePaper}>
-            <div style={styles.choseArticleContent}>
+          <Paper elevation={10} className="blog-style__paper">
+            <div className="blog-wrapper__typography">
               {voteError && (
                 <Typography variant="h6" color="error" gutterBottom>
                   {voteErrorMsg}

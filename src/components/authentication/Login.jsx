@@ -19,20 +19,15 @@ import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/Mutation';
 import { AUTH_TOKEN, USER_ID } from '../context/constants';
 import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from '../context/actions';
 // CSS
-import { styles } from '../style/Style';
+import './Login.css';
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);
   const { login } = state;
   // Error constants
-  let signupErrorMsg;
-  let loginErrorMsg;
+  let signupErrorMsg, loginErrorMsg;
   // Form constants
-  const name = '';
-  const email = '';
-  const repeatEmail = '';
-  const password = '';
-  const repeatPassword = '';
+  let name, email, repeatEmail, password, repeatPassword;
   // Mutation hooks
   const [loginUser, { loading: loginLoading, error: loginError }] = useMutation(LOGIN_MUTATION, {
     variables: { email, password },
@@ -143,7 +138,7 @@ export const Login = () => {
   };
 
   return (
-    <div style={styles.submitArticleContainer}>
+    <div className="login-wrapper">
       <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
         {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
           <Grid container spacing={24}>
