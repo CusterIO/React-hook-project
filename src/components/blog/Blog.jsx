@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 // Components
 import { Typography, Paper, Button } from '@material-ui/core';
-import { StateContext } from '../context/index';
-import { Spinner } from '../loader/Spinner';
-import { timeDifferenceForDate } from '../utils/timeDifference';
+import { StateContext } from 'components/context/index';
+import { Spinner } from 'components/loader/Spinner';
+import { timeDifferenceForDate } from 'components/utils/timeDifference';
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
-import { VOTE_ARTICLE_MUTATION } from '../graphql/Mutation';
-import { ARTICLE_QUERY } from '../graphql/Query';
+import { VOTE_ARTICLE_MUTATION } from 'components/graphql/Mutation';
+import { ARTICLE_QUERY } from 'components/graphql/Query';
 // Constants
-import { ACTION_EDITARTICLE } from '../context/actions';
-import { AUTH_TOKEN, USER_ID } from '../context/constants';
+import { ACTION_EDITARTICLE } from 'components/context/actions';
+import { AUTH_TOKEN, USER_ID } from 'components/context/constants';
 // CSS
-import './Blog.css';
+import 'components/blog/Blog.css';
 
 export const Blog = () => {
   const { state, dispatch } = useContext(StateContext);

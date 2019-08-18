@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 // Components
 import { Typography, IconButton, Toolbar, Grid } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 // CSS
-import './Footer.css';
+import 'components/menu/Footer.css';
 
 export const Footer = () => {
   const { state, dispatch } = useContext(StateContext);

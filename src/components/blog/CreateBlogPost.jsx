@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 // Components
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 import { Button, Grid, Typography, TextField, Select, MenuItem } from '@material-ui/core';
-import { ValidateText } from '../utils/validation';
-import { Spinner } from '../loader/Spinner';
+import { ValidateText } from 'components/utils/validation';
+import { Spinner } from 'components/loader/Spinner';
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
-import { POST_ARTICLE_MUTATION } from '../graphql/Mutation';
-import { ARTICLE_QUERY } from '../graphql/Query';
+import { POST_ARTICLE_MUTATION } from 'components/graphql/Mutation';
+import { ARTICLE_QUERY } from 'components/graphql/Query';
 // Constants
-import { ACTION_RESETARTICLEFIELD } from '../context/actions';
+import { ACTION_RESETARTICLEFIELD } from 'components/context/actions';
 // CSS
-import './CreateBlogPost.css';
+import 'components/blog/CreateBlogPost.css';
 
 export const CreateBlogPost = () => {
   const { state, dispatch } = useContext(StateContext);

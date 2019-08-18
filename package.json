@@ -9,6 +9,7 @@
     "apollo-boost": "^0.3.1",
     "apollo-link-context": "^1.0.18",
     "apollo-link-ws": "^1.0.18",
+    "babel-plugin-module-resolver": "^3.2.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "formik": "^1.5.8",
     "graphql": "^14.4.2",

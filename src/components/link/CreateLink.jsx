@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { Formik } from 'formik';
 // Components
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 import { Button, Grid, Typography, TextField } from '@material-ui/core';
-import { Spinner } from '../loader/Spinner';
+import { Spinner } from 'components/loader/Spinner';
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
-import { POST_LINK_MUTATION } from '../graphql/Mutation';
-import { FEED_QUERY } from '../graphql/Query';
+import { POST_LINK_MUTATION } from 'components/graphql/Mutation';
+import { FEED_QUERY } from 'components/graphql/Query';
 // Helpers
-import { ValidateText } from '../utils/validation';
-import { ACTION_RESETLINKFIELD } from '../context/actions';
+import { ValidateText } from 'components/utils/validation';
+import { ACTION_RESETLINKFIELD } from 'components/context/actions';
 // CSS
-import './CreateLink.css';
+import 'components/link/CreateLink.css';
 
 export const CreateLink = () => {
   const { state, dispatch } = useContext(StateContext);

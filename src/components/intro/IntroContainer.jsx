@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 // Components
-import { StateContext } from '../context/index';
-import { Slider } from '../sliders/Slider.jsx';
+import { StateContext } from 'components/context/index';
+import { Slider } from 'components/sliders/Slider.jsx';
 
 export const IntroContainer = () => {
   const { state } = useContext(StateContext);

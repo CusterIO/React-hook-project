@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "*": ["src/*"],
+      "test/*": ["test/*"],
+      "underscore": ["lodash"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

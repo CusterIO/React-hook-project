@@ -2,18 +2,18 @@ import React, { useContext } from 'react';
 // Components
 import { Button, Typography, Toolbar, CssBaseline, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 // Constants
-import { AUTH_TOKEN, USER_ID } from '../context/constants';
+import { AUTH_TOKEN, USER_ID } from 'components/context/constants';
 import {
   ACTION_SHOWPROFILE,
   ACTION_HIDEPROFILE,
   ACTION_CLOSELOGIN,
   ACTION_OPENLOGIN,
   ACTION_OPENSIGNIN
-} from '../context/actions';
+} from 'components/context/actions';
 // CSS
-import './Menu.css';
+import 'components/menu/Menu.css';
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);

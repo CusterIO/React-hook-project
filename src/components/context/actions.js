@@ -7,7 +7,7 @@ import {
   TYPE_OPENSIGNIN,
   TYPE_EDITARTICLE,
   TYPE_OPENARTICLE
-} from './constants';
+} from 'components/context/constants';
 // Type constanst
 const TYPE_RESETARTICLEFIELD = 'resetArticleFields';
 const TYPE_RESETLINKFIELD = 'resetLinkFields';

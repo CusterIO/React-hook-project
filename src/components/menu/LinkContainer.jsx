@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 // Components
-import { StateContext } from '../context/index';
-import { Menu } from './Menu';
-import { Footer } from './Footer';
-import { Login } from '../authentication/Login';
-import { LinkList } from '../link/LinkList.jsx';
-import { CreateLink } from '../link/CreateLink.jsx';
-import { Profile } from '../account/Profile';
+import { StateContext } from 'components/context/index';
+import { Menu } from 'components/menu/Menu';
+import { Footer } from 'components/menu/Footer';
+import { Login } from 'components/authentication/Login';
+import { LinkList } from 'components/link/LinkList.jsx';
+import { CreateLink } from 'components/link/CreateLink.jsx';
+import { Profile } from 'components/account/Profile';
 // CSS
-import './LinkContainer.css';
+import 'components/menu/LinkContainer.css';
 
 export const LinkContainer = () => {
   const { state } = useContext(StateContext);

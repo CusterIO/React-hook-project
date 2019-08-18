@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 // Components
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 import { Typography, CssBaseline, CardContent, Card, Paper, Grid, Button } from '@material-ui/core';
-import {Spinner} from '../loader/Spinner';
+import {Spinner} from 'components/loader/Spinner';
 // GraphQL
 import { useQuery } from '@apollo/react-hooks';
-import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from '../graphql/Query';
+import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from 'components/graphql/Query';
 // Constants
-import { ACTION_OPENARTICLE } from '../context/actions';
+import { ACTION_OPENARTICLE } from 'components/context/actions';
 // CSS
-import './BlogList.css';
+import 'components/blog/BlogList.css';
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);

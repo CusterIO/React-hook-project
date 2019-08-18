@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 // Components
-import { StateContext } from './context/index';
-import { BlogContainer } from './menu/BlogContainer.jsx';
-import { LinkContainer } from './menu/LinkContainer.jsx';
+import { StateContext } from 'components/context/index';
+import { BlogContainer } from 'components/menu/BlogContainer.jsx';
+import { LinkContainer } from 'components/menu/LinkContainer.jsx';
 
 export const Container = () => {
   const { state } = useContext(StateContext);

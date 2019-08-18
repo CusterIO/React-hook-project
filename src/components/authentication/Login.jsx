@@ -1,25 +1,25 @@
 import React, { useContext } from 'react';
 import { Formik } from 'formik';
 // Components
-import { Spinner } from '../loader/Spinner';
+import { Spinner } from 'components/loader/Spinner';
 import { Typography, Grid, Button, TextField } from '@material-ui/core';
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 import {
   ValidateEmail,
   ValidateCharacters,
   ValidateRepeatEmail,
   ValidateRepeatPassword,
   ValidatePassword
-} from '../utils/validation';
+} from 'components/utils/validation';
 // GraphQL
 import { useMutation } from '@apollo/react-hooks';
-import { ErrorFeedback } from '../error/feedback';
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/Mutation';
+import { ErrorFeedback } from 'components/error/feedback';
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from 'components/graphql/Mutation';
 // Contents
-import { AUTH_TOKEN, USER_ID } from '../context/constants';
-import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from '../context/actions';
+import { AUTH_TOKEN, USER_ID } from 'components/context/constants';
+import { ACTION_CLOSELOGIN, ACTION_OPENLOGIN, ACTION_OPENSIGNIN } from 'components/context/actions';
 // CSS
-import './Login.css';
+import 'components/authentication/Login.css';
 
 export const Login = () => {
   const { state, dispatch } = useContext(StateContext);

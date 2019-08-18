@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
-import { StateContext } from '../context/index';
+import { StateContext } from 'components/context/index';
 // Components
 import { Typography, CssBaseline, CardContent, Card, Paper, Grid } from '@material-ui/core';
-import { timeDifferenceForDate } from '../utils/timeDifference';
-import { Spinner } from '../loader/Spinner';
+import { timeDifferenceForDate } from 'components/utils/timeDifference';
+import { Spinner } from 'components/loader/Spinner';
 // GraphQL
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { VOTE_MUTATION } from '../graphql/Mutation';
-import { FEED_QUERY, FEED_SEARCH_QUERY } from '../graphql/Query';
-import { NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION } from '../graphql/Subscription';
+import { VOTE_MUTATION } from 'components/graphql/Mutation';
+import { FEED_QUERY, FEED_SEARCH_QUERY } from 'components/graphql/Query';
+import { NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION } from 'components/graphql/Subscription';
 // Constants
-import { AUTH_TOKEN } from '../context/constants';
+import { AUTH_TOKEN } from 'components/context/constants';
 // CSS
-import './LinkList.css';
+import 'components/link/LinkList.css';
 
 export const LinkList = () => {
   const { state } = useContext(StateContext);

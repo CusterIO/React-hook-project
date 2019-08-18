@@ -7,7 +7,7 @@ import {
   TYPE_OPENLOGIN,
   TYPE_OPENSIGNIN,
   VALUE_EMPTYSTRING
-} from './constants';
+} from 'components/context/constants';
 
 const reducer = (state, action) => {
   switch (action.type) {

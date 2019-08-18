@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 // Components
-import { StateContext } from '../context/index';
-import { Menu } from './Menu';
-import { Footer } from './Footer';
-import { Login } from '../authentication/Login';
-import { Profile } from '../account/Profile';
-import { BlogList } from '../blog/BlogList';
-import { Blog } from '../blog/Blog';
-import { CreateBlogPost } from '../blog/CreateBlogPost';
+import { StateContext } from 'components/context/index';
+import { Menu } from 'components/menu/Menu';
+import { Footer } from 'components/menu/Footer';
+import { Login } from 'components/authentication/Login';
+import { Profile } from 'components/account/Profile';
+import { BlogList } from 'components/blog/BlogList';
+import { Blog } from 'components/blog/Blog';
+import { CreateBlogPost } from 'components/blog/CreateBlogPost';
 // CSS
-import './BlogContainer.css';
+import 'components/menu/BlogContainer.css';
 
 export const BlogContainer = () => {
   const { state } = useContext(StateContext);

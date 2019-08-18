@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 // Components
 import { Typography, Paper, Button } from '@material-ui/core';
-import { StateContext } from '../context/index';
-import {Spinner} from '../loader/Spinner';
+import { StateContext } from 'components/context/index';
+import {Spinner} from 'components/loader/Spinner';
 // GraphQL
-import { USER_QUERY } from '../graphql/Query';
+import { USER_QUERY } from 'components/graphql/Query';
 import { useQuery } from '@apollo/react-hooks';
 // Constants
-import { USER_ID } from '../context/constants';
-import { ACTION_HIDEPROFILE } from '../context/actions';
+import { USER_ID } from 'components/context/constants';
+import { ACTION_HIDEPROFILE } from 'components/context/actions';
 // CSS
-import './Profile.css';
+import 'components/account/Profile.css';
 
 export const Profile = () => {
   const { dispatch } = useContext(StateContext);
