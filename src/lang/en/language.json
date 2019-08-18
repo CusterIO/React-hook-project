@@ -1,0 +1,24 @@
+{
+  "bloglist": {
+    "continue": "Continue reading..."
+  },
+  "button": {
+    "done": "Done"
+  },
+  "menu": {
+    "subscribe": "Subscribe",
+    "search": "Search",
+    "signup": "Sign up",
+    "login": "Login",
+    "profile": "Profile",
+    "logout": "Logout",
+    "home": "Home",
+    "blog": "Blog",
+    "link": "Links",
+    "newBlog": "New blog post",
+    "newLink": "New link"
+  },
+  "blogcontainer": {
+    "insertValue": "You chosed number: {{value}}!"
+  }
+}

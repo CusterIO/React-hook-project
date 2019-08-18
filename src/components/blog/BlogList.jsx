@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 // Components
 import { StateContext } from 'components/context/index';
 import { Typography, CssBaseline, CardContent, Card, Paper, Grid, Button } from '@material-ui/core';
@@ -8,11 +9,13 @@ import { useQuery } from '@apollo/react-hooks';
 import { ARTICLE_QUERY, ARTICLE_SEARCH_QUERY } from 'components/graphql/Query';
 // Constants
 import { ACTION_OPENARTICLE } from 'components/context/actions';
+import { DEFAULT_LANG_FILE } from 'components/context/constants';
 // CSS
 import 'components/blog/BlogList.css';
 
 export const BlogList = () => {
   const { state, dispatch } = useContext(StateContext);
+  const { t } = useTranslation(DEFAULT_LANG_FILE);
   let insertQuery = ARTICLE_QUERY;
   let searchFilter = {};
   let bloglistErrorMsg;
@@ -89,7 +92,7 @@ export const BlogList = () => {
                           dispatch(ACTION_OPENARTICLE(articles[0]));
                         }}
                       >
-                        Continue reading...
+                        {t('bloglist.continue')}
                       </Button>
                     </Typography>
                   </div>
@@ -127,7 +130,7 @@ export const BlogList = () => {
                               dispatch(ACTION_OPENARTICLE(article));
                             }}
                           >
-                            Continue reading...
+                            {t('bloglist.continue')}
                           </Button>
                         </Typography>
                       </CardContent>

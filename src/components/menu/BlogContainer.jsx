@@ -10,6 +10,7 @@ import { Blog } from 'components/blog/Blog';
 import { CreateBlogPost } from 'components/blog/CreateBlogPost';
 // CSS
 import 'components/menu/BlogContainer.css';
+/* {t('blogcontainer.insertValue', {value: *input value*})} */
 
 export const BlogContainer = () => {
   const { state } = useContext(StateContext);

@@ -12,3 +12,5 @@ export const TYPE_OPENARTICLE = 'setChosenArticle';
 export const VALUE_FALSE = false;
 export const VALUE_TRUE = true;
 export const VALUE_EMPTYSTRING = '';
+// Language
+export const DEFAULT_LANG_FILE = 'language';

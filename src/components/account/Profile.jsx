@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 // Components
 import { Typography, Paper, Button } from '@material-ui/core';
 import { StateContext } from 'components/context/index';
@@ -7,13 +8,14 @@ import {Spinner} from 'components/loader/Spinner';
 import { USER_QUERY } from 'components/graphql/Query';
 import { useQuery } from '@apollo/react-hooks';
 // Constants
-import { USER_ID } from 'components/context/constants';
+import { USER_ID, DEFAULT_LANG_FILE } from 'components/context/constants';
 import { ACTION_HIDEPROFILE } from 'components/context/actions';
 // CSS
 import 'components/account/Profile.css';
 
 export const Profile = () => {
   const { dispatch } = useContext(StateContext);
+  const { t } = useTranslation(DEFAULT_LANG_FILE);
   const filter = localStorage.getItem(USER_ID);
   let profileErrorMsg;
 
@@ -64,7 +66,7 @@ export const Profile = () => {
             dispatch(ACTION_HIDEPROFILE);
           }}
         >
-          Done
+         {t('button.done')}
         </Button>
       </main>
     </div>

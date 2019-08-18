@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 // Components
 import { Button, Typography, Toolbar, CssBaseline, TextField } from '@material-ui/core';
 import { Search } from '@material-ui/icons';
 import { StateContext } from 'components/context/index';
 // Constants
-import { AUTH_TOKEN, USER_ID } from 'components/context/constants';
+import { AUTH_TOKEN, USER_ID, DEFAULT_LANG_FILE } from 'components/context/constants';
 import {
   ACTION_SHOWPROFILE,
   ACTION_HIDEPROFILE,
@@ -17,6 +18,7 @@ import 'components/menu/Menu.css';
 
 export const Menu = () => {
   const { state, dispatch } = useContext(StateContext);
+  const { t } = useTranslation(DEFAULT_LANG_FILE);
   const sections = [...state.topics];
 
   return (
@@ -24,7 +26,7 @@ export const Menu = () => {
       <CssBaseline />
       <div className="menu-wrapper">
         <Toolbar className="menu-toolbar__main">
-          <Button size="small">Subscribe</Button>
+          <Button size="small">{t('menu.subscribe')}</Button>
           <Typography
             component="h2"
             variant="h5"
@@ -60,7 +62,7 @@ export const Menu = () => {
                 dispatch({ type: 'setExecuteSearch', executeSearch: true });
               }}
             >
-              Search
+              {t('menu.search')}
             </Button>
           )}
           <Search
@@ -77,7 +79,7 @@ export const Menu = () => {
                 dispatch(ACTION_OPENSIGNIN);
               }}
             >
-              Sign up
+              {t('menu.signup')}
             </Button>
           )}
           {!state.login && !state.token && (
@@ -89,7 +91,7 @@ export const Menu = () => {
                 dispatch(ACTION_OPENLOGIN);
               }}
             >
-              Login
+              {t('menu.login')}
             </Button>
           )}
           {state.token && !state.profile && (
@@ -101,7 +103,7 @@ export const Menu = () => {
                 dispatch(ACTION_SHOWPROFILE);
               }}
             >
-              Profile
+              {t('menu.profile')}
             </Button>
           )}
           {state.token && (
@@ -115,7 +117,7 @@ export const Menu = () => {
                 localStorage.removeItem(USER_ID);
               }}
             >
-              Logout
+              {t('menu.logout')}
             </Button>
           )}
         </Toolbar>
@@ -144,7 +146,7 @@ export const Menu = () => {
               dispatch(ACTION_HIDEPROFILE);
             }}
           >
-            Home
+            {t('menu.home')}
           </Button>
           {!state.profile && (
             <Button
@@ -155,7 +157,7 @@ export const Menu = () => {
                 dispatch({ type: 'setViewLinks', viewLinks: false });
               }}
             >
-              Blog
+              {t('menu.blog')}
             </Button>
           )}
           {!state.profile && (
@@ -167,7 +169,7 @@ export const Menu = () => {
                 dispatch({ type: 'setViewLinks', viewLinks: true });
               }}
             >
-              Links
+              {t('menu.link')}
             </Button>
           )}
           {state.token &&
@@ -182,7 +184,7 @@ export const Menu = () => {
                   dispatch({ type: 'setSubmitArticle', submitArticle: true });
                 }}
               >
-                New Blog post
+                {t('menu.newBlog')}
               </Button>
             )}
           {state.token && state.viewLinks && !state.createLink && (
@@ -193,7 +195,7 @@ export const Menu = () => {
                 dispatch({ type: 'setCreateLink', createLink: true });
               }}
             >
-              New Link
+              {t('menu.newLink')}
             </Button>
           )}
         </Toolbar>
