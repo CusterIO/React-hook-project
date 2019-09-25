@@ -137,6 +137,7 @@ export const Menu = () => {
               dispatch(ACTION_CLOSELOGIN);
               dispatch({ type: 'setCreateLink', createLink: false });
               dispatch({ type: 'setViewLinks', viewLinks: false });
+              dispatch({ type: 'setViewRng', value: false });
               // Reset search. TODO! Add a reset search button?
               dispatch({ type: 'setExecuteSearch', executeSearch: false });
               dispatch({ type: 'setFilterLink', filterLink: '' });
@@ -155,6 +156,7 @@ export const Menu = () => {
               size="small"
               onClick={() => {
                 dispatch({ type: 'setViewLinks', viewLinks: false });
+                dispatch({ type: 'setViewRng', value: false });
               }}
             >
               {t('menu.blog')}
@@ -166,10 +168,24 @@ export const Menu = () => {
               color="primary"
               size="small"
               onClick={() => {
+                dispatch({ type: 'setViewRng', value: false });
                 dispatch({ type: 'setViewLinks', viewLinks: true });
               }}
             >
               {t('menu.link')}
+            </Button>
+          )}
+          {!state.profile && (
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={() => {
+                dispatch({ type: 'setViewLinks', viewLinks: false });
+                dispatch({ type: 'setViewRng', value: true });
+              }}
+            >
+              {t('menu.rng')}
             </Button>
           )}
           {state.token &&

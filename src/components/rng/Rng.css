@@ -1,0 +1,17 @@
+.rng-wrapper {
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  flex-grow: 1;
+}
+
+.rng-wrapper__typography {
+  margin-top: 6px;
+  padding: 6px;
+  flex-grow: 1;
+}
+
+.rng-button {
+  margin-top: 10px;
+}

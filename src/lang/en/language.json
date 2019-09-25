@@ -3,7 +3,8 @@
     "continue": "Continue reading..."
   },
   "button": {
-    "done": "Done"
+    "done": "Done",
+    "showMe": "Show me!"
   },
   "menu": {
     "subscribe": "Subscribe",
@@ -16,9 +17,10 @@
     "blog": "Blog",
     "link": "Links",
     "newBlog": "New blog post",
-    "newLink": "New link"
+    "newLink": "New link",
+    "rng": "Life changer"
   },
-  "blogcontainer": {
-    "insertValue": "You chosed number: {{value}}!"
+  "rng": {
+    "rngValue": "It was decided to be: {{value}}!"
   }
 }

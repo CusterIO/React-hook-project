@@ -12,7 +12,7 @@ const resources = {
   }
 };
 
-const availableLanguages = ['en', 'esp'];
+const availableLanguages = ['en', 'esp', 'dev'];
 
 i18n
   // load translation using xhr -> see /public/locales

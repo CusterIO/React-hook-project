@@ -82,6 +82,8 @@ const reducer = (state, action) => {
       return { ...state, profile: action.value };
     case 'setUser':
       return { ...state, setUser: action.user };
+      case 'setViewRng':
+        return { ...state, viewRng: action.value };
     default:
       throw new Error('Unexpected action');
   }
@@ -108,7 +110,8 @@ const initialState = {
   executeSearch: VALUE_FALSE,
   token: VALUE_EMPTYSTRING,
   profile: VALUE_FALSE,
-  user: {}
+  user: {},
+  viewRng: VALUE_FALSE
 };
 
 const StateContext = createContext(initialState);
